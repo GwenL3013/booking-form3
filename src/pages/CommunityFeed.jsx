@@ -41,6 +41,7 @@ const CommunityFeed = () => {
     const [showCommentsModal, setShowCommentsModal] = useState(false);
     const [activeCommentPost, setActiveCommentPost] = useState(null);
     const storage = getStorage();
+    const [userProfiles, setUserProfiles] = useState({});
 
     useEffect(() => {
         const initializeUser = async () => {
@@ -53,7 +54,7 @@ const CommunityFeed = () => {
                 if (!userDoc.exists()) {
                     // Create user document if it doesn't exist
                     await setDoc(userRef, {
-                        username: user?.displayName || user?.email || 'User',
+                        displayName: user?.displayName || 'User',
                         email: user.email,
                         createdAt: new Date().toISOString()
                     });
@@ -67,6 +68,34 @@ const CommunityFeed = () => {
     }, [user]);
 
     useEffect(() => {
+        const fetchUserProfiles = async (postsList) => {
+            const uniqueUserIds = Array.from(new Set(postsList.map(post => post.userId)));
+            const profiles = {};
+            for (const uid of uniqueUserIds) {
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', uid));
+                    if (userDoc.exists()) {
+                        const data = userDoc.data();
+                        profiles[uid] = {
+                            displayName: data.displayName || 'User',
+                            photoURL: data.photoURL || null
+                        };
+                    } else {
+                        profiles[uid] = {
+                            displayName: 'User',
+                            photoURL: null
+                        };
+                    }
+                } catch {
+                    profiles[uid] = {
+                        displayName: 'User',
+                        photoURL: null
+                    };
+                }
+            }
+            setUserProfiles(profiles);
+        };
+
         const fetchPosts = async () => {
             if (!user) {
                 console.log('No authenticated user found in CommunityFeed');
@@ -106,6 +135,8 @@ const CommunityFeed = () => {
                 );
                 
                 setPosts(sortedPosts);
+                // Fetch user profiles for all userIds
+                fetchUserProfiles(sortedPosts);
             } catch (error) {
                 console.error('Error fetching posts:', error);
             } finally {
@@ -162,9 +193,9 @@ const CommunityFeed = () => {
         if (!newPost.trim() && postMedia.length === 0) return;
 
         try {
-            // Get user's username from Firestore
+            // Get user's display name from Firestore
             const userDoc = await getDoc(doc(db, 'users', user.uid));
-            const username = userDoc.data()?.username || user?.email || 'User';
+            const displayName = userDoc.data()?.displayName || user?.displayName || 'User';
 
             // Upload media files to Firebase Storage
             const mediaUrls = [];
@@ -180,7 +211,7 @@ const CommunityFeed = () => {
 
             const newPostObject = {
                 userId: user?.uid,
-                user: username,
+                user: displayName,
                 avatar: user?.photoURL || defaultAvatar,
                 content: newPost,
                 media: mediaUrls,
@@ -245,7 +276,7 @@ const CommunityFeed = () => {
         try {
             // Get user's username from Firestore
             const userDoc = await getDoc(doc(db, 'users', user.uid));
-            const username = userDoc.data()?.username || user?.email || 'User';
+            const username = userDoc.data()?.displayName || user?.displayName || 'User';
 
             const newComment = {
                 id: Date.now(),
@@ -567,7 +598,7 @@ const CommunityFeed = () => {
             // Update user profile in Firestore
             const userRef = doc(db, 'users', user.uid);
             await updateDoc(userRef, {
-                username: newUsername.trim()
+                displayName: newUsername.trim()
             });
 
             // Update all posts by this user
@@ -721,8 +752,8 @@ const CommunityFeed = () => {
                                         <div className="xiaohongshu-card-content">
                                             <p className="xiaohongshu-card-text">{post.content}</p>
                                             <div className="xiaohongshu-card-user">
-                                                <img src={post.avatar} alt="" className="xiaohongshu-avatar" />
-                                                <span className="xiaohongshu-username">{post.user}</span>
+                                                <img src={userProfiles[post.userId]?.photoURL || post.avatar} alt="" className="xiaohongshu-avatar" />
+                                                <span className="xiaohongshu-username">{userProfiles[post.userId]?.displayName || post.user || 'User'}</span>
                                             </div>
                                             <div className="xiaohongshu-card-stats">
                                                 <span className="xiaohongshu-stat">
@@ -1269,7 +1300,7 @@ const CommunityFeed = () => {
                                         type="text"
                                         value={newUsername}
                                         onChange={e => setNewUsername(e.target.value)}
-                                        placeholder="Enter username"
+                                        placeholder="Enter display name"
                                         className="w-auto"
                                     />
                                     <Button
@@ -1293,12 +1324,12 @@ const CommunityFeed = () => {
                                 </>
                             ) : (
                                 <>
-                                    <h4 className="mb-0">{userProfile?.username || user?.email || 'User'}</h4>
+                                    <h4 className="mb-0">{userProfile?.displayName || user?.displayName || 'User'}</h4>
                                     <Button
                                         variant="link"
                                         className="p-0"
                                         onClick={() => {
-                                            setNewUsername(userProfile?.username || user?.email || 'User');
+                                            setNewUsername(userProfile?.displayName || user?.displayName || 'User');
                                             setEditingUsername(true);
                                         }}
                                     >

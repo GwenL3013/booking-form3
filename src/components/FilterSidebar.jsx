@@ -6,14 +6,17 @@ import './FilterSidebar.css';
 function FilterSidebar({ onFilter }) {
   const [filters, setFilters] = useState({
     destinations: {
-      TURKEY: false,
-      JAPAN: false,
-      EUROPE: false,
-      'SOUTH KOREA': false,
-      CAUCASUS: false,
-      TUNISIA: false,
-      CHINA: false,
-      PHILIPPINE: false
+      
+      AUSTRALIA: false,
+        CHINA: false,
+        'NEW ZEALAND': false,
+        JAPAN: false,
+        INDONESIA: false,
+        'SOUTH KOREA': false,
+        MALAYSIA: false,
+        SINGAPORE: false,
+        THAILAND: false,
+        PHILIPPINE: false
     },
     categories: {
       Leisure: false,
@@ -30,34 +33,63 @@ function FilterSidebar({ onFilter }) {
 
   // Effect to apply filters when they change
   useEffect(() => {
-    // Avoid applying filters on component mount
-    const hasActiveFilters = Object.values(filters.destinations).some(val => val) ||
-      Object.values(filters.categories).some(val => val) ||
-      filters.priceRange.min || filters.priceRange.max;
+    // Check if all destinations and categories are selected
+    const allDestinationsSelected = Object.values(filters.destinations).every(val => val);
+    const allCategoriesSelected = Object.values(filters.categories).every(val => val);
+    const hasPriceFilter = filters.priceRange.min || filters.priceRange.max;
 
-    if (hasActiveFilters) {
+    if (allDestinationsSelected && allCategoriesSelected && !hasPriceFilter) {
+      // Reset to default state (show all cards)
+      onFilter({
+        destinations: [],
+        categories: [],
+        priceRange: { min: '', max: '' }
+      });
+    } else {
       applyFilters();
     }
   }, [filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDestinationChange = (destination) => {
-    setFilters(prev => ({
-      ...prev,
-      destinations: {
-        ...prev.destinations,
-        [destination]: !prev.destinations[destination]
-      }
-    }));
+    if (destination === 'ALL') {
+      const newState = !Object.values(filters.destinations).every(val => val);
+      setFilters(prev => ({
+        ...prev,
+        destinations: Object.keys(prev.destinations).reduce((acc, key) => {
+          acc[key] = newState;
+          return acc;
+        }, {})
+      }));
+    } else {
+      setFilters(prev => ({
+        ...prev,
+        destinations: {
+          ...prev.destinations,
+          [destination]: !prev.destinations[destination]
+        }
+      }));
+    }
   };
 
   const handleCategoryChange = (category) => {
-    setFilters(prev => ({
-      ...prev,
-      categories: {
-        ...prev.categories,
-        [category]: !prev.categories[category]
-      }
-    }));
+    if (category === 'ALL') {
+      const newState = !Object.values(filters.categories).every(val => val);
+      setFilters(prev => ({
+        ...prev,
+        categories: Object.keys(prev.categories).reduce((acc, key) => {
+          acc[key] = newState;
+          return acc;
+        }, {})
+      }));
+    } else {
+      setFilters(prev => ({
+        ...prev,
+        categories: {
+          ...prev.categories,
+          [category]: !prev.categories[category]
+        }
+      }));
+    }
   };
 
   const handlePriceChange = (e) => {
@@ -90,16 +122,20 @@ function FilterSidebar({ onFilter }) {
   const clearFilters = () => {
     setFilters({
       destinations: {
-        TURKEY: false,
-        JAPAN: false,
-        EUROPE: false,
-        'SOUTH KOREA': false,
-        CAUCASUS: false,
-        TUNISIA: false,
+        
+        AUSTRALIA: false,
         CHINA: false,
-        PHILIPPINE: false
+        'NEW ZEALAND': false,
+        JAPAN: false,
+        INDONESIA: false,
+        'SOUTH KOREA': false,
+        MALAYSIA: false,
+        SINGAPORE: false,
+        THAILAND: false,
+        PHILIPPINE: false,
       },
       categories: {
+        All: false,
         Leisure: false,
         Adventurous: false,
         Cultural: false,
@@ -123,6 +159,14 @@ function FilterSidebar({ onFilter }) {
           <Accordion.Header>Popular Destinations</Accordion.Header>
           <Accordion.Body>
             <Form>
+              <Form.Check
+                type="checkbox"
+                id="destination-all"
+                label="ALL DESTINATIONS"
+                checked={Object.values(filters.destinations).every(val => val)}
+                onChange={() => handleDestinationChange('ALL')}
+                className="mb-2"
+              />
               {Object.keys(filters.destinations).map((destination) => (
                 <Form.Check
                   key={destination}
@@ -144,6 +188,14 @@ function FilterSidebar({ onFilter }) {
           <Accordion.Header>Categories</Accordion.Header>
           <Accordion.Body>
             <Form>
+              <Form.Check
+                type="checkbox"
+                id="category-all"
+                label="All Categories"
+                checked={Object.values(filters.categories).every(val => val)}
+                onChange={() => handleCategoryChange('ALL')}
+                className="mb-2"
+              />
               {Object.keys(filters.categories).map((category) => (
                 <Form.Check
                   key={category}

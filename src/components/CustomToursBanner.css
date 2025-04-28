@@ -10,7 +10,7 @@
 
 .custom-tours-subtitle {
   color: #e63946;
-  font-family: 'Dancing Script', cursive, Arial, Helvetica;
+  font-family: Arial, Helvetica;
   font-size: 2rem;
   margin-bottom: 10px;
 }
@@ -23,7 +23,7 @@
 }
 
 .custom-tours-label {
-  font-family: 'Dancing Script', cursive, Arial, Helvetica;
+  font-family: Arial, Helvetica;
   font-size: 1.3rem;
   color: #111;
   margin-top: 10px;

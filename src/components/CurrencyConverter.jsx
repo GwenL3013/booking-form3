@@ -26,7 +26,7 @@ const CurrencyConverter = () => {
         const baseRate = 1 / convertData.data[fromCurrency].value;
         const rate = convertData.data[toCurrency].value;
         const exchangeRate = baseRate * rate * amount;
-        return `${amount} ${fromCurrency} is equal to ${exchangeRate.toFixed(2)} ${toCurrency}`;
+        return ` ${fromCurrency} ${amount} is equal to ${toCurrency} ${exchangeRate.toFixed(2)} `;
     };
 
     const handleConvert = async () => {

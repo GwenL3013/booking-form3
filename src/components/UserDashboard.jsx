@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/bootstrap.css';
-import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen } from 'react-icons/fa';
+import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen, FaExchangeAlt } from 'react-icons/fa';
 import Weather from './Weather';
 import TodoList from './todo/TodoList';
 import TodoCard from "./todo/TodoCard";
@@ -18,6 +18,7 @@ import CommunityFeed from '../pages/CommunityFeed';
 import CommunityFeedImg from '../assets/community-feed.jpg';
 import TravelDiariesList from './TravelDiariesList';
 import TravelDiariesPage from '../pages/TravelDiariesPage';
+import CurrencyConverter from './CurrencyConverter';
 
 const UserDashboard = () => {
     const { user, updateUserProfile } = useAuth();
@@ -454,6 +455,15 @@ const UserDashboard = () => {
                                     </Nav.Item>
                                     <Nav.Item>
                                         <Nav.Link
+                                            eventKey="currency"
+                                            className="d-flex align-items-center py-3"
+                                            onClick={() => setActiveTab('currency')}
+                                        >
+                                            <FaExchangeAlt className="me-3" /> Currency Converter
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
                                             eventKey="profile"
                                             className="d-flex align-items-center py-3"
                                             onClick={() => setActiveTab('profile')}
@@ -618,6 +628,16 @@ const UserDashboard = () => {
                                 </Card.Header>
                                 <Card.Body className="p-4">
                                     <Weather />
+                                </Card.Body>
+                            </Tab.Pane>
+
+                            {/* Currency Converter Tab */}
+                            <Tab.Pane active={activeTab === 'currency'}>
+                                <Card.Header className="bg-white p-4 border-0">
+                                    <h4 className="mb-0 fw-bold">Currency Converter</h4>
+                                </Card.Header>
+                                <Card.Body className="p-4">
+                                    <CurrencyConverter />
                                 </Card.Body>
                             </Tab.Pane>
 
