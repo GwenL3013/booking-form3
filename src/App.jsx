@@ -39,6 +39,7 @@ import NavigationPage from './pages/NavigationPage';
 import TravelDiaryDetail from './components/TravelDiaryDetail';
 import RecreateAuthUser from './components/RecreateAuthUser';
 
+
 // inside your routes
 
 
@@ -69,11 +70,17 @@ function Layout() {
     <>
       <Navbar expand="lg" expanded={expanded} className="shadow-sm mb-4 custom-navbar">
         <div className="container-fluid px-md-5">
-          <Navbar.Brand as={Link} to="/" className="gradient-brand">BetaHoliday</Navbar.Brand>
+          <Navbar.Brand href="/" className="d-flex align-items-center">
+            <img
+              src="new2.png"
+              alt="Logo"
+              style={{ height: '40px', marginRight: '5px' }}
+            />
+            BetaHoliday
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle}>
             {expanded ? <span>&times;</span> : <span>&#9776;</span>}
           </Navbar.Toggle>
-
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto align-items-center gap-3">
               {!user ? (
@@ -107,7 +114,6 @@ function Layout() {
           </Navbar.Collapse>
         </div>
       </Navbar>
-
       <Outlet />
     </>
   );

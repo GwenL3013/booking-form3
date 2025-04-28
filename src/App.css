@@ -2,7 +2,8 @@
 .navbar .custom-nav-link {
   font-size: 18px;
   /* Make font bigger */
-  color: #01274f;color: rgba(255, 255, 255, 0.9);
+  color: #01274f;
+  color: rgba(255, 255, 255, 0.9);
   /* Bootstrap blue color */
   font-weight: 600;
   /* Slightly bold */
@@ -95,18 +96,20 @@
 @import "leaflet/dist/leaflet.css";
 
 .custom-navbar {
-  background-color: #00acc1;  /* Teal/turquoise */
+  background-color: #00acc1;
+  /* Teal/turquoise */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* For your nav links */
 .navbar .custom-nav-link {
-  color: rgba(255, 255, 255, 0.9);  /* Slightly off-white for better contrast */
+  color: rgba(255, 255, 255, 0.9);
+  /* Slightly off-white for better contrast */
   font-weight: 500;
 }
 
 .navbar-brand {
-  background: linear-gradient(45deg, #a700c1, #64ffc1);
+  background: linear-gradient(45deg, #a700c1, #d5941d);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
