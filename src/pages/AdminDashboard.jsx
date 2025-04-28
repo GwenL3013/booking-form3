@@ -183,14 +183,14 @@ const AdminDashboard = () => {
 
     const getCurrentPageItems = () => {
         let filteredCards = tourCards;
-        
+
         // Apply search filter if there's a search query
         if (searchQuery) {
-            filteredCards = tourCards.filter(tour => 
+            filteredCards = tourCards.filter(tour =>
                 tour.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
-        
+
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
         const endIndex = startIndex + ITEMS_PER_PAGE;
         return filteredCards.slice(startIndex, endIndex);
@@ -282,7 +282,7 @@ const AdminDashboard = () => {
                                                         <Card.Title>{tour.name}</Card.Title>
                                                         <Card.Text>{tour.description}</Card.Text>
                                                         <Card.Subtitle className="mb-2 text-muted">
-                                                            Price: ${tour.price}
+                                                            Price: RM {tour.price}
                                                         </Card.Subtitle>
                                                     </Card.Body>
                                                 )}
@@ -470,21 +470,21 @@ const AdminDashboard = () => {
                             {tourCards.length > 0 && (
                                 <div className="d-flex justify-content-center mt-4 mb-4">
                                     <Pagination className="pagination-lg">
-                                        <Pagination.First 
-                                            onClick={() => handlePageChange(1)} 
-                                            disabled={currentPage === 1} 
+                                        <Pagination.First
+                                            onClick={() => handlePageChange(1)}
+                                            disabled={currentPage === 1}
                                         />
-                                        <Pagination.Prev 
-                                            onClick={() => handlePageChange(currentPage - 1)} 
-                                            disabled={currentPage === 1} 
+                                        <Pagination.Prev
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            disabled={currentPage === 1}
                                         />
-                                        
+
                                         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                                             <Pagination.Item
                                                 key={page}
                                                 active={page === currentPage}
                                                 onClick={() => handlePageChange(page)}
-                                                style={{ 
+                                                style={{
                                                     margin: '0 2px',
                                                     minWidth: '40px',
                                                     textAlign: 'center'
@@ -493,14 +493,14 @@ const AdminDashboard = () => {
                                                 {page}
                                             </Pagination.Item>
                                         ))}
-                                        
-                                        <Pagination.Next 
-                                            onClick={() => handlePageChange(currentPage + 1)} 
-                                            disabled={currentPage === totalPages} 
+
+                                        <Pagination.Next
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            disabled={currentPage === totalPages}
                                         />
-                                        <Pagination.Last 
-                                            onClick={() => handlePageChange(totalPages)} 
-                                            disabled={currentPage === totalPages} 
+                                        <Pagination.Last
+                                            onClick={() => handlePageChange(totalPages)}
+                                            disabled={currentPage === totalPages}
                                         />
                                     </Pagination>
                                 </div>
