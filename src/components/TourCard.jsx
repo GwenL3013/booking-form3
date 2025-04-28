@@ -404,7 +404,7 @@ const TourCard = ({ tour }) => {
                     <Card.Title>{tour.name}</Card.Title>
                     <Card.Text>{tour.description}</Card.Text>
                     <Card.Subtitle className="mb-2 text-muted">
-                        Price: ${tour.price}
+                        Price from : RM {tour.price}
                     </Card.Subtitle>
                     <div data-role={tour.status === 'sold-out' ? 'fully-booked' : 'book-now'}>
                         <Button
