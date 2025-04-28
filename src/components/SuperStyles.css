@@ -91,10 +91,11 @@ img {
 @media screen and (max-width: 555px) {
     .super-text h1 {
         padding: 10px 20px;
+        font-size: 2rem;
     }
 
     .super-text p {
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         padding: 0 0 2rem 0;
     }
 
