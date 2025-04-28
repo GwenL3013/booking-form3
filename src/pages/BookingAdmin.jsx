@@ -17,7 +17,7 @@ function addWatermark(doc) {
     doc.setGState(new doc.GState({ opacity: 0.10 }));
     doc.setFontSize(60);
     doc.setTextColor(180, 180, 180);
-    doc.text('MyHoliday', pageWidth / 2, pageHeight / 2, {
+    doc.text('BetaHoliday', pageWidth / 2, pageHeight / 2, {
         align: 'center',
         angle: 45,
     });
@@ -75,7 +75,7 @@ const BookingAdmin = () => {
     const handleTourSelect = (e) => {
         const selectedTourId = e.target.value;
         const selectedTour = tours.find(tour => tour.id === selectedTourId);
-        
+
         setBookingData(prev => ({
             ...prev,
             tourId: selectedTourId,
@@ -98,41 +98,41 @@ const BookingAdmin = () => {
 
     const validateForm = () => {
         const errors = {};
-        
+
         if (!bookingData.name) errors.name = 'Name is required';
         if (!bookingData.email) errors.email = 'Email is required';
         if (!bookingData.contact) errors.contact = 'Contact is required';
         if (!bookingData.date) errors.date = 'Date is required';
         if (!bookingData.tourId) errors.tourId = 'Tour selection is required';
         if (!bookingData.totalPax || bookingData.totalPax < 1) errors.totalPax = 'Number of pax is required';
-        
+
         // Validate additional pax
         bookingData.additionalPax.forEach((pax, index) => {
             if (!pax.name) errors[`additionalPax_${index}_name`] = `Name is required for additional participant ${index + 2}`;
             if (!pax.contact) errors[`additionalPax_${index}_contact`] = `Contact is required for additional participant ${index + 2}`;
         });
-        
+
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             console.log('Form validation failed');
             return;
         }
-        
+
         setIsLoading(true);
 
         try {
             console.log('Starting booking creation process...');
             const confirmationCode = `CONF-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-            
+
             // Format the date to ensure consistency
             const formattedDate = new Date(bookingData.date).toISOString().split('T')[0];
-            
+
             const bookingToSave = {
                 name: bookingData.name,
                 email: bookingData.email,
@@ -162,13 +162,13 @@ const BookingAdmin = () => {
             console.log('Attempting to save to Firestore...');
             const bookingsCollection = collection(db, 'bookings');
             console.log('Collection reference created');
-            
+
             const docRef = await addDoc(bookingsCollection, bookingToSave);
             console.log('Document saved successfully with ID:', docRef.id);
-            
+
             // Show success message immediately
             toast.success(`Booking created successfully! Confirmation Code: ${confirmationCode}`);
-            
+
             // Reset form immediately
             setBookingData({
                 name: '',
@@ -192,11 +192,11 @@ const BookingAdmin = () => {
                 console.log('PDF document created');
 
                 // --- LOGO & COMPANY INFO ---
-               // const logoImage = "data:image/png;base64,iVBOElFTkSuQmCC"; // Replace with your real base64 logo
+                // const logoImage = "data:image/png;base64,iVBOElFTkSuQmCC"; // Replace with your real base64 logo
                 //doc.addImage(logoImage, 'PNG', 10, 10, 50, 30);
                 doc.setFontSize(12);
                 doc.setTextColor(0, 0, 0);
-                doc.text("MyHoliday", 10, 45);
+                doc.text("BetaHoliday", 10, 45);
                 doc.text("123 Super Road, Super City, Super Country", 10, 52);
 
                 // --- TITLE & BOOKING DATE ---

@@ -7,7 +7,7 @@ export default function Footer() {
             <div className="container">
                 {/* Top Branding */}
                 <div className="text-center mb-4">
-                    <h1>MyHoliday</h1>
+                    <h1>BetaHoliday</h1>
                     <p>We always make holiday better</p>
                     <div className="d-flex justify-content-center gap-3 mt-3">
                         <a href="/" className="text-light">
@@ -56,7 +56,7 @@ export default function Footer() {
                         <ul className="list-unstyled">
                             <li><a href="tel:+601234567" className="text-light text-decoration-none">+601234567</a></li>
                             <li><a href="tel:031234567" className="text-light text-decoration-none">031234567</a></li>
-                            <li><a href="mailto:myholiday@myholiday.com" className="text-light text-decoration-none">myholiday@myholiday.com</a></li>
+                            <li><a href="mailto:betaholiday@betaholiday.com" className="text-light text-decoration-none">betaholiday@betaholiday.com</a></li>
                             <li><a href="/" className="text-light text-decoration-none">Wisma ABC, Jalan 123, 5000, Kuala Lumpur, Malaysia</a></li>
                         </ul>
                     </div>
@@ -64,7 +64,7 @@ export default function Footer() {
 
                 {/* Copyright */}
                 <div className="footer-bottom mt-4">
-                    &copy; {new Date().getFullYear()} MyHoliday. All rights reserved.
+                    &copy; {new Date().getFullYear()} BetaHoliday. All rights reserved.
                 </div>
             </div>
         </div>

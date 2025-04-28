@@ -102,7 +102,7 @@ const TourCard = ({ tour }) => {
 
         // Set Company Address - top-left or near the logo
         doc.setFontSize(12);
-        doc.text("MyHoliday", 10, 35); // Customize with your company name
+        doc.text("BetaHoliday", 10, 35); // Customize with your company name
         doc.text("123 Super Road, Super City, Super Country", 10, 40); // Customize with your company address
 
         // Set Confirmation Title
@@ -127,7 +127,7 @@ const TourCard = ({ tour }) => {
 
             doc.setFontSize(60);
             doc.setTextColor(200, 200, 200); // Even lighter gray
-            doc.text('MyHoliday', pageWidth / 2, pageHeight / 2, {
+            doc.text('BetaHoliday', pageWidth / 2, pageHeight / 2, {
                 align: 'center',
                 angle: 45,
             });

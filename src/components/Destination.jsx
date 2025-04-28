@@ -7,7 +7,7 @@ export default function Destination() {
     return (
         <div className="destination">
             <h1>Popular Destinations</h1>
-            <p> MyHolidays presents an extraordinary travel experience with our
+            <p> BetaHoliday presents an extraordinary travel experience with our
                 Signature Tour Packages, thoughtfully curated to highlight the globe’s
                 most coveted destinations. These carefully crafted tours feature a selection
                 of world-renowned countries, chosen for their unparalleled appeal and
