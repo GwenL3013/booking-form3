@@ -118,3 +118,10 @@
         max-width: 300px;
     }
 }
+
+.body {
+    background-color: #a58a11;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}

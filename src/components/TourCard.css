@@ -6,7 +6,6 @@
 
 }
 
-
 /* Card styling */
 .tour-card {
     flex: 1 1 18rem;
@@ -49,21 +48,10 @@
 /* Card Body styling */
 .tour-card .card-body {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
-    padding: 0;
-    flex-grow: 1;
-    overflow: hidden;
-    background: #fff;
-}
-
-.tour-card .card-info {
-    flex: 2;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 1.2rem 1rem 1.2rem 1.2rem;
+    justify-content: space-between;
+    padding: 1rem;
+    flex-grow: 1;
     overflow: hidden;
 }
 
@@ -78,31 +66,25 @@
 
 /* Button full width if you want */
 .tour-card .btn {
-    width: auto;
-    min-width: 80px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    background: #0866c6;
-    border: none;
-    color: #fff;
-    border-radius: 0.5rem;
-    padding: 0.7rem 1.5rem;
-    box-shadow: none;
-    transition: background 0.2s;
+    width: 100%;
 }
+
+
+
 
 .tour-card:hover {
     transform: translateY(-2px);
 }
 
 /* Change color when hovering over 'Book Now' button */
-.tour-card .btn:hover {
-    background: #0ac31c;
-    color: #fff;
+.tour-card .btn-primary:hover {
+    background-color: #0ac31c;
+    /* darker blue or any custom */
+    border-color: #29e355;
 }
 
 /* Optional: Change cursor on hover (already default but included for clarity) */
-.tour-card .btn {
+.tour-card .btn-primary {
     cursor: pointer;
 }
 
@@ -111,128 +93,4 @@
     background-color: #b02a37;
     /* a slightly different red */
     cursor: not-allowed;
-}
-
-/* Remove .card-row-info styles */
-.tour-card .card-row-info {
-    display: unset;
-}
-
-.tour-card .card-row-info .card-title,
-.tour-card .card-row-info .card-text {
-    display: unset;
-    white-space: unset;
-    overflow: unset;
-    text-overflow: unset;
-}
-
-.tour-card .card-title {
-    font-size: 1.08rem;
-    font-weight: 700;
-    color: #222;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.01em;
-    line-height: 1.2;
-    white-space: normal;
-    text-align: left;
-    display: block;
-}
-
-.tour-card .card-text {
-    font-size: 0.98rem;
-    color: #444;
-    margin-bottom: 0.5rem;
-    white-space: normal;
-    text-align: left;
-    display: block;
-}
-
-.tour-card .card-btn-col {
-    flex: 1;
-    background: #0866c6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 90px;
-    max-width: 120px;
-    border-radius: 0 0.8rem 0.8rem 0;
-}
-
-@media (max-width: 600px) {
-    .tour-cards-container {
-        flex-direction: column;
-        gap: 12px;
-        align-items: center;
-    }
-
-    .tour-card {
-        max-width: 100vw;
-        min-width: 0;
-        width: 100vw;
-        height: auto;
-        border-radius: 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        margin-bottom: 16px;
-        padding: 0;
-    }
-
-    .tour-card .carousel-item img {
-        height: 140px;
-        border-radius: 16px 16px 0 0;
-    }
-
-    .tour-card .card-body {
-        background: #fff;
-        padding: 1rem 1rem 1.2rem 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 0.2rem;
-    }
-
-    .tour-card .card-info {
-        padding: 0;
-    }
-
-    .tour-card .card-title {
-        font-size: 1.1rem;
-        margin-bottom: 0.2rem;
-        font-weight: 600;
-        color: #222;
-        width: 100%;
-        text-align: left;
-        display: block;
-        text-transform: none;
-    }
-
-    .tour-card .card-text {
-        font-size: 0.98rem;
-        margin-bottom: 0.2rem;
-        color: #444;
-        width: 100%;
-        text-align: left;
-        display: block;
-    }
-
-    .tour-card .card-btn-col {
-        background: none;
-        border-radius: 0;
-        max-width: none;
-        min-width: 0;
-        width: 100%;
-        justify-content: flex-end;
-        padding: 0;
-    }
-
-    .tour-card .btn {
-        width: 100%;
-        margin-top: 1rem;
-        align-self: flex-end;
-        font-size: 1rem;
-        padding: 0.6rem 0;
-        white-space: nowrap;
-        border-radius: 0.5rem;
-    }
 }
