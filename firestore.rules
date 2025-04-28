@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Helper function to check if user is migrating
+    function isMigrating() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.originalUid != null;
+    }
+    
+    // tourCards collection rules
+    match /tourCards/{document=**} {
+      allow read: if true;  // Anyone can read tours
+      allow write: if request.auth != null && isAdmin();  // Only admins can write
+    }
+    
+    // users collection rules
+    match /users/{userId} {
+      // Allow reading user data by email for recreation process
+      allow read: if request.auth != null || 
+                 (request.query.limit <= 1 && 
+                  request.query.filters.size() == 1 && 
+                  request.query.filters[0].op == '==' && 
+                  request.query.filters[0].path == 'email');
+      allow write: if request.auth != null;
+    }
+    
+    // bookings collection rules
+    match /bookings/{booking} {
+      allow read, write: if request.auth != null;
+    }
+
+    // travelDiaries collection rules
+    match /travelDiaries/{postId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // communityFeed collection rules
+    match /communityFeed/{postId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // todos collection rules
+    match /todos/{todo} {
+      allow read, write: if request.auth != null;
+    }
+  }
+} 

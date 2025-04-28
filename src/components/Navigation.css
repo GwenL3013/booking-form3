@@ -1,0 +1,69 @@
+.navigation-page {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
+.shared-location-marker {
+    background-color: #007bff;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px #007bff;
+}
+
+.leaflet-routing-container {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.leaflet-routing-alternatives-container {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.leaflet-routing-instructions-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.leaflet-routing-instruction {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.leaflet-routing-instruction:last-child {
+    border-bottom: none;
+}
+
+.leaflet-routing-instruction-icon {
+    margin-right: 0.5rem;
+}
+
+.leaflet-routing-instruction-text {
+    font-size: 0.9rem;
+}
+
+.leaflet-routing-instruction-distance {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navigation-page {
+        padding: 1rem;
+    }
+
+    .search-results {
+        max-height: 150px;
+    }
+} 

@@ -1,0 +1,41 @@
+.custom-tours-banner {
+  background: #fde4e4;
+  padding: 60px 0 40px 0;
+  width: 100%;
+}
+
+.custom-tours-header {
+  margin-bottom: 30px;
+}
+
+.custom-tours-subtitle {
+  color: #e63946;
+  font-family: 'Dancing Script', cursive, sans-serif;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.custom-tours-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 0;
+}
+
+.custom-tours-label {
+  font-family: 'Dancing Script', cursive, sans-serif;
+  font-size: 1.3rem;
+  color: #111;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .custom-tours-title {
+    font-size: 2rem;
+  }
+  .custom-tours-subtitle {
+    font-size: 1.3rem;
+  }
+  .custom-tours-label {
+    font-size: 1rem;
+  }

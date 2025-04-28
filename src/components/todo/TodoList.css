@@ -1,0 +1,83 @@
+.todo-list {
+    color: #fefcfc;
+}
+
+
+
+
+.countdown-timer-container {
+    display: flex;
+    color: #f7f0f0;
+    /* Use Flexbox to arrange the content */
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: flex-end;
+    /* Align everything to the right */
+    width: 100%;
+    /* Ensure the container takes up full width */
+    padding: 20px;
+    /* Optional padding for better spacing */
+}
+
+.countdown-display {
+    display: flex;
+    color: #f7f0f0;
+    /* Arrange countdown elements in a row */
+    gap: 10px;
+    /* Space between each countdown part (days, hours, minutes, seconds) */
+    align-items: center;
+    /* Vertically align countdown values in the center */
+    justify-content: flex-end;
+    /* Align countdown values to the right */
+    margin-top: 20px;
+    /* Optional margin if you want to add space before countdown */
+}
+
+.countdown-value {
+    display: flex;
+    flex-direction: column;
+    /* Keeps the numbers and units stacked vertically */
+    text-align: center;
+    /* Center-align the text */
+}
+
+.countdown-value span {
+    font-size: 12px;
+    /* Smaller font size for the unit labels (days, hours, etc.) */
+    color: #f7f0f0;
+    /* Color for the labels */
+}
+
+.countdown-name {
+    text-align: right;
+}
+
+.countdown-date {
+    text-align: right;
+    /* Align event name and date to the right */
+    width: 100%;
+    /* Ensure the text takes up the full width */
+}
+
+.countdown-form {
+    display: flex;
+    flex-direction: row;
+    /* Stack the form inputs vertically */
+
+    align-items: flex-end;
+    /* Align the form inputs to the right */
+    width: 100%;
+    /* Ensure the form takes full width */
+    margin-top: 20px;
+    /* Add space between the form and other elements */
+}
+
+.control-buttons {
+    display: flex;
+    gap: 10px;
+    /* Space between the stop/reset buttons */
+    justify-content: flex-end;
+    /* Align the buttons to the right */
+    margin-top: 20px;
+    /* Add space before the buttons */
+}

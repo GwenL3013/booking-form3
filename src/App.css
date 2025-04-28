@@ -1,0 +1,117 @@
+/* Navbar.css */
+.navbar .custom-nav-link {
+  font-size: 18px;
+  /* Make font bigger */
+  color: #01274f;color: rgba(255, 255, 255, 0.9);
+  /* Bootstrap blue color */
+  font-weight: 600;
+  /* Slightly bold */
+  transition: color 0.3s ease;
+  /* Smooth hover transition */
+}
+
+.custom-nav-link:hover {
+  background-color: #01959a;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+
+  /* Smooth hover transition */
+  text-decoration: none;
+}
+
+.custom-nav-link.active {
+  color: #0056b3;
+  /* Darker blue for active link */
+  font-weight: bold;
+  /* Bold for active link */
+}
+
+.custom-nav-link.active:hover {
+  color: #0056b3;
+  /* Keep the same color on hover */
+  text-decoration: none;
+  /* No underline on hover */
+}
+
+.custom2-nav-link {
+  font-size: 18px;
+  /* Make font bigger */
+  color: #01274f;
+  /* Bootstrap blue color */
+  font-weight: 600;
+  /* Slightly bold */
+  transition: color 0.3s ease;
+  /* Smooth hover transition */
+}
+
+.custom2-nav-link:hover {
+  background-color: #9810a2;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+
+  /* Smooth hover transition */
+  text-decoration: none;
+}
+
+.custom2-nav-link.active {
+  color: #0056b3;
+  /* Darker blue for active link */
+  font-weight: bold;
+  /* Bold for active link */
+}
+
+@media screen and (max-width: 850px) {
+
+  .custom-nav-link,
+  .custom2-nav-link {
+    font-size: 16px;
+    width: 100%;
+    display: block;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    /* or left if you want left-aligned text */
+    background-color: transparent;
+    color: #01274f;
+    font-weight: 600;
+  }
+
+  .custom-nav-link:hover,
+  .custom2-nav-link:hover {
+    background-color: #01959a;
+    color: #fff;
+    border-radius: 0;
+    text-decoration: none;
+  }
+
+  .custom-nav-link.active,
+  .custom2-nav-link.active {
+    background-color: #0056b3;
+    color: #fff;
+  }
+}
+
+@import "leaflet/dist/leaflet.css";
+
+.custom-navbar {
+  background-color: #00acc1;  /* Teal/turquoise */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* For your nav links */
+.navbar .custom-nav-link {
+  color: rgba(255, 255, 255, 0.9);  /* Slightly off-white for better contrast */
+  font-weight: 500;
+}
+
+.navbar-brand {
+  background: linear-gradient(45deg, #a700c1, #64ffc1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  font-size: 24px;
+  text-decoration: none;
+  padding: 0.5rem 0;
+}

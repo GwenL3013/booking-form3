@@ -1,0 +1,23 @@
+.todo_card {
+    width: 100%;
+    min-height: 50px;
+    border: 1px solid #febc30d5;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px 0;
+
+    color: rgb(250, 252, 252)
+}
+
+.todo_title {
+    font-size: 25px;
+    font-weight: 600px;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
+
+.todo_text {
+    font-size: 18px;
+    font-weight: 600px;
+    margin-bottom: 5px;
+}

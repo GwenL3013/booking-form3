@@ -1,0 +1,120 @@
+/* General layout for the container */
+.super {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.super-mid {
+    width: 100%;
+    height: 70vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.super-mid h3 {
+    margin-top: 4rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Styling for the cards container */
+.tour-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Style the individual cards */
+.card {
+    width: 18rem;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Image styles */
+.card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Super text overlay (optional) */
+.super-text {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+.super-text h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.super-text p {
+    font-size: 1.3rem;
+    padding: 0.5rem 0 2rem 0;
+    color: #fff;
+}
+
+.super-text .show {
+    text-decoration: none;
+    background: #fff;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #222;
+}
+
+.super-text .hide {
+    display: none;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 555px) {
+    .super-text h1 {
+        padding: 10px 20px;
+    }
+
+    .super-text p {
+        font-size: 1.1rem;
+        padding: 0 0 2rem 0;
+    }
+
+    .super-text .show {
+        padding: .6rem 1.1rem;
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+
+    .tour-cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 300px;
+    }
+}

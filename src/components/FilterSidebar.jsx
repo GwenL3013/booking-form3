@@ -1,0 +1,205 @@
+// FilterSidebar.jsx
+import React, { useState, useEffect } from 'react';
+import { Form, Button, Accordion } from 'react-bootstrap';
+import './FilterSidebar.css';
+
+function FilterSidebar({ onFilter }) {
+  const [filters, setFilters] = useState({
+    destinations: {
+      TURKEY: false,
+      JAPAN: false,
+      EUROPE: false,
+      'SOUTH KOREA': false,
+      CAUCASUS: false,
+      TUNISIA: false,
+      CHINA: false,
+      PHILIPPINE: false
+    },
+    categories: {
+      Leisure: false,
+      Adventurous: false,
+      Cultural: false,
+      Nature: false,
+      Premium: false
+    },
+    priceRange: {
+      min: '',
+      max: ''
+    }
+  });
+
+  // Effect to apply filters when they change
+  useEffect(() => {
+    // Avoid applying filters on component mount
+    const hasActiveFilters = Object.values(filters.destinations).some(val => val) ||
+      Object.values(filters.categories).some(val => val) ||
+      filters.priceRange.min || filters.priceRange.max;
+
+    if (hasActiveFilters) {
+      applyFilters();
+    }
+  }, [filters]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleDestinationChange = (destination) => {
+    setFilters(prev => ({
+      ...prev,
+      destinations: {
+        ...prev.destinations,
+        [destination]: !prev.destinations[destination]
+      }
+    }));
+  };
+
+  const handleCategoryChange = (category) => {
+    setFilters(prev => ({
+      ...prev,
+      categories: {
+        ...prev.categories,
+        [category]: !prev.categories[category]
+      }
+    }));
+  };
+
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({
+      ...prev,
+      priceRange: {
+        ...prev.priceRange,
+        [name]: value
+      }
+    }));
+  };
+
+  const applyFilters = () => {
+    const activeDestinations = Object.keys(filters.destinations).filter(
+      (key) => filters.destinations[key]
+    );
+
+    const activeCategories = Object.keys(filters.categories).filter(
+      (key) => filters.categories[key]
+    );
+
+    onFilter({
+      destinations: activeDestinations,
+      categories: activeCategories,
+      priceRange: filters.priceRange
+    });
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      destinations: {
+        TURKEY: false,
+        JAPAN: false,
+        EUROPE: false,
+        'SOUTH KOREA': false,
+        CAUCASUS: false,
+        TUNISIA: false,
+        CHINA: false,
+        PHILIPPINE: false
+      },
+      categories: {
+        Leisure: false,
+        Adventurous: false,
+        Cultural: false,
+        Nature: false,
+        Premium: false
+      },
+      priceRange: {
+        min: '',
+        max: ''
+      }
+    });
+    onFilter(null);
+  };
+
+  return (
+    <div className="filter-sidebar">
+      <h3>Filter by</h3>
+
+      <Accordion defaultActiveKey="0" className="mb-3">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Popular Destinations</Accordion.Header>
+          <Accordion.Body>
+            <Form>
+              {Object.keys(filters.destinations).map((destination) => (
+                <Form.Check
+                  key={destination}
+                  type="checkbox"
+                  id={`destination-${destination}`}
+                  label={destination}
+                  checked={filters.destinations[destination]}
+                  onChange={() => handleDestinationChange(destination)}
+                  className="mb-2"
+                />
+              ))}
+            </Form>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+
+      <Accordion defaultActiveKey="0" className="mb-3">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Categories</Accordion.Header>
+          <Accordion.Body>
+            <Form>
+              {Object.keys(filters.categories).map((category) => (
+                <Form.Check
+                  key={category}
+                  type="checkbox"
+                  id={`category-${category}`}
+                  label={category}
+                  checked={filters.categories[category]}
+                  onChange={() => handleCategoryChange(category)}
+                  className="mb-2"
+                />
+              ))}
+            </Form>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+
+      <Accordion defaultActiveKey="0" className="mb-3">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Price Range</Accordion.Header>
+          <Accordion.Body>
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Min Price (RM)</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="min"
+                  value={filters.priceRange.min}
+                  onChange={handlePriceChange}
+                  placeholder="Min"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Max Price (RM)</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="max"
+                  value={filters.priceRange.max}
+                  onChange={handlePriceChange}
+                  placeholder="Max"
+                />
+              </Form.Group>
+            </Form>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+
+      <div className="d-grid gap-2">
+        <Button variant="primary" onClick={applyFilters}>
+          Apply Filters
+        </Button>
+        <Button variant="outline-secondary" onClick={clearFilters}>
+          Clear All
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export default FilterSidebar;

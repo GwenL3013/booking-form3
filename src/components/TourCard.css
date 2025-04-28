@@ -1,0 +1,96 @@
+.tour-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: flex-start;
+
+}
+
+/* Card styling */
+.tour-card {
+    flex: 1 1 18rem;
+    max-width: 18rem;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    /* Make all cards the same height */
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    /* <-- set a fixed total height for each card */
+    overflow: hidden;
+}
+
+/* Fix carousel height and remove extra padding/margin */
+.tour-card .carousel {
+    flex-shrink: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* Fix image */
+.tour-card .carousel-item img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    /* Set consistent height */
+    object-fit: cover;
+
+    border-radius: 8px 8px 0 0;
+    /* Only top corners rounded */
+}
+
+
+/* Card Body styling */
+.tour-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* Card Title, Text, Subtitle */
+.tour-card .card-title,
+.tour-card .card-text,
+.tour-card .card-subtitle {
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Button full width if you want */
+.tour-card .btn {
+    width: 100%;
+}
+
+
+
+
+.tour-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Change color when hovering over 'Book Now' button */
+.tour-card .btn-primary:hover {
+    background-color: #0ac31c;
+    /* darker blue or any custom */
+    border-color: #29e355;
+}
+
+/* Optional: Change cursor on hover (already default but included for clarity) */
+.tour-card .btn-primary {
+    cursor: pointer;
+}
+
+/* Change color when hovering over 'Fully Booked' button (optional visual feedback) */
+.tour-card .btn-danger:disabled:hover {
+    background-color: #b02a37;
+    /* a slightly different red */
+    cursor: not-allowed;
+}

@@ -1,0 +1,73 @@
+.planes-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.planes-page.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+.map-container {
+  height: 70vh;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.planes-page.dark .map-container {
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.control-panel {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.control-panel button {
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.control-panel button:hover {
+  background-color: #0069d9;
+}
+
+.control-panel button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.plane-trail {
+  position: absolute;
+  width: 20px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.7);
+  left: 50%;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  border-radius: 3px;
+  z-index: -1;
+}
+
+.plane-trail.climbing {
+  background: rgba(0, 255, 0, 0.7);
+}
+
+.plane-trail.descending {
+  background: rgba(255, 0, 0, 0.7);
+}
+
+.plane-trail.cruising {
+  background: rgba(255, 255, 255, 0.7);
+}

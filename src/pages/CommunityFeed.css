@@ -1,0 +1,362 @@
+/* CommunityFeed.css */
+
+/* Xiaohongshu-style grid layout */
+.xiaohongshu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (min-width: 576px) {
+    .xiaohongshu-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (min-width: 768px) {
+    .xiaohongshu-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media (min-width: 992px) {
+    .xiaohongshu-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Card styling */
+.xiaohongshu-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.xiaohongshu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Media container - always square */
+.xiaohongshu-card-media {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 Aspect Ratio */
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+.xiaohongshu-media-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.xiaohongshu-media-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.xiaohongshu-media-item.active {
+    opacity: 1;
+}
+
+.xiaohongshu-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.xiaohongshu-media-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+}
+
+.xiaohongshu-media-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.xiaohongshu-media-indicator.active {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* Add clickable areas for navigation */
+.xiaohongshu-media-slide::before,
+.xiaohongshu-media-slide::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 30%;
+    height: 100%;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.xiaohongshu-media-slide::before {
+    left: 0;
+}
+
+.xiaohongshu-media-slide::after {
+    right: 0;
+}
+
+/* Placeholder for posts without media */
+.xiaohongshu-placeholder-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Content styling */
+.xiaohongshu-card-content {
+    padding: 12px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.xiaohongshu-card-text {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    flex-grow: 1;
+}
+
+/* User info styling */
+.xiaohongshu-card-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.xiaohongshu-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+}
+
+.xiaohongshu-username {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Stats styling */
+.xiaohongshu-card-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #888;
+}
+
+.xiaohongshu-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.xiaohongshu-stat:hover {
+    color: #ff2442; /* Xiaohongshu's signature red color */
+}
+
+/* Community Feed Responsive Navbar */
+.community-navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+.community-navbar .nav-btn {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0.5rem 1.2rem;
+    font-size: 1.2rem;
+    color: #444;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+
+.community-navbar .nav-btn:active,
+.community-navbar .nav-btn:focus {
+    background: #f0f0f0;
+    color: #1976d2;
+}
+
+@media (max-width: 576px) {
+    .community-navbar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+        padding: 0.5rem 0;
+        background: #fff;
+    }
+}
+
+/* CommunityFeed.css */
+
+.bottom-sheet-modal .modal-dialog {
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
+}
+
+.bottom-sheet-modal.show .modal-dialog {
+    transform: translateY(0);
+  }
+  
+  .bottom-sheet-content {
+    border-radius: 18px 18px 0 0;
+    background: #fff;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+.bottom-sheet-backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+/* WeChat-style Comments */
+  .wechat-comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+.wechat-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.wechat-comment-content {
+    flex: 1;
+}
+
+.wechat-comment-user {
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 4px;
+}
+  
+  .wechat-comment-bubble {
+    background: #f1f1f1;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #333;
+    word-break: break-word;
+  }
+  
+.comment-input-container {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 12px;
+}
+
+.comment-input {
+    border-radius: 20px;
+    background: #f1f1f1;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.comment-input:focus {
+    box-shadow: none;
+    background: #f1f1f1;
+}
+
+/* Comments List */
+.comments-list {
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+}
+
+.comments-list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+.comments-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+/* Avatar in comment */
+.wechat-comment img {
+    width: 28px; /* Adjust this size as needed */
+    height: 28px;
+    object-fit: cover; /* Ensures the image covers the space without stretching */
+    border-radius: 50%; /* Ensures it's round */
+  }
+  

@@ -1,0 +1,88 @@
+/* FooterStyles.css */
+
+.footer {
+    background: linear-gradient(to right, #111, #333);
+    /* Gradient background */
+    color: #ccc;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Footer links */
+.footer a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer a:hover {
+    color: #fff;
+    transform: scale(1.1);
+    /* Slight zoom effect */
+}
+
+/* Hover effect for social icons */
+.footer .fa-brands {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer .fa-brands:hover {
+    transform: scale(1.2);
+    /* Slight zoom on hover */
+    color: #ffb600;
+    /* Gold color on hover */
+}
+
+/* Footer bottom copyright */
+.footer-bottom {
+    border-top: 1px solid #444;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    font-size: 0.85rem;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s forwards 1.5s;
+    /* Fade in effect */
+}
+
+/* Fade-in animation for footer */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Footer section heading styles */
+.footer h4 {
+    font-weight: 600;
+    color: #ffb600;
+    /* Gold color for headings */
+    margin-bottom: 1rem;
+}
+
+/* Spacing adjustments for the footer columns */
+.footer .col-md-4 {
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .footer h1 {
+        font-size: 1.8rem;
+    }
+
+    .footer .col-md-4 {
+        text-align: center;
+    }
+
+    .footer .d-flex {
+        justify-content: center;
+    }
+}

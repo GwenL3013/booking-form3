@@ -1,0 +1,16 @@
+.countdown-timer-container {
+    padding: 1.5rem;
+  }
+  
+  .countdown-value {
+    min-width: 70px;
+  }
+  
+  .countdown-value div {
+    font-weight: bold;
+  }
+  
+  .control-buttons {
+    margin-top: 1.5rem;
+  }
+  
