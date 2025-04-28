@@ -111,7 +111,7 @@ export default function GroupTours() {
                 />
             </Container>
 
-            <CurrencyConverter />
+
             <CustomToursBanner />
 
             <Container className="tour-container">
@@ -136,15 +136,15 @@ export default function GroupTours() {
                         {filteredTours.length > toursPerPage && (
                             <div className="pagination-container">
                                 <Pagination>
-                                    <Pagination.First 
-                                        onClick={() => handlePageChange(1)} 
-                                        disabled={currentPage === 1} 
+                                    <Pagination.First
+                                        onClick={() => handlePageChange(1)}
+                                        disabled={currentPage === 1}
                                     />
-                                    <Pagination.Prev 
-                                        onClick={() => handlePageChange(currentPage - 1)} 
-                                        disabled={currentPage === 1} 
+                                    <Pagination.Prev
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
                                     />
-                                    
+
                                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                                         <Pagination.Item
                                             key={page}
@@ -154,14 +154,14 @@ export default function GroupTours() {
                                             {page}
                                         </Pagination.Item>
                                     ))}
-                                    
-                                    <Pagination.Next 
-                                        onClick={() => handlePageChange(currentPage + 1)} 
-                                        disabled={currentPage === totalPages} 
+
+                                    <Pagination.Next
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
                                     />
-                                    <Pagination.Last 
-                                        onClick={() => handlePageChange(totalPages)} 
-                                        disabled={currentPage === totalPages} 
+                                    <Pagination.Last
+                                        onClick={() => handlePageChange(totalPages)}
+                                        disabled={currentPage === totalPages}
                                     />
                                 </Pagination>
                             </div>
