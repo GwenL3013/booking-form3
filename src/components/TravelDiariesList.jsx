@@ -121,15 +121,15 @@ const TravelDiariesList = () => {
             }}>
               <div style={{
                 display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                flexDirection: 'column',
+                gap: '8px',
                 width: '100%'
               }}>
                 <h4 style={{ 
                   fontSize: '16px', 
                   margin: 0,
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  wordBreak: 'break-word'
                 }}>
                   {diary.title || 'Untitled Diary'}
                 </h4>
@@ -138,7 +138,8 @@ const TravelDiariesList = () => {
                   className="diary-actions"
                   style={{
                     display: 'flex',
-                    gap: '8px'
+                    gap: '8px',
+                    flexWrap: 'wrap'
                   }}
                 >
                   <Button
@@ -150,7 +151,8 @@ const TravelDiariesList = () => {
                     }}
                     style={{ 
                       padding: '4px 8px',
-                      fontSize: '12px'
+                      fontSize: '12px',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     Share
@@ -167,7 +169,8 @@ const TravelDiariesList = () => {
                         }}
                         style={{ 
                           padding: '4px 8px',
-                          fontSize: '12px'
+                          fontSize: '12px',
+                          whiteSpace: 'nowrap'
                         }}
                       >
                         Edit
@@ -182,7 +185,8 @@ const TravelDiariesList = () => {
                         }}
                         style={{ 
                           padding: '4px 8px',
-                          fontSize: '12px'
+                          fontSize: '12px',
+                          whiteSpace: 'nowrap'
                         }}
                       >
                         Delete
@@ -194,17 +198,23 @@ const TravelDiariesList = () => {
 
               <div style={{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: '10px',
+                flexDirection: 'column',
+                gap: '8px',
                 fontSize: '12px',
                 color: '#888'
               }}>
                 <span>
                   {format(new Date(diary.timestamp.seconds * 1000), 'MMM dd, yyyy')}
                 </span>
-                <span className="d-none d-md-inline" style={{ flex: 1 }}>
-                  {diary.text.length > 100 ? `${diary.text.substring(0, 100)}...` : diary.text}
+                <span style={{ 
+                  wordBreak: 'break-word',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}>
+                  {diary.text}
                 </span>
               </div>
             </div>
