@@ -680,13 +680,14 @@ const UserDashboard = () => {
                             {/* Bookings Tab */}
                             <Tab.Pane active={activeTab === 'bookings'}>
                                 <div className="p-4" style={{
-                                    background: 'linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)',
-                                    borderRadius: '0.5rem'
+                                    background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
+                                    borderRadius: '0.5rem',
+                                    color: 'white'
                                 }}>
                                     <div className="d-flex justify-content-between align-items-center mb-4">
-                                        <h4 className="mb-0">My Bookings</h4>
+                                        <h4 className="mb-0 text-white">My Bookings</h4>
                                         <Button
-                                            variant="outline-primary"
+                                            variant="outline-light"
                                             size="sm"
                                             onClick={fetchUserBookings}
                                         >
@@ -696,21 +697,21 @@ const UserDashboard = () => {
 
                                     {isLoading ? (
                                         <div className="text-center py-5">
-                                            <Spinner animation="border" variant="primary" />
-                                            <p className="mt-3">Loading your bookings...</p>
+                                            <Spinner animation="border" variant="light" />
+                                            <p className="mt-3 text-white">Loading your bookings...</p>
                                         </div>
                                     ) : error ? (
                                         <Alert variant="danger">{error}</Alert>
                                     ) : userBookings.length === 0 ? (
                                         <div className="text-center py-5">
-                                            <FaCalendarAlt size={50} className="text-muted mb-3" />
-                                            <h5>No Bookings Found</h5>
-                                            <p className="text-muted">You haven't made any bookings yet.</p>
-                                            <Button variant="primary" href="/tours">Browse Tours</Button>
+                                            <FaCalendarAlt size={50} className="text-white mb-3" />
+                                            <h5 className="text-white">No Bookings Found</h5>
+                                            <p className="text-white">You haven't made any bookings yet.</p>
+                                            <Button variant="light" href="/tours">Browse Tours</Button>
                                         </div>
                                     ) : (
                                         <div className="table-responsive">
-                                            <Table hover className="align-middle mb-0">
+                                            <Table hover className="align-middle mb-0" style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
                                                 <thead>
                                                     <tr>
                                                         <th style={{ width: "40%" }}>Tour Information</th>
@@ -991,13 +992,29 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0">
                                     <h4 className="mb-0 fw-bold">My Todo List</h4>
                                 </Card.Header>
-                                <Card.Body className="p-4">
-                                    <div className="mb-4">
-                                        <Button variant="primary" onClick={() => setShowAddTodo(true)}>
+                                <Card.Body className="p-4" style={{
+                                    background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
+                                    borderRadius: '0.5rem',
+                                    color: 'white'
+                                }}>
+                                    <div className="mb-4 d-flex justify-content-center">
+                                        <Button 
+                                            onClick={() => setShowAddTodo(true)}
+                                            style={{ 
+                                                background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
+                                                border: 'none',
+                                                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                                                fontWeight: 'bold',
+                                                fontSize: '1.1rem',
+                                                padding: '0.5rem 2rem'
+                                            }}
+                                        >
                                             Add Todo
                                         </Button>
                                     </div>
-                                    <TodoList />
+                                    <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '0.5rem', padding: '1rem' }}>
+                                        <TodoList />
+                                    </div>
                                     <AddTodo show={showAddTodo} onHide={() => setShowAddTodo(false)} />
                                 </Card.Body>
                             </Tab.Pane>

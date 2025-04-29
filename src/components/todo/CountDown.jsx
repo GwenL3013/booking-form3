@@ -80,34 +80,58 @@ const CountDown = () => {
     const days = Math.floor(time / (1000 * 60 * 60 * 24));
 
     return (
-      <div className="countdown-display d-flex justify-content-center gap-4">
-        <div className="countdown-value text-center">
-          <div className="fs-3">{days.toString().padStart(2, "0")}</div>
-          <span className="small text-muted">days</span>
+      <div className="countdown-display d-flex justify-content-end gap-4">
+        <div className="countdown-value text-end">
+          <div className="fs-3" style={{ 
+            background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 'bold'
+          }}>{days.toString().padStart(2, "0")}</div>
+          <span className="small" style={{ color: '#4a148c' }}>days</span>
         </div>
-        <div className="countdown-value text-center">
-          <div className="fs-3">{hours.toString().padStart(2, "0")}</div>
-          <span className="small text-muted">hours</span>
+        <div className="countdown-value text-end">
+          <div className="fs-3" style={{ 
+            background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 'bold'
+          }}>{hours.toString().padStart(2, "0")}</div>
+          <span className="small" style={{ color: '#4a148c' }}>hours</span>
         </div>
-        <div className="countdown-value text-center">
-          <div className="fs-3">{minutes.toString().padStart(2, "0")}</div>
-          <span className="small text-muted">minutes</span>
+        <div className="countdown-value text-end">
+          <div className="fs-3" style={{ 
+            background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 'bold'
+          }}>{minutes.toString().padStart(2, "0")}</div>
+          <span className="small" style={{ color: '#4a148c' }}>minutes</span>
         </div>
-        <div className="countdown-value text-center">
-          <div className="fs-3">{seconds.toString().padStart(2, "0")}</div>
-          <span className="small text-muted">seconds</span>
+        <div className="countdown-value text-end">
+          <div className="fs-3" style={{ 
+            background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 'bold'
+          }}>{seconds.toString().padStart(2, "0")}</div>
+          <span className="small" style={{ color: '#4a148c' }}>seconds</span>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="countdown-timer-container ">
-      <div className="text-end mb-3">
-        <h2 className="countdown-name fw-bold text-dark">
+    <div className="countdown-timer-container mx-auto" style={{ maxWidth: '800px' }}>
+      <div className="mb-3 text-end">
+        <h2 className="countdown-name fw-bold" style={{ 
+          background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
           {countdownStarted ? eventName : "Countdown Timer"}
         </h2>
-        <p className="countdown-date">
+        <p className="countdown-date" style={{ color: '#4a148c' }}>
           {countdownStarted && formatDate(eventDate)}
         </p>
       </div>
