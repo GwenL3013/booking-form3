@@ -72,8 +72,8 @@ const UserTourDetails = () => {
         <>
             <div className="mt-4 mb-5 px-3">
                 <Container>
-                    <Button 
-                        variant="outline-secondary" 
+                    <Button
+                        variant="outline-secondary"
                         onClick={() => navigate(-1)}
                         className="mb-3"
                         style={{
