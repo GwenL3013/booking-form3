@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import Footer from "../components/Footer";
+import EnquiryForm from './EnquiryForm';
 import { Modal, Tabs, Tab, Spinner, Alert, Container, Row, Col, Carousel, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 
 const UserTourDetails = () => {
@@ -12,6 +13,7 @@ const UserTourDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [previewImage, setPreviewImage] = useState(null); // For lightbox
+    const [showEnquiryForm, setShowEnquiryForm] = useState(false);
 
     useEffect(() => {
         fetchTour();
@@ -363,8 +365,25 @@ const UserTourDetails = () => {
                     </Modal.Body>
                 </Modal>
 
-                {/* Share this tour button */}
-                <div className="d-flex justify-content-end mb-4">
+                {/* Share and Enquiry buttons */}
+                <div className="d-flex justify-content-end gap-3 mb-4">
+                    <Button 
+                        onClick={() => setShowEnquiryForm(true)}
+                        style={{ 
+                            background: '#ffed31', 
+                            color: '#222', 
+                            border: 'none', 
+                            fontWeight: 500, 
+                            borderRadius: 8, 
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.04)' 
+                        }}
+                    >
+                        <span style={{ marginRight: 8 }}>
+                            <i className="bi bi-envelope-fill"></i>
+                        </span>
+                        Enquire Now
+                    </Button>
+
                     <OverlayTrigger
                         trigger="click"
                         placement="left"
@@ -398,6 +417,13 @@ const UserTourDetails = () => {
                 </div>
             </div>
             <Footer />
+
+            {/* Enquiry Form Modal */}
+            <EnquiryForm 
+                show={showEnquiryForm}
+                onHide={() => setShowEnquiryForm(false)}
+                tourName={tour?.name}
+            />
         </>
     );
 };
