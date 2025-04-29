@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import {
     doc,
     getDocs,
@@ -15,6 +15,7 @@ import { Tabs, Tab, Form, Button, Alert, Spinner } from 'react-bootstrap';
 const AdminTourDetails = () => {
     const { id } = useParams(); // short 8-character ID
     const location = useLocation();
+    const navigate = useNavigate();
     const isAdminRoute = location.pathname.startsWith('/admin/tour/');
     const [tour, setTour] = useState(null);
     const [activeTab, setActiveTab] = useState('itinerary');
@@ -245,6 +246,13 @@ const AdminTourDetails = () => {
 
     return (
         <div className="container mt-4">
+            <Button 
+                variant="outline-secondary" 
+                className="mb-3" 
+                onClick={() => navigate('/admin-dashboard')}
+            >
+                ← Back to Dashboard
+            </Button>
             <h3>{isAdminRoute ? `Editing Tour: ${tour?.name}` : tour?.name}</h3>
 
             {success && <Alert variant="success">{success}</Alert>}

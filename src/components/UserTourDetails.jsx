@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import Footer from "../components/Footer";
@@ -8,6 +8,7 @@ import { Modal, Tabs, Tab, Spinner, Alert, Container, Row, Col, Carousel, Button
 
 const UserTourDetails = () => {
     const { id } = useParams(); // short 8-character ID
+    const navigate = useNavigate();
     const [tour, setTour] = useState(null);
     const [activeTab, setActiveTab] = useState('description');
     const [loading, setLoading] = useState(true);
@@ -71,6 +72,25 @@ const UserTourDetails = () => {
         <>
             <div className="mt-4 mb-5 px-3">
                 <Container>
+                    <Button 
+                        variant="outline-secondary" 
+                        onClick={() => navigate(-1)}
+                        className="mb-3"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '8px 16px',
+                            borderRadius: '8px',
+                            border: '1px solid #dee2e6',
+                            backgroundColor: 'white',
+                            color: '#495057',
+                            transition: 'all 0.2s ease'
+                        }}
+                    >
+                        <i className="bi bi-arrow-left"></i>
+                        Back to Tours
+                    </Button>
                     <h2><strong>{tour.name}</strong></h2>
                 </Container>
 
