@@ -20,6 +20,7 @@ import TravelDiariesList from './TravelDiariesList';
 import TravelDiariesPage from '../pages/TravelDiariesPage';
 import CurrencyConverter from './CurrencyConverter';
 import PlanesPage from './PlanesPage';
+
 import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 
 const UserDashboard = () => {
@@ -485,8 +486,8 @@ const UserDashboard = () => {
     return (
         <Container fluid className="py-4 px-3 px-md-4 bg-light min-vh-100 d-flex flex-column">
             {/* Mobile Navigation Header */}
-            <div 
-                className="d-lg-none position-sticky top-0 z-3" 
+            <div
+                className="d-lg-none position-sticky top-0 z-3"
                 style={{
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
@@ -595,15 +596,6 @@ const UserDashboard = () => {
                                     </Nav.Item>
                                     <Nav.Item>
                                         <Nav.Link
-                                            eventKey="settings"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('settings')}
-                                        >
-                                            <FaCog className="me-3" /> Settings
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
                                             eventKey="tools"
                                             className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('tools')}
@@ -611,6 +603,16 @@ const UserDashboard = () => {
                                             <FaCog className="me-3" /> Tools
                                         </Nav.Link>
                                     </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
+                                            eventKey="settings"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
+                                            onClick={() => setActiveTab('settings')}
+                                        >
+                                            <FaCog className="me-3" /> Settings
+                                        </Nav.Link>
+                                    </Nav.Item>
+
                                 </Nav>
                             </div>
 
@@ -744,7 +746,7 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h4 className="mb-0 fw-bold">Weather Forecast</h4>
-                                        <Button 
+                                        <Button
                                             variant="outline-primary"
                                             onClick={() => setActiveTab('tools')}
                                             className="section-animation"
@@ -763,7 +765,7 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h4 className="mb-0 fw-bold">Currency Converter</h4>
-                                        <Button 
+                                        <Button
                                             variant="outline-primary"
                                             onClick={() => setActiveTab('tools')}
                                             className="section-animation"
@@ -840,13 +842,21 @@ const UserDashboard = () => {
                                                 <Form.Group>
                                                     <Form.Label>Phone Number</Form.Label>
                                                     <PhoneInput
-                                                        country={'my'}
-                                                        value={profile.phoneNumber}
-                                                        onChange={(phone) => setProfile(prev => ({ ...prev, phoneNumber: phone }))}
+                                                        country={'my'} // Default country (e.g. 'my' for Malaysia)
+                                                        enableAreaCodes={true}
+                                                        value={profile.phoneNumber} // Should include country code (e.g. +60...)
+                                                        onChange={(phone, countryData) =>
+                                                            setProfile(prev => ({
+                                                                ...prev,
+                                                                phoneNumber: phone,
+                                                                countryCode: countryData.dialCode, // Optional: Save country code separately
+                                                            }))
+                                                        }
                                                         inputStyle={{
                                                             width: "100%",
                                                             height: "38px",
                                                             padding: "0.375rem 0.75rem",
+                                                            paddingLeft: "58px",
                                                             border: "1px solid #ced4da",
                                                             borderRadius: "0.375rem",
                                                             fontSize: "1rem",
@@ -887,7 +897,7 @@ const UserDashboard = () => {
                                 }}>
                                     <Row className="justify-content-center">
                                         <Col lg={8} xl={6}>
-                                            <div className="bg-white p-4 rounded-3 shadow-sm mb-4" style={{ 
+                                            <div className="bg-white p-4 rounded-3 shadow-sm mb-4" style={{
                                                 background: 'rgba(255, 255, 255, 0.95)',
                                                 color: '#333'
                                             }}>
@@ -939,7 +949,7 @@ const UserDashboard = () => {
                                                         disabled={isUpdatingPassword}
                                                         className="w-100"
                                                         size="lg"
-                                                        style={{ 
+                                                        style={{
                                                             background: 'linear-gradient(45deg, #2196F3, #00BCD4)',
                                                             border: 'none',
                                                             boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
@@ -954,7 +964,7 @@ const UserDashboard = () => {
                                                     </Button>
                                                 </Form>
                                             </div>
-                                            <div className="bg-white p-4 rounded-3 shadow-sm" style={{ 
+                                            <div className="bg-white p-4 rounded-3 shadow-sm" style={{
                                                 background: 'rgba(255, 255, 255, 0.95)',
                                                 color: '#333'
                                             }}>
@@ -973,7 +983,7 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h4 className="mb-0 fw-bold">My Todo List</h4>
-                                        <Button 
+                                        <Button
                                             variant="outline-primary"
                                             onClick={() => setActiveTab('tools')}
                                             className="section-animation"
@@ -988,10 +998,10 @@ const UserDashboard = () => {
                                     color: 'white'
                                 }}>
                                     <div className="mb-4 d-flex justify-content-center">
-                                        <Button 
+                                        <Button
                                             onClick={() => setShowAddTodo(true)}
                                             className="section-animation"
-                                            style={{ 
+                                            style={{
                                                 background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
                                                 border: 'none',
                                                 boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
@@ -1015,7 +1025,7 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h4 className="mb-0 fw-bold">In-App Translator</h4>
-                                        <Button 
+                                        <Button
                                             variant="outline-primary"
                                             onClick={() => setActiveTab('tools')}
                                             className="section-animation"
@@ -1068,7 +1078,7 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h4 className="mb-0 fw-bold">My Travel Diaries</h4>
-                                        <Button 
+                                        <Button
                                             variant="outline-primary"
                                             onClick={() => setActiveTab('tools')}
                                             className="section-animation"
@@ -1087,7 +1097,7 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h4 className="mb-0 fw-bold">Live Planes Tracker</h4>
-                                        <Button 
+                                        <Button
                                             variant="outline-primary"
                                             onClick={() => setActiveTab('tools')}
                                             className="section-animation"
