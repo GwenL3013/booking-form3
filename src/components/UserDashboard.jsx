@@ -385,20 +385,23 @@ const UserDashboard = () => {
     };
 
     return (
-        <Container fluid className="py-4 px-3 px-md-4 bg-light min-vh-100">
+        <Container fluid className="py-4 px-3 px-md-4 bg-light min-vh-100 d-flex flex-column">
             <div className="bg-white rounded-3 shadow-sm p-3 p-md-4 mb-4">
-                <h2 className="fw-bold mb-0">My Dashboard</h2>
+                <h2 className="fw-bold mb-0">
+                    Hey, {profile.displayName || 'there'}! 👋
+                </h2>
             </div>
 
-            <Row className="g-3 g-md-4">
+            <Row className="g-3 g-md-4 flex-grow-1">
                 {/* Sidebar */}
                 <Col xs={12} lg={2} className="mb-4 mb-lg-0">
-                    <Card className="shadow-sm border-0 h-100">
+                    <Card className="shadow-sm border-0 h-100 mx-auto" style={{ maxWidth: '500px' }}>
                         <Card.Body className="p-0">
+                            {/* Profile section - centered on small screens */}
                             <div className="text-center p-4 bg-primary bg-opacity-10">
                                 <div className="avatar mb-3 d-flex justify-content-center">
                                     <div
-                                        className="position-relative"
+                                        className="position-relative mx-auto"
                                         style={{ width: '120px', height: '120px' }}
                                     >
                                         <img
@@ -434,12 +437,13 @@ const UserDashboard = () => {
                                 <p className="text-muted small mb-0">{profile.email}</p>
                             </div>
 
+                            {/* Navigation section - centered on small screens */}
                             <div className="p-2">
-                                <Nav className="flex-column">
+                                <Nav className="flex-column text-center text-lg-start">
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="bookings"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('bookings')}
                                         >
                                             <FaListAlt className="me-3" /> My Bookings
@@ -448,7 +452,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="profile"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('profile')}
                                         >
                                             <FaUser className="me-3" /> Profile
@@ -457,17 +461,16 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="community-feed"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('community-feed')}
                                         >
                                             <FaUser className="me-3" /> Community Feed
                                         </Nav.Link>
                                     </Nav.Item>
-
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="todo"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('todo')}
                                         >
                                             <FaListAlt className="me-3" /> My Todos
@@ -476,7 +479,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="diaries"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('diaries')}
                                         >
                                             <FaBookOpen className="me-3" /> My Diaries
@@ -485,20 +488,16 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="currency"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('currency')}
                                         >
                                             <FaExchangeAlt className="me-3" /> Currency Converter
                                         </Nav.Link>
                                     </Nav.Item>
-
-
-
-
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="translator"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('translator')}
                                         >
                                             <FaListAlt className="me-3" /> My Translator
@@ -507,7 +506,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="weather"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('weather')}
                                         >
                                             <FaCloudSun className="me-3" /> Weather
@@ -516,7 +515,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="planes"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('planes')}
                                         >
                                             <FaPlane className="me-3" /> Live Planes
@@ -525,7 +524,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="settings"
-                                            className="d-flex align-items-center py-3"
+                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
                                             onClick={() => setActiveTab('settings')}
                                         >
                                             <FaCog className="me-3" /> Settings
@@ -533,13 +532,31 @@ const UserDashboard = () => {
                                     </Nav.Item>
                                 </Nav>
                             </div>
+
+                            <style>
+                                {`
+                                .nav-link-hover {
+                                    transition: all 0.3s ease;
+                                }
+                                .nav-link-hover:hover {
+                                    background-color: var(--bs-primary);
+                                    color: white !important;
+                                    transform: translateX(5px);
+                                }
+                                @media (max-width: 991px) {
+                                    .nav-link-hover:hover {
+                                        transform: scale(1.05);
+                                    }
+                                }
+                                `}
+                            </style>
                         </Card.Body>
                     </Card>
                 </Col>
 
                 {/* Main Content */}
                 <Col xs={12} lg={10}>
-                    <div className="bg-white rounded-3 shadow-sm">
+                    <div className="bg-white rounded-3 shadow-sm mx-auto" style={{ maxWidth: '100%' }}>
                         <Tab.Content>
                             {/* Bookings Tab */}
                             <Tab.Pane active={activeTab === 'bookings'}>
@@ -1122,6 +1139,17 @@ const UserDashboard = () => {
                     )}
                 </Modal.Body>
             </Modal>
+
+            <style>
+                {`
+                @media (max-width: 991px) {
+                    .container-fluid {
+                        max-width: 800px;
+                        margin: 0 auto;
+                    }
+                }
+                `}
+            </style>
         </Container>
     );
 };

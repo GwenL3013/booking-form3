@@ -6,8 +6,9 @@ import './CommunityFeed.css';
 import { FaHome, FaSearch, FaVideo, FaUser, FaEdit, FaTrash } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase/config';
-import { collection, addDoc, getDocs, doc, updateDoc, arrayUnion, deleteDoc, increment, query, where, getDoc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, updateDoc, arrayUnion, deleteDoc, increment, query, where, getDoc, setDoc, arrayRemove } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { toast } from 'react-toastify';
 
 const CommunityFeed = () => {
     const [posts, setPosts] = useState([]);
@@ -108,13 +109,11 @@ const CommunityFeed = () => {
                 const postsRef = collection(db, 'communityFeed');
                 const querySnapshot = await getDocs(postsRef);
                 
-                // Create a Set to track unique post IDs
                 const uniquePostIds = new Set();
                 
                 const postsList = querySnapshot.docs
                     .map(doc => {
                         const data = doc.data();
-                        // Skip if we've already seen this post ID
                         if (uniquePostIds.has(doc.id)) {
                             return null;
                         }
@@ -124,18 +123,19 @@ const CommunityFeed = () => {
                             id: doc.id,
                             ...data,
                             media: Array.isArray(data.media) ? data.media : [],
-                            mediaTypes: Array.isArray(data.mediaTypes) ? data.mediaTypes : []
+                            mediaTypes: Array.isArray(data.mediaTypes) ? data.mediaTypes : [],
+                            likedBy: Array.isArray(data.likedBy) ? data.likedBy : [],
+                            likedByUser: Array.isArray(data.likedBy) ? data.likedBy.includes(user.uid) : false,
+                            likes: Array.isArray(data.likedBy) ? data.likedBy.length : 0
                         };
                     })
-                    .filter(post => post !== null); // Remove any null entries
+                    .filter(post => post !== null);
                 
-                // Sort posts by timestamp (newest first)
                 const sortedPosts = postsList.sort((a, b) => 
                     new Date(b.timestamp) - new Date(a.timestamp)
                 );
                 
                 setPosts(sortedPosts);
-                // Fetch user profiles for all userIds
                 fetchUserProfiles(sortedPosts);
             } catch (error) {
                 console.error('Error fetching posts:', error);
@@ -193,11 +193,9 @@ const CommunityFeed = () => {
         if (!newPost.trim() && postMedia.length === 0) return;
 
         try {
-            // Get user's display name from Firestore
             const userDoc = await getDoc(doc(db, 'users', user.uid));
             const displayName = userDoc.data()?.displayName || user?.displayName || 'User';
 
-            // Upload media files to Firebase Storage
             const mediaUrls = [];
             const mediaTypes = [];
 
@@ -217,19 +215,14 @@ const CommunityFeed = () => {
                 media: mediaUrls,
                 mediaTypes: mediaTypes,
                 timestamp: new Date().toISOString(),
-                likes: 0,
-                likedByUser: false,
+                likedBy: [],
                 comments: [],
                 commentCount: 0
             };
 
-            // Save to Firestore
             const docRef = await addDoc(collection(db, 'communityFeed'), newPostObject);
+            setPosts([{ id: docRef.id, ...newPostObject, likes: 0, likedByUser: false }, ...posts]);
             
-            // Update local state with the new post including its Firestore ID
-            setPosts([{ id: docRef.id, ...newPostObject }, ...posts]);
-            
-            // Reset form
             setNewPost('');
             setPostMedia([]);
             setPostMediaPreviews([]);
@@ -240,28 +233,38 @@ const CommunityFeed = () => {
     };
 
     const handleLike = async (id) => {
+        if (!user) return;
+
         try {
             const postRef = doc(db, 'communityFeed', id);
             const post = posts.find(p => p.id === id);
-            const newLikes = post.likedByUser ? post.likes - 1 : post.likes + 1;
             
+            // Update Firestore
             await updateDoc(postRef, {
-                likes: newLikes,
-                likedByUser: !post.likedByUser
+                likedBy: post.likedByUser 
+                    ? arrayRemove(user.uid)  // Remove user's ID if already liked
+                    : arrayUnion(user.uid)   // Add user's ID if not liked
             });
 
+            // Update local state
             setPosts(posts.map(post => {
                 if (post.id === id) {
-                    return { 
-                        ...post, 
+                    const newLikedByUser = !post.likedByUser;
+                    const newLikes = newLikedByUser ? post.likes + 1 : post.likes - 1;
+                    return {
+                        ...post,
+                        likedByUser: newLikedByUser,
                         likes: newLikes,
-                        likedByUser: !post.likedByUser 
+                        likedBy: newLikedByUser 
+                            ? [...(post.likedBy || []), user.uid]
+                            : (post.likedBy || []).filter(uid => uid !== user.uid)
                     };
                 }
                 return post;
             }));
         } catch (error) {
             console.error('Error updating likes:', error);
+            toast.error('Failed to update like status');
         }
     };
 
@@ -1071,215 +1074,244 @@ const CommunityFeed = () => {
             >
                 <Modal.Body className="p-0">
                     {activePostDetail && (
-                        <div className="d-flex" style={{ height: '80vh' }}>
-                            {/* Media Section */}
-                            <div className="post-detail-media" style={{ width: '60%', backgroundColor: '#000', position: 'relative' }}>
-                                {activePostDetail.media && activePostDetail.media.length > 0 ? (
-                                    <div className="h-100 position-relative">
-                                        {/* Media Items */}
-                                        <div className="h-100 d-flex align-items-center justify-content-center position-relative">
-                                            {activePostDetail.media.map((mediaUrl, index) => (
-                                                <div 
-                                                    key={index}
-                                                    className={`position-absolute w-100 h-100 ${index === (activeMediaIndex[activePostDetail.id] || 0) ? 'd-block' : 'd-none'}`}
-                                                    style={{ transition: 'opacity 0.3s' }}
-                                                >
-                                                    {activePostDetail.mediaTypes[index]?.startsWith('video') ? (
-                                                        <video 
-                                                            src={mediaUrl} 
-                                                            className="h-100 w-100 object-fit-contain"
-                                                            controls
-                                                        />
-                                                    ) : (
-                                                        <img 
-                                                            src={mediaUrl} 
-                                                            alt="" 
-                                                            className="h-100 w-100 object-fit-contain"
-                                                        />
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                        
-                                        {/* Navigation Arrows */}
-                                        {activePostDetail.media.length > 1 && (
-                                            <>
-                                                <button
-                                                    className="position-absolute top-50 start-0 translate-middle-y btn btn-light rounded-circle p-2"
-                                                    style={{ marginLeft: '10px', zIndex: 1 }}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleMediaNavigation(activePostDetail.id, 'prev');
-                                                    }}
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                                                        <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                                                    </svg>
-                                                </button>
-                                                <button
-                                                    className="position-absolute top-50 end-0 translate-middle-y btn btn-light rounded-circle p-2"
-                                                    style={{ marginRight: '10px', zIndex: 1 }}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleMediaNavigation(activePostDetail.id, 'next');
-                                                    }}
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                                                        <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                                                    </svg>
-                                                </button>
-                                            </>
-                                        )}
-
-                                        {/* Media Indicators */}
-                                        {activePostDetail.media.length > 1 && (
-                                            <div className="position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex gap-2">
-                                                {activePostDetail.media.map((_, index) => (
-                                                    <button
+                        <>
+                            <button 
+                                className="modal-close-btn d-lg-none" 
+                                onClick={handleClosePostDetail}
+                                aria-label="Close modal"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                            </button>
+                            <div className="d-flex flex-column flex-lg-row" style={{ height: '80vh' }}>
+                                {/* Media Section */}
+                                <div className="post-detail-media" style={{ 
+                                    width: '100%',
+                                    height: '50vh',
+                                    flex: '0 0 60%',
+                                    backgroundColor: '#000', 
+                                    position: 'relative',
+                                    '@media (min-width: 992px)': {
+                                        height: '100%'
+                                    }
+                                }}>
+                                    {activePostDetail.media && activePostDetail.media.length > 0 ? (
+                                        <div className="h-100 position-relative">
+                                            {/* Media Items */}
+                                            <div className="h-100 d-flex align-items-center justify-content-center position-relative">
+                                                {activePostDetail.media.map((mediaUrl, index) => (
+                                                    <div 
                                                         key={index}
-                                                        className={`btn btn-sm rounded-circle p-0 ${index === (activeMediaIndex[activePostDetail.id] || 0) ? 'btn-light' : 'btn-secondary'}`}
-                                                        style={{ width: '8px', height: '8px' }}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setActiveMediaIndex(prev => ({
-                                                                ...prev,
-                                                                [activePostDetail.id]: index
-                                                            }));
-                                                        }}
-                                                    />
+                                                        className={`position-absolute w-100 h-100 ${index === (activeMediaIndex[activePostDetail.id] || 0) ? 'd-block' : 'd-none'}`}
+                                                        style={{ transition: 'opacity 0.3s' }}
+                                                    >
+                                                        {activePostDetail.mediaTypes[index]?.startsWith('video') ? (
+                                                            <video 
+                                                                src={mediaUrl} 
+                                                                className="h-100 w-100 object-fit-contain"
+                                                                controls
+                                                            />
+                                                        ) : (
+                                                            <img 
+                                                                src={mediaUrl} 
+                                                                alt="" 
+                                                                className="h-100 w-100 object-fit-contain"
+                                                            />
+                                                        )}
+                                                    </div>
                                                 ))}
                                             </div>
-                                        )}
-                                    </div>
-                                ) : (
-                                    <div className="h-100 d-flex align-items-center justify-content-center text-white">
-                                        <h3>{activePostDetail.content.substring(0, 1).toUpperCase()}</h3>
-                                    </div>
-                                )}
-                            </div>
-                            {/* Comments Section */}
-                            <div className="post-detail-comments" style={{ width: '40%', display: 'flex', flexDirection: 'column' }}>
-                                <div className="p-3 border-bottom">
-                                    <div className="d-flex align-items-center">
-                                        <img 
-                                            src={activePostDetail.avatar} 
-                                            alt="" 
-                                            className="rounded-circle me-2" 
-                                            style={{ width: '40px', height: '40px' }}
-                                        />
-                                        <div>
-                                            <div className="fw-bold">{activePostDetail.user}</div>
-                                            <div className="text-muted small">{activePostDetail.content}</div>
+                                            
+                                            {/* Navigation Arrows */}
+                                            {activePostDetail.media.length > 1 && (
+                                                <>
+                                                    <button
+                                                        className="position-absolute top-50 start-0 translate-middle-y btn btn-light rounded-circle p-2"
+                                                        style={{ marginLeft: '10px', zIndex: 1 }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleMediaNavigation(activePostDetail.id, 'prev');
+                                                        }}
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                                            <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        className="position-absolute top-50 end-0 translate-middle-y btn btn-light rounded-circle p-2"
+                                                        style={{ marginRight: '10px', zIndex: 1 }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleMediaNavigation(activePostDetail.id, 'next');
+                                                        }}
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                                            <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                                        </svg>
+                                                    </button>
+                                                </>
+                                            )}
+
+                                            {/* Media Indicators */}
+                                            {activePostDetail.media.length > 1 && (
+                                                <div className="position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex gap-2">
+                                                    {activePostDetail.media.map((_, index) => (
+                                                        <button
+                                                            key={index}
+                                                            className={`btn btn-sm rounded-circle p-0 ${index === (activeMediaIndex[activePostDetail.id] || 0) ? 'btn-light' : 'btn-secondary'}`}
+                                                            style={{ width: '8px', height: '8px' }}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setActiveMediaIndex(prev => ({
+                                                                    ...prev,
+                                                                    [activePostDetail.id]: index
+                                                                }));
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="h-100 d-flex align-items-center justify-content-center text-white">
+                                            <h3>{activePostDetail.content.substring(0, 1).toUpperCase()}</h3>
+                                        </div>
+                                    )}
+                                </div>
+                                {/* Comments Section */}
+                                <div className="post-detail-comments" style={{ 
+                                    width: '100%',
+                                    height: '50vh',
+                                    flex: '0 0 40%',
+                                    display: 'flex', 
+                                    flexDirection: 'column',
+                                    '@media (min-width: 992px)': {
+                                        height: '100%'
+                                    }
+                                }}>
+                                    <div className="p-3 border-bottom">
+                                        <div className="d-flex align-items-center">
+                                            <img 
+                                                src={activePostDetail.avatar} 
+                                                alt="" 
+                                                className="rounded-circle me-2" 
+                                                style={{ width: '40px', height: '40px' }}
+                                            />
+                                            <div>
+                                                <div className="fw-bold">{activePostDetail.user}</div>
+                                                <div className="text-muted small">{activePostDetail.content}</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex-grow-1 overflow-auto p-3" style={{ maxHeight: 'calc(80vh - 200px)' }}>
-                                    {activePostDetail.comments && activePostDetail.comments.length > 0 ? (
-                                        activePostDetail.comments.map(comment => (
-                                            <div key={comment.id} className="mb-3">
-                                                <div className="d-flex">
-                                                    <img 
-                                                        src={comment.avatar} 
-                                                        alt="" 
-                                                        className="rounded-circle me-2" 
-                                                        style={{ width: '32px', height: '32px' }}
-                                                    />
-                                                    <div className="flex-grow-1">
-                                                        <div className="bg-light rounded p-2">
-                                                            <div className="d-flex justify-content-between align-items-center">
-                                                                <div className="fw-bold">{comment.user}</div>
-                                                                {comment.userId === user?.uid && (
-                                                                    <div className="d-flex gap-2">
-                                                                        <button
-                                                                            className="btn btn-sm btn-link p-0"
-                                                                            onClick={() => {
-                                                                                setEditingComment(comment.id);
-                                                                                setEditCommentText(comment.text);
-                                                                            }}
-                                                                        >
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                                                            </svg>
-                                                                        </button>
-                                                                        <button
-                                                                            className="btn btn-sm btn-link p-0 text-danger"
-                                                                            onClick={() => handleDeleteComment(activePostDetail.id, comment.id)}
-                                                                        >
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                                                <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                                            </svg>
-                                                                        </button>
+                                    <div className="flex-grow-1 overflow-auto p-3 comments-scroll-area">
+                                        {activePostDetail.comments && activePostDetail.comments.length > 0 ? (
+                                            activePostDetail.comments.map(comment => (
+                                                <div key={comment.id} className="mb-3">
+                                                    <div className="d-flex">
+                                                        <img 
+                                                            src={comment.avatar} 
+                                                            alt="" 
+                                                            className="rounded-circle me-2" 
+                                                            style={{ width: '32px', height: '32px' }}
+                                                        />
+                                                        <div className="flex-grow-1">
+                                                            <div className="bg-light rounded p-2">
+                                                                <div className="d-flex justify-content-between align-items-center">
+                                                                    <div className="fw-bold">{comment.user}</div>
+                                                                    {comment.userId === user?.uid && (
+                                                                        <div className="d-flex gap-2">
+                                                                            <button
+                                                                                className="btn btn-sm btn-link p-0"
+                                                                                onClick={() => {
+                                                                                    setEditingComment(comment.id);
+                                                                                    setEditCommentText(comment.text);
+                                                                                }}
+                                                                            >
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                                                                </svg>
+                                                                            </button>
+                                                                            <button
+                                                                                className="btn btn-sm btn-link p-0 text-danger"
+                                                                                onClick={() => handleDeleteComment(activePostDetail.id, comment.id)}
+                                                                            >
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                                                    <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                {editingComment === comment.id ? (
+                                                                    <div className="mt-2">
+                                                                        <Form.Control
+                                                                            as="textarea"
+                                                                            rows={2}
+                                                                            value={editCommentText}
+                                                                            onChange={e => setEditCommentText(e.target.value)}
+                                                                            className="mb-2"
+                                                                        />
+                                                                        <div className="d-flex gap-2">
+                                                                            <Button
+                                                                                variant="primary"
+                                                                                size="sm"
+                                                                                onClick={() => handleEditComment(activePostDetail.id, comment.id, editCommentText)}
+                                                                            >
+                                                                                Save
+                                                                            </Button>
+                                                                            <Button
+                                                                                variant="secondary"
+                                                                                size="sm"
+                                                                                onClick={() => {
+                                                                                    setEditingComment(null);
+                                                                                    setEditCommentText('');
+                                                                                }}
+                                                                            >
+                                                                                Cancel
+                                                                            </Button>
+                                                                        </div>
                                                                     </div>
+                                                                ) : (
+                                                                    <div>{comment.text}</div>
                                                                 )}
                                                             </div>
-                                                            {editingComment === comment.id ? (
-                                                                <div className="mt-2">
-                                                                    <Form.Control
-                                                                        as="textarea"
-                                                                        rows={2}
-                                                                        value={editCommentText}
-                                                                        onChange={e => setEditCommentText(e.target.value)}
-                                                                        className="mb-2"
-                                                                    />
-                                                                    <div className="d-flex gap-2">
-                                                                        <Button
-                                                                            variant="primary"
-                                                                            size="sm"
-                                                                            onClick={() => handleEditComment(activePostDetail.id, comment.id, editCommentText)}
-                                                                        >
-                                                                            Save
-                                                                        </Button>
-                                                                        <Button
-                                                                            variant="secondary"
-                                                                            size="sm"
-                                                                            onClick={() => {
-                                                                                setEditingComment(null);
-                                                                                setEditCommentText('');
-                                                                            }}
-                                                                        >
-                                                                            Cancel
-                                                                        </Button>
-                                                                    </div>
-                                                                </div>
-                                                            ) : (
-                                                                <div>{comment.text}</div>
-                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <div className="text-center text-muted py-4">No comments yet</div>
-                                    )}
-                                </div>
-                                <div className="p-3 border-top">
-                                    <Form
-                                        onSubmit={e => {
-                                            e.preventDefault();
-                                            handleComment(activePostDetail.id);
-                                        }}
-                                        className="d-flex"
-                                    >
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Write a comment..."
-                                            value={commentInputs[activePostDetail.id] || ''}
-                                            onChange={e => handleCommentChange(activePostDetail.id, e.target.value)}
-                                            className="me-2"
-                                        />
-                                        <Button
-                                            type="submit"
-                                            variant="primary"
-                                            disabled={!(commentInputs[activePostDetail.id] && commentInputs[activePostDetail.id].trim())}
+                                            ))
+                                        ) : (
+                                            <div className="text-center text-muted py-4">No comments yet</div>
+                                        )}
+                                    </div>
+                                    <div className="p-3 border-top">
+                                        <Form
+                                            onSubmit={e => {
+                                                e.preventDefault();
+                                                handleComment(activePostDetail.id);
+                                            }}
+                                            className="d-flex"
                                         >
-                                            Post
-                                        </Button>
-                                    </Form>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Write a comment..."
+                                                value={commentInputs[activePostDetail.id] || ''}
+                                                onChange={e => handleCommentChange(activePostDetail.id, e.target.value)}
+                                                className="me-2"
+                                            />
+                                            <Button
+                                                type="submit"
+                                                variant="primary"
+                                                disabled={!(commentInputs[activePostDetail.id] && commentInputs[activePostDetail.id].trim())}
+                                            >
+                                                Post
+                                            </Button>
+                                        </Form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </>
                     )}
                 </Modal.Body>
             </Modal>

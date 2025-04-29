@@ -6,6 +6,7 @@
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 16px;
     width: 100%;
+    padding-bottom: 80px; /* Add padding to prevent content from being hidden behind navbar */
 }
 
 /* Responsive adjustments */
@@ -247,6 +248,12 @@
         box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
         padding: 0.5rem 0;
         background: #fff;
+        z-index: 1000; /* Ensure navbar stays above other content */
+    }
+
+    /* Add padding to container to prevent content from being hidden behind navbar */
+    .container {
+        padding-bottom: 60px;
     }
 }
 
@@ -359,4 +366,93 @@
     object-fit: cover; /* Ensures the image covers the space without stretching */
     border-radius: 50%; /* Ensures it's round */
   }
+  
+/* Post Detail Modal */
+.post-detail-modal .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+    height: 100vh;
+}
+
+.post-detail-modal .modal-content {
+    height: 100%;
+    border-radius: 0;
+}
+
+.post-detail-modal .modal-body {
+    padding: 0;
+    height: 100%;
+    position: relative;
+}
+
+/* Close button styles */
+.modal-close-btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 1050;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-close-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.post-detail-media {
+    transition: all 0.3s ease;
+}
+
+.comments-scroll-area {
+    max-height: calc(50vh - 180px);
+}
+
+/* Desktop styles */
+@media (min-width: 992px) {
+    .post-detail-modal .modal-dialog {
+        margin: 1.75rem auto;
+        max-width: 90%;
+        height: auto;
+    }
+
+    .post-detail-modal .modal-content {
+        height: 80vh;
+        border-radius: 0.3rem;
+    }
+
+    .post-detail-media {
+        width: 60% !important;
+        height: 100% !important;
+    }
+
+    .post-detail-comments {
+        width: 40% !important;
+        height: 100% !important;
+    }
+
+    .comments-scroll-area {
+        max-height: calc(80vh - 180px);
+    }
+}
+
+@media (min-width: 1200px) {
+    .post-detail-modal .modal-dialog {
+        max-width: 1100px;
+    }
+}
   
