@@ -50,7 +50,7 @@ const BookingList = () => {
         const fetchBookings = async () => {
             try {
                 console.log('Starting to fetch bookings...');
-                
+
                 // Verify Firestore connection
                 if (!db) {
                     throw new Error('Firestore database not initialized');
@@ -75,12 +75,12 @@ const BookingList = () => {
                     ...doc.data(),
                 }));
                 console.log('Successfully fetched bookings:', bookingsList);
-                
+
                 // Sort bookings by booking date (newest first)
-                const sortedBookings = bookingsList.sort((a, b) => 
+                const sortedBookings = bookingsList.sort((a, b) =>
                     new Date(b.bookingDate) - new Date(a.bookingDate)
                 );
-                
+
                 console.log('Sorted bookings:', sortedBookings);
                 setBookings(sortedBookings);
 
@@ -99,13 +99,13 @@ const BookingList = () => {
                 console.error('Error stack:', error.stack);
             }
         };
-        
+
         // Initial fetch
         fetchBookings();
-        
+
         // Set up a refresh interval (every 30 seconds)
         const refreshInterval = setInterval(fetchBookings, 30000);
-        
+
         // Cleanup interval on component unmount
         return () => clearInterval(refreshInterval);
     }, [activeStatusFilter]);
@@ -432,15 +432,36 @@ const BookingList = () => {
     };
 
     return (
-        <div className="container-fluid px-3 px-md-5 py-4 ">
+        <div className="container-fluid px-3 px-md-5 py-4" style={{ 
+            backgroundColor: '#f5f7fa',
+            background: 'linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%)'
+        }}>
 
-            <h1 className="text-center mb-4" >Admin - Booking Lists </h1>
+            <h1 className="text-center mb-4" style={{ color: '#37474f', fontWeight: '600' }}>Admin - Booking Lists</h1>
 
-            <Form className="bg-light p-4 rounded shadow-sm mb-4">
+            <Form className="bg-white p-4 rounded shadow-sm mb-4" style={{ 
+                border: '1px solid #e0e0e0',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                position: 'relative',
+                '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    borderRadius: '4px',
+                    padding: '2px',
+                    background: 'linear-gradient(135deg, #355C7D, #C06C84)',
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                }
+            }}>
                 <div className="row g-3 align-items-end">
                     <div className="col-md-8">
                         <Form.Group>
-                            <Form.Label>Search</Form.Label>
+                            <Form.Label style={{ color: '#455a64', fontWeight: '500' }}>Search</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="text"
@@ -448,8 +469,16 @@ const BookingList = () => {
                                     value={searchTerm}
                                     onChange={handleSearchTermChange}
                                     placeholder="Enter search value"
+                                    style={{ 
+                                        borderColor: '#cfd8dc',
+                                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
+                                    }}
                                 />
-                                <Button variant="primary" onClick={applySearch}>
+                                <Button variant="primary" onClick={applySearch} style={{ 
+                                    backgroundColor: '#355C7D', 
+                                    borderColor: '#355C7D',
+                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                                }}>
                                     Search
                                 </Button>
                             </InputGroup>
@@ -457,7 +486,11 @@ const BookingList = () => {
                     </div>
 
                     <div className="col-md-4 d-flex align-items-end">
-                        <Button variant="secondary" onClick={clearAllFilters} className="w-100">
+                        <Button variant="secondary" onClick={clearAllFilters} className="w-100" style={{ 
+                            backgroundColor: '#C06C84', 
+                            borderColor: '#C06C84',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                        }}>
                             Clear All Filters
                         </Button>
                     </div>
@@ -469,88 +502,116 @@ const BookingList = () => {
                         variant={activeStatusFilter === 'upcoming' ? "success" : "outline-success"}
                         className="me-2"
                         onClick={() => filterByStatus('upcoming')}
+                        style={{ 
+                            backgroundColor: activeStatusFilter === 'upcoming' ? '#355C7D' : 'transparent',
+                            color: activeStatusFilter === 'upcoming' ? 'white' : '#355C7D',
+                            borderColor: '#355C7D',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                        }}
                     >
                         Show Upcoming Tours
                     </Button>
                     <Button
                         variant={activeStatusFilter === 'completed' ? "secondary" : "outline-secondary"}
                         onClick={() => filterByStatus('completed')}
+                        style={{ 
+                            backgroundColor: activeStatusFilter === 'completed' ? '#C06C84' : 'transparent',
+                            color: activeStatusFilter === 'completed' ? 'white' : '#C06C84',
+                            borderColor: '#C06C84',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                        }}
                     >
                         Show Completed Tours
                     </Button>
                 </div>
             </Form>
 
-
             {/* Display Total Pax */}
-            <div style={{ marginTop: '20px', fontSize: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ 
+                marginTop: '20px', 
+                fontSize: '1.5rem', 
+                display: 'flex', 
+                justifyContent: 'flex-end',
+                color: '#37474f',
+                fontWeight: '500',
+                padding: '10px 20px',
+                backgroundColor: 'white',
+                borderRadius: '4px',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                border: '1px solid #e0e0e0'
+            }}>
                 <strong>👥Total Pax:&nbsp;</strong>
-                <span style={{ color: 'red', fontWeight: 'bold' }}>{totalPax}</span>
+                <span style={{ color: '#355C7D', fontWeight: 'bold' }}>{totalPax}</span>
             </div>
 
             {/* Bookings Table with header filters */}
             <div className="d-none d-md-block">
                 <div className="table-responsive">
-                    <Table striped bordered hover responsive className="mt-3">
+                    <Table striped bordered hover responsive className="mt-3" style={{ 
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '4px'
+                    }}>
                         <thead>
-                            <tr style={{ backgroundColor: '#343a40', color: '#fff' }}>
+                            <tr style={{ backgroundColor: '#37474f', color: 'white' }}>
                                 <th
                                     onClick={() => handleSort('confirmationCode')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Confirmation Code {getSortIcon('confirmationCode')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('tourName')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Tour Name {getSortIcon('tourName')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('tourId')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Tour ID {getSortIcon('tourId')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('name')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Name {getSortIcon('name')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('email')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Email {getSortIcon('email')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('contact')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Contact {getSortIcon('contact')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('date')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Tour Date {getSortIcon('date')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('bookingDate')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     Booking Date {getSortIcon('bookingDate')}
                                 </th>
                                 <th
                                     onClick={() => handleSort('totalPax')}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', fontWeight: '500' }}
                                 >
                                     No Of Pax {getSortIcon('totalPax')}
                                 </th>
-                                <th>Status/Actions</th>
+                                <th style={{ fontWeight: '500' }}>Status/Actions</th>
                             </tr>
-                            <tr style={{ backgroundColor: '#f8f9fa' }}>
+                            <tr style={{ backgroundColor: '#f5f7fa' }}>
                                 <th>
                                     <Form.Control
                                         size="sm"
@@ -559,6 +620,7 @@ const BookingList = () => {
                                         placeholder="Filter code..."
                                         value={headerFilters.confirmationCode}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -569,6 +631,7 @@ const BookingList = () => {
                                         placeholder="Filter tour name..."
                                         value={headerFilters.tourName}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -579,6 +642,7 @@ const BookingList = () => {
                                         placeholder="Filter tour ID..."
                                         value={headerFilters.tourId}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -589,6 +653,7 @@ const BookingList = () => {
                                         placeholder="Filter name..."
                                         value={headerFilters.name}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -599,6 +664,7 @@ const BookingList = () => {
                                         placeholder="Filter email..."
                                         value={headerFilters.email}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -609,6 +675,7 @@ const BookingList = () => {
                                         placeholder="Filter contact..."
                                         value={headerFilters.contact}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -618,6 +685,7 @@ const BookingList = () => {
                                         name="date"
                                         value={headerFilters.date}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -627,6 +695,7 @@ const BookingList = () => {
                                         name="bookingDate"
                                         value={headerFilters.bookingDate}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     />
                                 </th>
                                 <th>
@@ -635,6 +704,7 @@ const BookingList = () => {
                                         name="paxCount"
                                         value={headerFilters.paxCount || ''}
                                         onChange={handleHeaderFilterChange}
+                                        style={{ borderColor: '#cfd8dc' }}
                                     >
                                         <option value="">All</option>
                                         <option value="1">1</option>
@@ -650,7 +720,7 @@ const BookingList = () => {
                         <tbody>
                             {currentBookings.length === 0 ? (
                                 <tr>
-                                    <td colSpan="10" className="text-center">
+                                    <td colSpan="10" className="text-center" style={{ color: '#546e7a' }}>
                                         No bookings found.
                                     </td>
                                 </tr>
@@ -667,8 +737,8 @@ const BookingList = () => {
                                                 onClick={() => hasAdditional && toggleExpand(booking.id)}
                                                 style={{
                                                     cursor: hasAdditional ? "pointer" : "default",
-                                                    color: hasAdditional ? "#0d6efd" : "inherit",
-                                                    fontWeight: hasAdditional ? "bold" : "normal",
+                                                    color: hasAdditional ? "#C06C84" : "inherit",
+                                                    fontWeight: hasAdditional ? "500" : "normal",
                                                 }}
                                             >
                                                 {booking.confirmationCode}{" "}
@@ -683,7 +753,7 @@ const BookingList = () => {
                                             <td>
                                                 {booking.date}
                                                 {isCompleted && (
-                                                    <Badge bg="secondary" className="ms-2">Past</Badge>
+                                                    <Badge bg="secondary" className="ms-2" style={{ backgroundColor: '#546e7a' }}>Past</Badge>
                                                 )}
                                             </td>
                                             <td>
@@ -694,23 +764,38 @@ const BookingList = () => {
                                             <td>{booking.totalPax}</td>
                                             <td>
                                                 {isCompleted ? (
-                                                    <Badge bg="success" className="d-flex align-items-center p-2">
+                                                    <span className="d-flex align-items-center p-2" style={{
+                                                        backgroundColor: '#355C7D',
+                                                        color: '#ffffff',
+
+
+                                                        display: 'inline-flex'
+                                                    }}>
                                                         <FaCheck className="me-1" /> Completed
-                                                    </Badge>
+                                                    </span>
                                                 ) : (
                                                     <>
                                                         <Button
-                                                            variant="warning"
                                                             onClick={() => handleShowModal(booking.id)}
-                                                            style={{ marginRight: "5px" }}
+                                                            style={{
+                                                                marginRight: "5px",
+                                                                backgroundColor: '#FBB195',
+                                                                borderColor: '#FBB195',
+                                                                color: '#ffffff'
+                                                            }}
                                                             size="sm"
                                                         >
                                                             Update
                                                         </Button>
                                                         <Button
-                                                            variant="danger"
                                                             onClick={() => handleDeleteBooking(booking.id)}
                                                             size="sm"
+                                                            style={{
+                                                                marginLeft: "5px",
+                                                                backgroundColor: '#C06C84',
+                                                                borderColor: '#C06C84',
+                                                                color: '#ffffff'
+                                                            }}
                                                         >
                                                             Delete
                                                         </Button>
@@ -723,7 +808,7 @@ const BookingList = () => {
                                     if (isExpanded && hasAdditional) {
                                         booking.additionalPax.forEach((pax, index) => {
                                             rows.push(
-                                                <tr key={`${booking.id}-additional-${index}`}>
+                                                <tr key={`${booking.id}-additional-${index}`} style={{ backgroundColor: '#f5f7fa' }}>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -749,18 +834,18 @@ const BookingList = () => {
                 {/* Pagination Controls */}
                 <div className="d-flex justify-content-between align-items-center mt-3">
                     <div className="d-flex align-items-center">
-                        <span className="me-2">Rows per page:</span>
+                        <span className="me-2" style={{ color: '#455a64' }}>Rows per page:</span>
                         <Form.Select
                             value={rowsPerPage}
                             onChange={handleRowsPerPageChange}
-                            style={{ width: 'auto' }}
+                            style={{ width: 'auto', borderColor: '#cfd8dc' }}
                         >
                             <option value={5}>5</option>
                             <option value={10}>10</option>
                             <option value={20}>20</option>
                             <option value={50}>50</option>
                         </Form.Select>
-                        <span className="ms-3">
+                        <span className="ms-3" style={{ color: '#455a64' }}>
                             Showing {startIndex + 1} to {Math.min(endIndex, filteredBookings.length)} of {filteredBookings.length} entries
                         </span>
                     </div>
@@ -771,6 +856,7 @@ const BookingList = () => {
                             onClick={() => handlePageChange(1)}
                             disabled={currentPage === 1}
                             className="me-2"
+                            style={{ borderColor: '#cfd8dc', color: '#455a64' }}
                         >
                             First
                         </Button>
@@ -779,6 +865,7 @@ const BookingList = () => {
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                             className="me-2"
+                            style={{ borderColor: '#cfd8dc', color: '#455a64' }}
                         >
                             Previous
                         </Button>
@@ -789,6 +876,11 @@ const BookingList = () => {
                                 variant={currentPage === pageNumber ? "primary" : "outline-secondary"}
                                 onClick={() => handlePageChange(pageNumber)}
                                 className="me-2"
+                                style={{
+                                    backgroundColor: currentPage === pageNumber ? '#37474f' : 'transparent',
+                                    borderColor: currentPage === pageNumber ? '#37474f' : '#cfd8dc',
+                                    color: currentPage === pageNumber ? 'white' : '#455a64'
+                                }}
                             >
                                 {pageNumber}
                             </Button>
@@ -799,6 +891,7 @@ const BookingList = () => {
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                             className="me-2"
+                            style={{ borderColor: '#cfd8dc', color: '#455a64' }}
                         >
                             Next
                         </Button>
@@ -806,6 +899,7 @@ const BookingList = () => {
                             variant="outline-secondary"
                             onClick={() => handlePageChange(totalPages)}
                             disabled={currentPage === totalPages}
+                            style={{ borderColor: '#cfd8dc', color: '#455a64' }}
                         >
                             Last
                         </Button>
@@ -964,8 +1058,6 @@ const BookingList = () => {
                                 min={1}
                             />
                         </Form.Group>
-
-
 
                         {/* Additional Pax */}
                         {bookingData.totalPax > 1 && bookingData.additionalPax.map((_, index) => (
