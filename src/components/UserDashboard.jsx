@@ -735,20 +735,38 @@ const UserDashboard = () => {
 
                             {/* Weather Tab */}
                             <Tab.Pane active={activeTab === 'weather'}>
-                                <Card.Header className="bg-white p-4 border-0">
-                                    <h4 className="mb-0 fw-bold">Weather Forecast</h4>
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h4 className="mb-0 fw-bold">Weather Forecast</h4>
+                                        <Button 
+                                            variant="outline-primary"
+                                            onClick={() => setActiveTab('tools')}
+                                            className="section-animation"
+                                        >
+                                            <FaListAlt className="me-2" /> Back to Tools
+                                        </Button>
+                                    </div>
                                 </Card.Header>
-                                <Card.Body className="p-4">
+                                <Card.Body className="p-4 section-animation">
                                     <Weather />
                                 </Card.Body>
                             </Tab.Pane>
 
                             {/* Currency Converter Tab */}
                             <Tab.Pane active={activeTab === 'currency'}>
-                                <Card.Header className="bg-white p-4 border-0">
-                                    <h4 className="mb-0 fw-bold">Currency Converter</h4>
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h4 className="mb-0 fw-bold">Currency Converter</h4>
+                                        <Button 
+                                            variant="outline-primary"
+                                            onClick={() => setActiveTab('tools')}
+                                            className="section-animation"
+                                        >
+                                            <FaListAlt className="me-2" /> Back to Tools
+                                        </Button>
+                                    </div>
                                 </Card.Header>
-                                <Card.Body className="p-4">
+                                <Card.Body className="p-4 section-animation">
                                     <CurrencyConverter />
                                 </Card.Body>
                             </Tab.Pane>
@@ -946,10 +964,19 @@ const UserDashboard = () => {
 
                             {/* Todo Tab */}
                             <Tab.Pane active={activeTab === 'todo'}>
-                                <Card.Header className="bg-white p-4 border-0">
-                                    <h4 className="mb-0 fw-bold">My Todo List</h4>
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h4 className="mb-0 fw-bold">My Todo List</h4>
+                                        <Button 
+                                            variant="outline-primary"
+                                            onClick={() => setActiveTab('tools')}
+                                            className="section-animation"
+                                        >
+                                            <FaListAlt className="me-2" /> Back to Tools
+                                        </Button>
+                                    </div>
                                 </Card.Header>
-                                <Card.Body className="p-4" style={{
+                                <Card.Body className="p-4 section-animation" style={{
                                     background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
                                     borderRadius: '0.5rem',
                                     color: 'white'
@@ -957,6 +984,7 @@ const UserDashboard = () => {
                                     <div className="mb-4 d-flex justify-content-center">
                                         <Button 
                                             onClick={() => setShowAddTodo(true)}
+                                            className="section-animation"
                                             style={{ 
                                                 background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
                                                 border: 'none',
@@ -969,7 +997,7 @@ const UserDashboard = () => {
                                             Add Todo
                                         </Button>
                                     </div>
-                                    <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '0.5rem', padding: '1rem' }}>
+                                    <div className="section-animation" style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '0.5rem', padding: '1rem' }}>
                                         <TodoList />
                                     </div>
                                     <AddTodo show={showAddTodo} onHide={() => setShowAddTodo(false)} />
@@ -978,19 +1006,31 @@ const UserDashboard = () => {
 
                             {/* Translator Tab */}
                             <Tab.Pane active={activeTab === 'translator'}>
-                                <Card.Header className="bg-white p-4 border-0">
-                                    <h4 className="mb-0 fw-bold">In-App Translator</h4>
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h4 className="mb-0 fw-bold">In-App Translator</h4>
+                                        <Button 
+                                            variant="outline-primary"
+                                            onClick={() => setActiveTab('tools')}
+                                            className="section-animation"
+                                        >
+                                            <FaListAlt className="me-2" /> Back to Tools
+                                        </Button>
+                                    </div>
                                 </Card.Header>
-                                <Card.Body className="p-4">
+                                <Card.Body className="p-4 section-animation">
                                     <TranslatorPage />
                                 </Card.Body>
                             </Tab.Pane>
 
                             {/* Community Feed Tab */}
                             <Tab.Pane active={activeTab === 'community-feed'}>
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
+                                    <h4 className="mb-0 fw-bold">Community Feed</h4>
+                                </Card.Header>
                                 <Row className="section-animation">
                                     <Col lg={8}>
-                                        <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                        <div className="section-animation" style={{ position: 'relative', marginBottom: '2rem' }}>
                                             <img
                                                 src={CommunityFeedImg}
                                                 alt="Community Feed Cover"
@@ -1007,7 +1047,9 @@ const UserDashboard = () => {
                                                 Community Feed
                                             </h2>
                                         </div>
-                                        <CommunityFeed />
+                                        <div className="section-animation">
+                                            <CommunityFeed />
+                                        </div>
                                     </Col>
                                     <Col lg={4}>
                                         {/* Right column intentionally left empty or for future widgets */}
@@ -1017,20 +1059,38 @@ const UserDashboard = () => {
 
                             {/* Travel Diaries Tab */}
                             <Tab.Pane active={activeTab === 'diaries'}>
-                                <Card.Header className="bg-white p-4 border-0">
-                                    <h4 className="mb-0 fw-bold">My Travel Diaries</h4>
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h4 className="mb-0 fw-bold">My Travel Diaries</h4>
+                                        <Button 
+                                            variant="outline-primary"
+                                            onClick={() => setActiveTab('tools')}
+                                            className="section-animation"
+                                        >
+                                            <FaListAlt className="me-2" /> Back to Tools
+                                        </Button>
+                                    </div>
                                 </Card.Header>
-                                <Card.Body className="p-4">
+                                <Card.Body className="p-4 section-animation">
                                     <TravelDiariesPage />
                                 </Card.Body>
                             </Tab.Pane>
 
                             {/* Planes Tab */}
                             <Tab.Pane active={activeTab === 'planes'}>
-                                <Card.Header className="bg-white p-4 border-0">
-                                    <h4 className="mb-0 fw-bold">Live Planes Tracker</h4>
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h4 className="mb-0 fw-bold">Live Planes Tracker</h4>
+                                        <Button 
+                                            variant="outline-primary"
+                                            onClick={() => setActiveTab('tools')}
+                                            className="section-animation"
+                                        >
+                                            <FaListAlt className="me-2" /> Back to Tools
+                                        </Button>
+                                    </div>
                                 </Card.Header>
-                                <Card.Body className="p-4">
+                                <Card.Body className="p-4 section-animation">
                                     <PlanesPage />
                                 </Card.Body>
                             </Tab.Pane>
@@ -1397,6 +1457,17 @@ const UserDashboard = () => {
                     z-index: 3;
                 }
 
+                /* Back Button Animation */
+                .btn-outline-primary {
+                    transition: all 0.3s ease;
+                }
+
+                .btn-outline-primary:hover {
+                    transform: translateX(-5px);
+                    background-color: var(--bs-primary);
+                    color: white;
+                }
+
                 /* Section Animation */
                 .section-animation {
                     opacity: 0;
@@ -1414,6 +1485,14 @@ const UserDashboard = () => {
                         transform: translateY(0);
                     }
                 }
+
+                /* Add staggered animation for sections */
+                .section-animation:nth-child(1) { animation-delay: 0.2s; }
+                .section-animation:nth-child(2) { animation-delay: 0.4s; }
+                .section-animation:nth-child(3) { animation-delay: 0.6s; }
+                .section-animation:nth-child(4) { animation-delay: 0.8s; }
+                .section-animation:nth-child(5) { animation-delay: 1.0s; }
+                .section-animation:nth-child(6) { animation-delay: 1.2s; }
 
                 /* Tools Grid Animation */
                 .tools-grid {

@@ -64,14 +64,14 @@ export default function GroupTours() {
         const filtered = allTours.filter(tour => {
             if (!tour) return false;
 
-            const passesDestination = destinations.length === 0 ||
-                destinations.some(dest => {
-                    return (
-                        (tour.destination && tour.destination.toUpperCase().includes(dest)) ||
-                        (tour.location && tour.location.toUpperCase().includes(dest)) ||
-                        (tour.name && tour.name.toUpperCase().includes(dest))
-                    );
-                });
+            // If no destinations are selected, don't show any tours
+            const passesDestination = destinations.length > 0 && destinations.some(dest => {
+                return (
+                    (tour.destination && tour.destination.toUpperCase().includes(dest)) ||
+                    (tour.location && tour.location.toUpperCase().includes(dest)) ||
+                    (tour.name && tour.name.toUpperCase().includes(dest))
+                );
+            });
 
             const passesCategory = categories.length === 0 ||
                 categories.some(cat => {
