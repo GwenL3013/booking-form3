@@ -61,9 +61,7 @@ export default function Home() {
                 <Trip />
             </AnimatedSection>
 
-            <AnimatedSection direction="down" delay={1}>
-                <PlanesPage />
-            </AnimatedSection>
+
 
             <Footer />
         </Container>
