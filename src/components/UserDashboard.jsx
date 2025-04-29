@@ -485,23 +485,29 @@ const UserDashboard = () => {
     return (
         <Container fluid className="py-4 px-3 px-md-4 bg-light min-vh-100 d-flex flex-column">
             {/* Mobile Navigation Header */}
-            <div className="d-lg-none position-sticky top-0 z-3" style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                width: '100%',
-                left: 0,
-                right: 0
-            }}>
+            <div 
+                className="d-lg-none position-sticky top-0 z-3" 
+                style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    width: '100%',
+                    left: 0,
+                    right: 0,
+                    cursor: 'pointer'
+                }}
+                onClick={() => setActiveTab('')}
+            >
                 <div className="container-fluid px-3">
                     <div className="d-flex align-items-center p-3">
                         <Button
                             variant="link"
                             className="p-0 me-3 text-white"
-                            onClick={() => setActiveTab('')}
                         >
                             <FaListAlt size={20} />
                         </Button>
-                        <h5 className="mb-0 fw-bold text-white">{getCurrentTabName()}</h5>
+                        <h5 className="mb-0 fw-bold text-white">
+                            {activeTab ? 'Back' : 'Dashboard'}
+                        </h5>
                     </div>
                 </div>
             </div>
