@@ -87,6 +87,8 @@ const UserDashboard = () => {
                 return 'Live Planes';
             case 'settings':
                 return 'Settings';
+            case 'tools':
+                return 'Tools';
             default:
                 return 'Dashboard';
         }
@@ -587,65 +589,20 @@ const UserDashboard = () => {
                                     </Nav.Item>
                                     <Nav.Item>
                                         <Nav.Link
-                                            eventKey="todo"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('todo')}
-                                        >
-                                            <FaListAlt className="me-3" /> My Todos
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="diaries"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('diaries')}
-                                        >
-                                            <FaBookOpen className="me-3" /> My Diaries
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="currency"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('currency')}
-                                        >
-                                            <FaExchangeAlt className="me-3" /> Currency Converter
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="translator"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('translator')}
-                                        >
-                                            <FaListAlt className="me-3" /> My Translator
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="weather"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('weather')}
-                                        >
-                                            <FaCloudSun className="me-3" /> Weather
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="planes"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('planes')}
-                                        >
-                                            <FaPlane className="me-3" /> Live Planes
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
                                             eventKey="settings"
                                             className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('settings')}
                                         >
                                             <FaCog className="me-3" /> Settings
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
+                                            eventKey="tools"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
+                                            onClick={() => setActiveTab('tools')}
+                                        >
+                                            <FaCog className="me-3" /> Tools
                                         </Nav.Link>
                                     </Nav.Item>
                                 </Nav>
@@ -679,7 +636,7 @@ const UserDashboard = () => {
                         <Tab.Content>
                             {/* Bookings Tab */}
                             <Tab.Pane active={activeTab === 'bookings'}>
-                                <div className="p-4" style={{
+                                <div className="p-4 section-animation" style={{
                                     background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
                                     borderRadius: '0.5rem',
                                     color: 'white'
@@ -798,10 +755,10 @@ const UserDashboard = () => {
 
                             {/* Profile Tab */}
                             <Tab.Pane active={activeTab === 'profile'}>
-                                <Card.Header className="bg-white p-4 border-0">
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <h4 className="mb-0 fw-bold">Profile Information</h4>
                                 </Card.Header>
-                                <Card.Body className="p-4" style={{
+                                <Card.Body className="p-4 section-animation" style={{
                                     background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
                                     borderRadius: '0.5rem'
                                 }}>
@@ -896,10 +853,10 @@ const UserDashboard = () => {
 
                             {/* Settings Tab */}
                             <Tab.Pane active={activeTab === 'settings'}>
-                                <Card.Header className="bg-white p-4 border-0">
+                                <Card.Header className="bg-white p-4 border-0 section-animation">
                                     <h4 className="mb-0 fw-bold">Account Settings</h4>
                                 </Card.Header>
-                                <Card.Body className="p-4" style={{
+                                <Card.Body className="p-4 section-animation" style={{
                                     background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
                                     borderRadius: '0.5rem',
                                     color: 'white'
@@ -1031,7 +988,7 @@ const UserDashboard = () => {
 
                             {/* Community Feed Tab */}
                             <Tab.Pane active={activeTab === 'community-feed'}>
-                                <Row>
+                                <Row className="section-animation">
                                     <Col lg={8}>
                                         <div style={{ position: 'relative', marginBottom: '2rem' }}>
                                             <img
@@ -1075,6 +1032,75 @@ const UserDashboard = () => {
                                 </Card.Header>
                                 <Card.Body className="p-4">
                                     <PlanesPage />
+                                </Card.Body>
+                            </Tab.Pane>
+
+                            {/* Tools Tab */}
+                            <Tab.Pane active={activeTab === 'tools'}>
+                                <Card.Header className="bg-white p-4 border-0">
+                                    <h4 className="mb-0 fw-bold">Tools</h4>
+                                </Card.Header>
+                                <Card.Body className="p-4 tools-grid" style={{
+                                    background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
+                                    borderRadius: '0.5rem',
+                                    color: 'white'
+                                }}>
+                                    <Row className="g-4">
+                                        <Col md={6} lg={4}>
+                                            <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('todo')}>
+                                                <Card.Body className="text-center p-4">
+                                                    <FaListAlt size={32} className="mb-3 text-primary" />
+                                                    <h5>My Todos</h5>
+                                                    <p className="text-muted mb-0">Manage your tasks and to-do lists</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={6} lg={4}>
+                                            <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('diaries')}>
+                                                <Card.Body className="text-center p-4">
+                                                    <FaBookOpen size={32} className="mb-3 text-primary" />
+                                                    <h5>My Diaries</h5>
+                                                    <p className="text-muted mb-0">Write and manage your travel diaries</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={6} lg={4}>
+                                            <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('currency')}>
+                                                <Card.Body className="text-center p-4">
+                                                    <FaExchangeAlt size={32} className="mb-3 text-primary" />
+                                                    <h5>Currency Converter</h5>
+                                                    <p className="text-muted mb-0">Convert between different currencies</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={6} lg={4}>
+                                            <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('translator')}>
+                                                <Card.Body className="text-center p-4">
+                                                    <FaListAlt size={32} className="mb-3 text-primary" />
+                                                    <h5>Translator</h5>
+                                                    <p className="text-muted mb-0">Translate text between languages</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={6} lg={4}>
+                                            <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('weather')}>
+                                                <Card.Body className="text-center p-4">
+                                                    <FaCloudSun size={32} className="mb-3 text-primary" />
+                                                    <h5>Weather</h5>
+                                                    <p className="text-muted mb-0">Check weather forecasts</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col md={6} lg={4}>
+                                            <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('planes')}>
+                                                <Card.Body className="text-center p-4">
+                                                    <FaPlane size={32} className="mb-3 text-primary" />
+                                                    <h5>Live Planes</h5>
+                                                    <p className="text-muted mb-0">Track live flight information</p>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
                                 </Card.Body>
                             </Tab.Pane>
                         </Tab.Content>
@@ -1369,6 +1395,97 @@ const UserDashboard = () => {
                 }
                 .z-3 {
                     z-index: 3;
+                }
+
+                /* Section Animation */
+                .section-animation {
+                    opacity: 0;
+                    transform: translateY(20px);
+                    animation: sectionFadeIn 1.2s ease forwards;
+                }
+
+                @keyframes sectionFadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                /* Tools Grid Animation */
+                .tools-grid {
+                    opacity: 0;
+                    transform: translateY(20px);
+                    animation: toolsFadeIn 1.2s ease forwards;
+                }
+
+                .tool-card {
+                    transition: all 0.5s ease;
+                    transform: scale(1);
+                }
+
+                .tool-card:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+                }
+
+                @keyframes toolsFadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                /* Add staggered animation for cards */
+                .tool-card:nth-child(1) { animation-delay: 0.3s; }
+                .tool-card:nth-child(2) { animation-delay: 0.6s; }
+                .tool-card:nth-child(3) { animation-delay: 0.9s; }
+                .tool-card:nth-child(4) { animation-delay: 1.2s; }
+                .tool-card:nth-child(5) { animation-delay: 1.5s; }
+                .tool-card:nth-child(6) { animation-delay: 1.8s; }
+
+                .tool-card {
+                    opacity: 0;
+                    transform: translateY(20px);
+                    animation: cardFadeIn 1s ease forwards;
+                }
+
+                @keyframes cardFadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                /* Add hover effect to all cards and sections */
+                .card {
+                    transition: all 0.5s ease;
+                }
+
+                .card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+                }
+
+                /* Add animation to form elements */
+                .form-control, .form-select {
+                    transition: all 0.5s ease;
+                }
+
+                .form-control:focus, .form-select:focus {
+                    transform: scale(1.02);
+                    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
                 }
                 `}
             </style>
