@@ -6,17 +6,16 @@ import './FilterSidebar.css';
 function FilterSidebar({ onFilter }) {
   const [filters, setFilters] = useState({
     destinations: {
-      
-      AUSTRALIA: false,
-        CHINA: false,
-        'NEW ZEALAND': false,
-        JAPAN: false,
-        INDONESIA: false,
-        'SOUTH KOREA': false,
-        MALAYSIA: false,
-        SINGAPORE: false,
-        THAILAND: false,
-        PHILIPPINE: false
+      AUSTRALIA: true,
+      CHINA: true,
+      'NEW ZEALAND': true,
+      JAPAN: true,
+      INDONESIA: true,
+      'SOUTH KOREA': true,
+      MALAYSIA: true,
+      SINGAPORE: true,
+      THAILAND: true,
+      PHILIPPINE: true
     },
     categories: {
       Leisure: false,
@@ -122,17 +121,16 @@ function FilterSidebar({ onFilter }) {
   const clearFilters = () => {
     setFilters({
       destinations: {
-        
-        AUSTRALIA: false,
-        CHINA: false,
-        'NEW ZEALAND': false,
-        JAPAN: false,
-        INDONESIA: false,
-        'SOUTH KOREA': false,
-        MALAYSIA: false,
-        SINGAPORE: false,
-        THAILAND: false,
-        PHILIPPINE: false,
+        AUSTRALIA: true,
+        CHINA: true,
+        'NEW ZEALAND': true,
+        JAPAN: true,
+        INDONESIA: true,
+        'SOUTH KOREA': true,
+        MALAYSIA: true,
+        SINGAPORE: true,
+        THAILAND: true,
+        PHILIPPINE: true,
       },
       categories: {
         All: false,
