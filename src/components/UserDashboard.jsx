@@ -506,7 +506,7 @@ const UserDashboard = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-3 shadow-sm p-3 p-md-4 mb-4 mt-0 mt-md-4">
+            <div className="bg-white rounded-3 shadow-sm p-3 p-md-4 mb-4 mt-0 mt-md-4 d-none d-md-block">
                 <h2 className="fw-bold mb-0">
                     Hi, {profile.displayName || 'there'}! 👋
                 </h2>
