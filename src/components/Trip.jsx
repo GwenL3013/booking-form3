@@ -4,7 +4,7 @@ import { TripData } from "./TripData";
 export default function Trip() {
     return (
         <div className="trip">
-            <h1>Recent Trips</h1>
+            <h1><strong>Recent Trips</strong></h1>
             <p>Discover Unique Destination</p>
             <div className="tripcard">
                 <TripData

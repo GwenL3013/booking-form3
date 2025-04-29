@@ -47,7 +47,7 @@ export default function Home() {
                 title="Your Star Journey"
                 text="Tailored VIP tour for Unforgettable Holiday"
                 buttonText="Explore"
-                url="/"
+                url="/group-tours"
                 btnClass="show"
             />
 

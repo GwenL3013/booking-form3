@@ -86,7 +86,7 @@ function Layout() {
               {!user ? (
                 <>
                   <Nav.Link as={Link} to="/group-tours" className="custom-nav-link">Group Tours</Nav.Link>
-                  <Nav.Link as={Link} to="/ground-tours" className="custom-nav-link">Ground Tours</Nav.Link>
+                  <Nav.Link as={Link} to="/ground-tours" className="custom-nav-link">Services</Nav.Link>
                   <Nav.Link as={Link} to="/flights" className="custom-nav-link">Flights</Nav.Link>
                   <Nav.Link as={Link} to="/contact" className="custom-nav-link">Contact Us</Nav.Link>
                   <Nav.Link as={Link} to="/signup" className="custom2-nav-link">Sign Up</Nav.Link>

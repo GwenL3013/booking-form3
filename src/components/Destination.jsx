@@ -6,7 +6,7 @@ export default function Destination() {
 
     return (
         <div className="destination">
-            <h1>Popular Destinations</h1>
+            <h1><strong>Popular Destinations</strong></h1>
 
             <DestinationData
                 className="first-des"
