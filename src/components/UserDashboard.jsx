@@ -27,7 +27,7 @@ const UserDashboard = () => {
     const [userBookings, setUserBookings] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [activeTab, setActiveTab] = useState(location.state?.tab || 'bookings'); // Use tab from location state or default to 'bookings'
+    const [activeTab, setActiveTab] = useState(location.state?.tab || 'bookings');
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadingImage, setUploadingImage] = useState(false);
     const storage = getStorage();
@@ -52,6 +52,34 @@ const UserDashboard = () => {
 
     // Add Todo modal state
     const [showAddTodo, setShowAddTodo] = useState(false);
+
+    // Get the current tab name for display
+    const getCurrentTabName = () => {
+        switch (activeTab) {
+            case 'bookings':
+                return 'My Bookings';
+            case 'profile':
+                return 'Profile';
+            case 'community-feed':
+                return 'Community Feed';
+            case 'todo':
+                return 'My Todos';
+            case 'diaries':
+                return 'My Diaries';
+            case 'currency':
+                return 'Currency Converter';
+            case 'translator':
+                return 'My Translator';
+            case 'weather':
+                return 'Weather';
+            case 'planes':
+                return 'Live Planes';
+            case 'settings':
+                return 'Settings';
+            default:
+                return 'Dashboard';
+        }
+    };
 
     // Load user profile data when component mounts
     useEffect(() => {
@@ -394,15 +422,37 @@ const UserDashboard = () => {
 
     return (
         <Container fluid className="py-4 px-3 px-md-4 bg-light min-vh-100 d-flex flex-column">
-            <div className="bg-white rounded-3 shadow-sm p-3 p-md-4 mb-4">
+            {/* Mobile Navigation Header */}
+            <div className="d-lg-none position-sticky top-0 z-3" style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                width: '100%',
+                left: 0,
+                right: 0
+            }}>
+                <div className="container-fluid px-3">
+                    <div className="d-flex align-items-center p-3">
+                        <Button
+                            variant="link"
+                            className="p-0 me-3 text-white"
+                            onClick={() => setActiveTab('')}
+                        >
+                            <FaListAlt size={20} />
+                        </Button>
+                        <h5 className="mb-0 fw-bold text-white">{getCurrentTabName()}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-white rounded-3 shadow-sm p-3 p-md-4 mb-4 mt-0 mt-md-4">
                 <h2 className="fw-bold mb-0">
                     Hi, {profile.displayName || 'there'}! 👋
                 </h2>
             </div>
 
             <Row className="g-3 g-md-4 flex-grow-1">
-                {/* Sidebar */}
-                <Col xs={12} lg={2} className="mb-4 mb-lg-0">
+                {/* Sidebar - Hidden on mobile when a tab is active */}
+                <Col xs={12} lg={2} className={`mb-4 mb-lg-0 ${activeTab ? 'd-none d-lg-block' : ''}`}>
                     <Card className="shadow-sm border-0 h-100 mx-auto" style={{ maxWidth: '500px' }}>
                         <Card.Body className="p-0">
                             {/* Profile section - centered on small screens */}
@@ -447,11 +497,11 @@ const UserDashboard = () => {
 
                             {/* Navigation section - centered on small screens */}
                             <div className="p-2">
-                                <Nav className="flex-column text-center text-lg-start">
+                                <Nav className="flex-column text-start">
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="bookings"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('bookings')}
                                         >
                                             <FaListAlt className="me-3" /> My Bookings
@@ -460,7 +510,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="profile"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('profile')}
                                         >
                                             <FaUser className="me-3" /> Profile
@@ -469,7 +519,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="community-feed"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('community-feed')}
                                         >
                                             <FaUser className="me-3" /> Community Feed
@@ -478,7 +528,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="todo"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('todo')}
                                         >
                                             <FaListAlt className="me-3" /> My Todos
@@ -487,7 +537,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="diaries"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('diaries')}
                                         >
                                             <FaBookOpen className="me-3" /> My Diaries
@@ -496,7 +546,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="currency"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('currency')}
                                         >
                                             <FaExchangeAlt className="me-3" /> Currency Converter
@@ -505,7 +555,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="translator"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('translator')}
                                         >
                                             <FaListAlt className="me-3" /> My Translator
@@ -514,7 +564,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="weather"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('weather')}
                                         >
                                             <FaCloudSun className="me-3" /> Weather
@@ -523,7 +573,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="planes"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('planes')}
                                         >
                                             <FaPlane className="me-3" /> Live Planes
@@ -532,7 +582,7 @@ const UserDashboard = () => {
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="settings"
-                                            className="d-flex align-items-center py-3 nav-link-hover justify-content-center justify-content-lg-start"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('settings')}
                                         >
                                             <FaCog className="me-3" /> Settings
@@ -545,6 +595,7 @@ const UserDashboard = () => {
                                 {`
                                 .nav-link-hover {
                                     transition: all 0.3s ease;
+                                    color: var(--bs-body-color);
                                 }
                                 .nav-link-hover:hover {
                                     background-color: var(--bs-primary);
@@ -563,7 +614,7 @@ const UserDashboard = () => {
                 </Col>
 
                 {/* Main Content */}
-                <Col xs={12} lg={10}>
+                <Col xs={12} lg={10} className={activeTab ? '' : 'd-none d-lg-block'}>
                     <div className="bg-white rounded-3 shadow-sm mx-auto" style={{ maxWidth: '100%' }}>
                         <Tab.Content>
                             {/* Bookings Tab */}
@@ -762,8 +813,6 @@ const UserDashboard = () => {
                                                     />
                                                 </Form.Group>
                                             </Col>
-
-
 
                                             <Col xs={12} className="mt-4">
                                                 <Button
@@ -1162,6 +1211,9 @@ const UserDashboard = () => {
                         max-width: 800px;
                         margin: 0 auto;
                     }
+                }
+                .z-3 {
+                    z-index: 3;
                 }
                 `}
             </style>
