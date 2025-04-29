@@ -4,10 +4,11 @@
   min-height: 100vh;
   padding: 20px;
   transition: all 0.3s ease;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .planes-page.dark {
-  background-color: #121212;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
   color: #f0f0f0;
 }
 

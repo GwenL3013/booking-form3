@@ -93,84 +93,159 @@ const TravelDiariesPage = () => {
   };
 
   return (
-    <Container fluid="md" className="mt-4">
-      <div className="text-center">
-        <h1 className="mb-4">Share Your Travel Experience</h1>
+    <div style={{
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      minHeight: '100vh',
+      padding: '2rem 0'
+    }}>
+      <Container fluid="md" className="mt-4" style={{
+        background: 'rgba(255, 255, 255, 0.95)',
+        borderRadius: '20px',
+        padding: '2.5rem',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+        backdropFilter: 'blur(10px)'
+      }}>
+        <div className="text-center">
+          <h1 className="mb-4" style={{ 
+            color: '#2c3e50',
+            fontWeight: 'bold',
+            textShadow: '2px 2px 4px rgba(0,0,0,0.1)'
+          }}>Share Your Travel Experience</h1>
 
-        {errorMessage && (
-          <Alert variant="danger" onClose={() => setErrorMessage('')} dismissible>
-            {errorMessage}
-          </Alert>
-        )}
+          {errorMessage && (
+            <Alert variant="danger" onClose={() => setErrorMessage('')} dismissible>
+              {errorMessage}
+            </Alert>
+          )}
 
-        <Form className="mb-4" onSubmit={(e) => e.preventDefault()}>
-          {/* Title Field */}
-          <Form.Group controlId="postTitle">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              value={title}
-              onChange={handleTitleChange}
-              placeholder="Add a title"
-            />
-          </Form.Group>
+          <Form className="mb-4" onSubmit={(e) => e.preventDefault()} style={{
+            background: 'rgba(255, 255, 255, 0.8)',
+            padding: '2rem',
+            borderRadius: '15px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+          }}>
+            <Form.Group controlId="postTitle" className="mb-4">
+              <Form.Label style={{ 
+                color: '#2c3e50',
+                fontWeight: '500',
+                fontSize: '1.1rem'
+              }}>Title</Form.Label>
+              <Form.Control
+                type="text"
+                value={title}
+                onChange={handleTitleChange}
+                placeholder="Add a title"
+                style={{
+                  border: '2px solid #e2e8f0',
+                  borderRadius: '10px',
+                  padding: '0.8rem'
+                }}
+              />
+            </Form.Group>
 
-          {/* Text Area for Diary Entry */}
-          <Form.Group controlId="postText" className="mt-3">
-            <Form.Label>Your Travel Diary</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={4}
-              value={text}
-              onChange={handleTextChange}
-              placeholder="Write about your experience..."
-            />
-          </Form.Group>
+            <Form.Group controlId="postText" className="mb-4">
+              <Form.Label style={{ 
+                color: '#2c3e50',
+                fontWeight: '500',
+                fontSize: '1.1rem'
+              }}>Your Travel Diary</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                value={text}
+                onChange={handleTextChange}
+                placeholder="Write about your experience..."
+                style={{
+                  border: '2px solid #e2e8f0',
+                  borderRadius: '10px',
+                  padding: '0.8rem'
+                }}
+              />
+            </Form.Group>
 
-          {/* Image and Video Upload */}
-          <Row className="mt-3">
-            <Col>
-              <Form.Group controlId="imageUpload">
-                <Form.Label>Upload Images</Form.Label>
-                <Form.Control
-                  type="file"
-                  multiple
-                  onChange={handleImageChange}
-                  accept="image/*"
-                />
-              </Form.Group>
-            </Col>
+            <Row className="mt-4">
+              <Col>
+                <Form.Group controlId="imageUpload">
+                  <Form.Label style={{ 
+                    color: '#2c3e50',
+                    fontWeight: '500',
+                    fontSize: '1.1rem'
+                  }}>Upload Images</Form.Label>
+                  <Form.Control
+                    type="file"
+                    multiple
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    style={{
+                      border: '2px solid #e2e8f0',
+                      borderRadius: '10px',
+                      padding: '0.8rem'
+                    }}
+                  />
+                </Form.Group>
+              </Col>
 
-            <Col>
-              <Form.Group controlId="videoUpload">
-                <Form.Label>Upload Video</Form.Label>
-                <Form.Control
-                  type="file"
-                  onChange={handleVideoChange}
-                  accept="video/*"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
+              <Col>
+                <Form.Group controlId="videoUpload">
+                  <Form.Label style={{ 
+                    color: '#2c3e50',
+                    fontWeight: '500',
+                    fontSize: '1.1rem'
+                  }}>Upload Video</Form.Label>
+                  <Form.Control
+                    type="file"
+                    onChange={handleVideoChange}
+                    accept="video/*"
+                    style={{
+                      border: '2px solid #e2e8f0',
+                      borderRadius: '10px',
+                      padding: '0.8rem'
+                    }}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-          <Button 
-            variant="primary" 
-            onClick={handlePostSubmit} 
-            disabled={isLoading}
-            className="mt-3"
-            style={{ width: '100%' }}
-          >
-            {isLoading ? "Posting..." : "Post Diary"}
-          </Button>
-        </Form>
+            <Button 
+              variant="primary" 
+              onClick={handlePostSubmit} 
+              disabled={isLoading}
+              className="mt-4"
+              style={{ 
+                width: '100%',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                padding: '0.8rem',
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                borderRadius: '10px',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'transform 0.2s ease'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              {isLoading ? "Posting..." : "Post Diary"}
+            </Button>
+          </Form>
 
-        {/* Display the list of travel diaries */}
-        <div>
-          <h2 className="mt-4"></h2>
-          <TravelDiariesList />
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.8)',
+            padding: '2rem',
+            borderRadius: '15px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+            marginTop: '2rem'
+          }}>
+            <h2 className="mt-4" style={{
+              color: '#2c3e50',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.1)'
+            }}>Recent Travel Diaries</h2>
+            <TravelDiariesList />
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 };
 
