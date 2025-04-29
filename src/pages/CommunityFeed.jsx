@@ -25,6 +25,8 @@ const CommunityFeed = () => {
     const [editingUsername, setEditingUsername] = useState(false);
     const [newUsername, setNewUsername] = useState('');
     const [userProfile, setUserProfile] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showSearchModal, setShowSearchModal] = useState(false);
     const { user } = useAuth();
     const currentUserName = user?.displayName || user?.email || 'User';
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -324,13 +326,26 @@ const CommunityFeed = () => {
         }
     };
 
-    // Filter posts based on activeTab
+    // Filter posts based on activeTab and search query
     let filteredPosts = posts;
     if (activeTab === 'video') {
         filteredPosts = posts.filter(post => post.mediaType && post.mediaType.startsWith('video'));
     } else if (activeTab === 'profile') {
         filteredPosts = posts.filter(post => post.user === currentUserName);
     }
+
+    // Apply search filter if there's a search query
+    if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        filteredPosts = filteredPosts.filter(post => 
+            post.user.toLowerCase().includes(query) || 
+            post.content.toLowerCase().includes(query)
+        );
+    }
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
 
     // Edit handlers
     const openEditModal = (post) => {
@@ -627,6 +642,17 @@ const CommunityFeed = () => {
         }
     };
 
+    const handleHomeClick = () => {
+        setActiveTab('home');
+        setSearchQuery(''); // Clear search query when clicking home
+    };
+
+    const handleSearchResultClick = (post) => {
+        setActivePostDetail(post);
+        setShowPostDetailModal(true);
+        setShowSearchModal(false);
+    };
+
     return (
         <Container fluid className="p-0">
             <Container className="my-3">
@@ -635,11 +661,73 @@ const CommunityFeed = () => {
 
                 {/* Responsive Navbar */}
                 <nav className="community-navbar">
-                    <button className={`nav-btn${activeTab === 'home' ? ' active' : ''}`} onClick={() => setActiveTab('home')}><FaHome size={22} /></button>
-                    <button className={`nav-btn${activeTab === 'search' ? ' active' : ''}`} disabled><FaSearch size={22} /></button>
+                    <button 
+                        className={`nav-btn${activeTab === 'home' ? ' active' : ''}`} 
+                        onClick={handleHomeClick}
+                    >
+                        <FaHome size={22} />
+                    </button>
+                    <button className="nav-btn" onClick={() => setShowSearchModal(true)}><FaSearch size={22} /></button>
                     <button className={`nav-btn${activeTab === 'video' ? ' active' : ''}`} onClick={() => setActiveTab('video')}><FaVideo size={22} /></button>
                     <button className={`nav-btn${activeTab === 'profile' ? ' active' : ''}`} onClick={() => setActiveTab('profile')}><FaUser size={22} /></button>
                 </nav>
+
+                {/* Search Modal */}
+                <Modal
+                    show={showSearchModal}
+                    onHide={() => {
+                        setShowSearchModal(false);
+                    }}
+                    centered
+                    className="search-modal"
+                >
+                    <Modal.Body className="p-4">
+                        <div className="search-container">
+                            <input
+                                type="text"
+                                placeholder="Search users, trips, or content..."
+                                value={searchQuery}
+                                onChange={handleSearch}
+                                className="search-input"
+                                autoFocus
+                            />
+                            <FaSearch className="search-icon" />
+                        </div>
+                        {searchQuery.trim() && (
+                            <div className="search-results mt-3">
+                                {filteredPosts.length > 0 ? (
+                                    filteredPosts.map(post => (
+                                        <div 
+                                            key={post.id} 
+                                            className="search-result-item"
+                                            onClick={() => handleSearchResultClick(post)}
+                                        >
+                                            <div className="d-flex align-items-center">
+                                                <img 
+                                                    src={userProfiles[post.userId]?.photoURL || post.avatar} 
+                                                    alt="" 
+                                                    className="search-result-avatar" 
+                                                />
+                                                <div className="ms-2">
+                                                    <div className="search-result-username">
+                                                        {userProfiles[post.userId]?.displayName || post.user || 'User'}
+                                                    </div>
+                                                    <div className="search-result-content">
+                                                        {post.content.length > 50 ? post.content.substring(0, 50) + '...' : post.content}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="text-center text-muted py-3">
+                                        No results found
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </Modal.Body>
+                </Modal>
 
                 <Row>
                     <Col>
