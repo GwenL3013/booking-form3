@@ -28,8 +28,16 @@ export default function GroupTours() {
                 id: doc.id.substring(0, 8),
                 ...doc.data()
             }));
-            dispatch(setTours(toursData));
-            setFilteredTours(toursData);
+            
+            // Sort tours so that sold-out tours appear at the end
+            const sortedTours = toursData.sort((a, b) => {
+                if (a.status === 'sold-out' && b.status !== 'sold-out') return 1;
+                if (a.status !== 'sold-out' && b.status === 'sold-out') return -1;
+                return 0;
+            });
+            
+            dispatch(setTours(sortedTours));
+            setFilteredTours(sortedTours);
         });
         return () => unsubscribe();
     }, [dispatch]);
