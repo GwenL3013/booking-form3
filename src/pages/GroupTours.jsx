@@ -28,14 +28,14 @@ export default function GroupTours() {
                 id: doc.id.substring(0, 8),
                 ...doc.data()
             }));
-            
+
             // Sort tours so that sold-out tours appear at the end
             const sortedTours = toursData.sort((a, b) => {
                 if (a.status === 'sold-out' && b.status !== 'sold-out') return 1;
                 if (a.status !== 'sold-out' && b.status === 'sold-out') return -1;
                 return 0;
             });
-            
+
             dispatch(setTours(sortedTours));
             setFilteredTours(sortedTours);
         });
@@ -134,7 +134,7 @@ export default function GroupTours() {
                     </Col>
 
                     <Col lg={9} md={8}>
-                        <h1 className="mb-4">Explore Our Tours</h1>
+                        <h1 className="mb-4"><strong>Explore Our Tours</strong></h1>
                         <div className="tour-cards">
                             {currentTours && currentTours.length > 0 ? (
                                 currentTours.map((tour, index) => (

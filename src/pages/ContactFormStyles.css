@@ -54,4 +54,84 @@
     max-width: 1000px;
     padding: 2rem;
     margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border: none;
+}
+
+.custom-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #ffb6c1, #e6a8d7, #add8e6);
+    border-radius: 17px;
+    z-index: -1;
+    animation: cardGradient 3s ease infinite;
+}
+
+@keyframes cardGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.form-control {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    position: relative;
+}
+
+.form-control::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(45deg, #8a2be2, #ff69b4, #ffa500);
+    border-radius: 9px;
+    z-index: -1;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(138, 43, 226, 0.25);
+}
+
+.form-control:focus::before {
+    background: linear-gradient(45deg, #8a2be2, #ff69b4, #ffa500);
+    animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

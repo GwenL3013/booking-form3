@@ -71,7 +71,7 @@ const UserTourDetails = () => {
         <>
             <div className="mt-4 mb-5 px-3">
                 <Container>
-                    <h2>{tour.name}</h2>
+                    <h2><strong>{tour.name}</strong></h2>
                 </Container>
 
                 {/* Cover images carousel - Full width */}
@@ -367,15 +367,15 @@ const UserTourDetails = () => {
 
                 {/* Share and Enquiry buttons */}
                 <div className="d-flex justify-content-end gap-3 mb-4">
-                    <Button 
+                    <Button
                         onClick={() => setShowEnquiryForm(true)}
-                        style={{ 
-                            background: '#ffed31', 
-                            color: '#222', 
-                            border: 'none', 
-                            fontWeight: 500, 
-                            borderRadius: 8, 
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.04)' 
+                        style={{
+                            background: '#ffed31',
+                            color: '#222',
+                            border: 'none',
+                            fontWeight: 500,
+                            borderRadius: 8,
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                         }}
                     >
                         <span style={{ marginRight: 8 }}>
@@ -392,16 +392,16 @@ const UserTourDetails = () => {
                             <Popover id="share-popover">
                                 <Popover.Body>
                                     <Button variant="link" className="d-flex align-items-center w-100 mb-2" onClick={() => handleShare('facebook')}>
-                                        <i className="bi bi-facebook me-2" style={{fontSize: '1.2rem', color: '#1877f3'}}></i> Facebook
+                                        <i className="bi bi-facebook me-2" style={{ fontSize: '1.2rem', color: '#1877f3' }}></i> Facebook
                                     </Button>
                                     <Button variant="link" className="d-flex align-items-center w-100 mb-2" onClick={() => handleShare('whatsapp')}>
-                                        <i className="bi bi-whatsapp me-2" style={{fontSize: '1.2rem', color: '#25d366'}}></i> WhatsApp
+                                        <i className="bi bi-whatsapp me-2" style={{ fontSize: '1.2rem', color: '#25d366' }}></i> WhatsApp
                                     </Button>
                                     <Button variant="link" className="d-flex align-items-center w-100 mb-2" onClick={() => handleShare('email')}>
-                                        <i className="bi bi-envelope-fill me-2" style={{fontSize: '1.2rem', color: '#ea4335'}}></i> Email
+                                        <i className="bi bi-envelope-fill me-2" style={{ fontSize: '1.2rem', color: '#ea4335' }}></i> Email
                                     </Button>
                                     <Button variant="link" className="d-flex align-items-center w-100" onClick={() => handleShare('instagram')}>
-                                        <i className="bi bi-instagram me-2" style={{fontSize: '1.2rem', color: '#e4405f'}}></i> Instagram (Copy Link)
+                                        <i className="bi bi-instagram me-2" style={{ fontSize: '1.2rem', color: '#e4405f' }}></i> Instagram (Copy Link)
                                     </Button>
                                 </Popover.Body>
                             </Popover>
@@ -409,7 +409,7 @@ const UserTourDetails = () => {
                     >
                         <Button style={{ background: '#ffed31', color: '#222', border: 'none', fontWeight: 500, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                             <span style={{ marginRight: 8 }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="#222" strokeWidth="2"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="#222" strokeWidth="2"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="#222" strokeWidth="2" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="#222" strokeWidth="2" /></svg>
                             </span>
                             Share this tour
                         </Button>
@@ -419,7 +419,7 @@ const UserTourDetails = () => {
             <Footer />
 
             {/* Enquiry Form Modal */}
-            <EnquiryForm 
+            <EnquiryForm
                 show={showEnquiryForm}
                 onHide={() => setShowEnquiryForm(false)}
                 tourName={tour?.name}
