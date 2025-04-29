@@ -20,6 +20,7 @@ import TravelDiariesList from './TravelDiariesList';
 import TravelDiariesPage from '../pages/TravelDiariesPage';
 import CurrencyConverter from './CurrencyConverter';
 import PlanesPage from './PlanesPage';
+import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 
 const UserDashboard = () => {
     const { user, updateUserProfile } = useAuth();
@@ -52,6 +53,16 @@ const UserDashboard = () => {
 
     // Add Todo modal state
     const [showAddTodo, setShowAddTodo] = useState(false);
+
+    // Password change state
+    const [passwordForm, setPasswordForm] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordSuccess, setPasswordSuccess] = useState('');
+    const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
 
     // Get the current tab name for display
     const getCurrentTabName = () => {
@@ -418,6 +429,55 @@ const UserDashboard = () => {
             default:
                 return 'secondary';
         }
+    };
+
+    const handlePasswordChange = async (e) => {
+        e.preventDefault();
+        setPasswordError('');
+        setPasswordSuccess('');
+        setIsUpdatingPassword(true);
+
+        try {
+            // Validate passwords match
+            if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+                throw new Error('New passwords do not match');
+            }
+
+            // Validate password length
+            if (passwordForm.newPassword.length < 6) {
+                throw new Error('New password must be at least 6 characters long');
+            }
+
+            // First, reauthenticate the user with their current password
+            const credential = EmailAuthProvider.credential(
+                user.email,
+                passwordForm.currentPassword
+            );
+            await reauthenticateWithCredential(user, credential);
+
+            // Then update the password
+            await updatePassword(user, passwordForm.newPassword);
+
+            setPasswordSuccess('Password updated successfully!');
+            setPasswordForm({
+                currentPassword: '',
+                newPassword: '',
+                confirmPassword: ''
+            });
+        } catch (error) {
+            console.error('Error updating password:', error);
+            setPasswordError(error.message);
+        } finally {
+            setIsUpdatingPassword(false);
+        }
+    };
+
+    const handlePasswordInputChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
 
     return (
@@ -838,13 +898,91 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0">
                                     <h4 className="mb-0 fw-bold">Account Settings</h4>
                                 </Card.Header>
-                                <Card.Body className="p-4">
-                                    <p>
-                                        Manage your account settings, notification preferences, and privacy options here.
-                                    </p>
-                                    <Alert variant="info">
-                                        This section is under development. More settings options will be available soon.
-                                    </Alert>
+                                <Card.Body className="p-4" style={{
+                                    background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
+                                    borderRadius: '0.5rem',
+                                    color: 'white'
+                                }}>
+                                    <Row className="justify-content-center">
+                                        <Col lg={8} xl={6}>
+                                            <div className="bg-white p-4 rounded-3 shadow-sm mb-4" style={{ 
+                                                background: 'rgba(255, 255, 255, 0.95)',
+                                                color: '#333'
+                                            }}>
+                                                <h5 className="mb-3">Change Password</h5>
+                                                {passwordError && <Alert variant="danger">{passwordError}</Alert>}
+                                                {passwordSuccess && <Alert variant="success">{passwordSuccess}</Alert>}
+                                                <Form onSubmit={handlePasswordChange}>
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>Current Password</Form.Label>
+                                                        <Form.Control
+                                                            type="password"
+                                                            name="currentPassword"
+                                                            value={passwordForm.currentPassword}
+                                                            onChange={handlePasswordInputChange}
+                                                            required
+                                                            className="form-control-lg"
+                                                            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
+                                                        />
+                                                    </Form.Group>
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>New Password</Form.Label>
+                                                        <Form.Control
+                                                            type="password"
+                                                            name="newPassword"
+                                                            value={passwordForm.newPassword}
+                                                            onChange={handlePasswordInputChange}
+                                                            required
+                                                            minLength={6}
+                                                            className="form-control-lg"
+                                                            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
+                                                        />
+                                                    </Form.Group>
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>Confirm New Password</Form.Label>
+                                                        <Form.Control
+                                                            type="password"
+                                                            name="confirmPassword"
+                                                            value={passwordForm.confirmPassword}
+                                                            onChange={handlePasswordInputChange}
+                                                            required
+                                                            minLength={6}
+                                                            className="form-control-lg"
+                                                            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
+                                                        />
+                                                    </Form.Group>
+                                                    <Button
+                                                        type="submit"
+                                                        variant="primary"
+                                                        disabled={isUpdatingPassword}
+                                                        className="w-100"
+                                                        size="lg"
+                                                        style={{ 
+                                                            background: 'linear-gradient(45deg, #2196F3, #00BCD4)',
+                                                            border: 'none',
+                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                                        }}
+                                                    >
+                                                        {isUpdatingPassword ? (
+                                                            <>
+                                                                <Spinner as="span" animation="border" size="sm" className="me-2" />
+                                                                Updating...
+                                                            </>
+                                                        ) : "Update Password"}
+                                                    </Button>
+                                                </Form>
+                                            </div>
+                                            <div className="bg-white p-4 rounded-3 shadow-sm" style={{ 
+                                                background: 'rgba(255, 255, 255, 0.95)',
+                                                color: '#333'
+                                            }}>
+                                                <h5 className="mb-3">Other Settings</h5>
+                                                <Alert variant="info">
+                                                    More settings options will be available soon.
+                                                </Alert>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </Card.Body>
                             </Tab.Pane>
 
