@@ -3,6 +3,8 @@ import { db } from '../firebase';
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const TravelDiaryDetail = () => {
   const { diaryId } = useParams();
@@ -14,6 +16,7 @@ const TravelDiaryDetail = () => {
   const [showMediaModal, setShowMediaModal] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (diaryId) {
@@ -70,8 +73,24 @@ const TravelDiaryDetail = () => {
 
   if (!diary) return <div>Loading...</div>;
 
+  const isCreator = user && diary.userId === user.uid;
+
   return (
     <div className="container mt-4">
+      <Button
+        variant="outline-secondary"
+        onClick={() => navigate('/user-dashboard', { state: { tab: 'diaries' } })}
+        className="mb-4"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}
+      >
+        <FaArrowLeft />
+        Back to My Diaries
+      </Button>
+
       <article className="diary-detail" style={{ 
         padding: '2rem',
         borderRadius: '12px'
@@ -190,20 +209,22 @@ const TravelDiaryDetail = () => {
               <p className="lead">{diary.text}</p>
             </div>
             <div className="d-flex justify-content-between align-items-center mb-4">
-              <div className="d-flex gap-2">
-                <Button
-                  variant="outline-primary"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="outline-danger"
-                  onClick={() => setShowDeleteModal(true)}
-                >
-                  Delete
-                </Button>
-              </div>
+              {isCreator && (
+                <div className="d-flex gap-2">
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => setShowDeleteModal(true)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              )}
               <small>
                 {new Date(diary.timestamp?.toDate()).toLocaleString()}
               </small>
@@ -212,22 +233,24 @@ const TravelDiaryDetail = () => {
         )}
 
         {/* Delete Confirmation Modal */}
-        <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Delete Diary</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>Are you sure you want to delete this diary? This action cannot be undone.</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-              Cancel
-            </Button>
-            <Button variant="danger" onClick={handleDelete} disabled={loading}>
-              {loading ? 'Deleting...' : 'Delete'}
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        {isCreator && (
+          <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Diary</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Are you sure you want to delete this diary? This action cannot be undone.</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={handleDelete} disabled={loading}>
+                {loading ? 'Deleting...' : 'Delete'}
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
 
         {/* Media Modal */}
         <Modal 

@@ -4,6 +4,7 @@ import { collection, query, orderBy, getDocs, updateDoc, doc, deleteDoc } from '
 import { Button, Modal, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns'; // Importing date-fns for formatting date
+import { useAuth } from '../context/AuthContext';
 
 const TravelDiariesList = () => {
   const [diaries, setDiaries] = useState([]);
@@ -13,6 +14,7 @@ const TravelDiariesList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [diaryToDelete, setDiaryToDelete] = useState(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchDiaries();
@@ -154,20 +156,39 @@ const TravelDiariesList = () => {
                     Share
                   </Button>
 
-                  <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteClick(diary);
-                    }}
-                    style={{ 
-                      padding: '4px 8px',
-                      fontSize: '12px'
-                    }}
-                  >
-                    Delete
-                  </Button>
+                  {user && diary.userId === user.uid && (
+                    <>
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/travel-diaries/${diary.id}/edit`);
+                        }}
+                        style={{ 
+                          padding: '4px 8px',
+                          fontSize: '12px'
+                        }}
+                      >
+                        Edit
+                      </Button>
+
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteClick(diary);
+                        }}
+                        style={{ 
+                          padding: '4px 8px',
+                          fontSize: '12px'
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
 

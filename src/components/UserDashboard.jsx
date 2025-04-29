@@ -11,7 +11,7 @@ import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaB
 import Weather from './Weather';
 import TodoList from './todo/TodoList';
 import TodoCard from "./todo/TodoCard";
-import { NavLink, Link, Outlet } from "react-router-dom";
+import { NavLink, Link, Outlet, useLocation } from "react-router-dom";
 import AddTodo from './todo/AddTodo';
 import TranslatorPage from '../pages/TranslatorPage';
 import CommunityFeed from '../pages/CommunityFeed';
@@ -23,10 +23,11 @@ import PlanesPage from './PlanesPage';
 
 const UserDashboard = () => {
     const { user, updateUserProfile } = useAuth();
+    const location = useLocation();
     const [userBookings, setUserBookings] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [activeTab, setActiveTab] = useState('bookings'); // Default to bookings tab
+    const [activeTab, setActiveTab] = useState(location.state?.tab || 'bookings'); // Use tab from location state or default to 'bookings'
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadingImage, setUploadingImage] = useState(false);
     const storage = getStorage();
@@ -97,6 +98,13 @@ const UserDashboard = () => {
             fetchUserBookings();
         }
     }, [user]);
+
+    // Add useEffect to handle tab changes from navigation
+    useEffect(() => {
+        if (location.state?.tab) {
+            setActiveTab(location.state.tab);
+        }
+    }, [location.state]);
 
     const fetchUserBookings = async () => {
         setIsLoading(true);
@@ -388,7 +396,7 @@ const UserDashboard = () => {
         <Container fluid className="py-4 px-3 px-md-4 bg-light min-vh-100 d-flex flex-column">
             <div className="bg-white rounded-3 shadow-sm p-3 p-md-4 mb-4">
                 <h2 className="fw-bold mb-0">
-                    Hey, {profile.displayName || 'there'}! 👋
+                    Hi, {profile.displayName || 'there'}! 👋
                 </h2>
             </div>
 
@@ -689,6 +697,27 @@ const UserDashboard = () => {
                                         <Row className="g-3">
                                             <Col md={6}>
                                                 <Form.Group>
+                                                    <Form.Label>Profile Picture</Form.Label>
+                                                    <div className="d-flex align-items-center gap-3">
+                                                        <img
+                                                            src={profile.tempAvatar || profile.avatar || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='%23CCCCCC'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/%3E%3C/svg%3E"}
+                                                            alt="Profile Preview"
+                                                            className="rounded-circle border"
+                                                            style={{ width: '64px', height: '64px', objectFit: 'cover' }}
+                                                            onError={(e) => {
+                                                                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='%23CCCCCC'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/%3E%3C/svg%3E";
+                                                            }}
+                                                        />
+                                                        <Form.Control
+                                                            type="file"
+                                                            accept="image/*"
+                                                            onChange={handleFileChange}
+                                                        />
+                                                    </div>
+                                                </Form.Group>
+                                            </Col>
+                                            <Col md={6}>
+                                                <Form.Group>
                                                     <Form.Label>Full Name</Form.Label>
                                                     <Form.Control
                                                         type="text"
@@ -734,27 +763,7 @@ const UserDashboard = () => {
                                                 </Form.Group>
                                             </Col>
 
-                                            <Col md={6}>
-                                                <Form.Group>
-                                                    <Form.Label>Profile Picture</Form.Label>
-                                                    <div className="d-flex align-items-center gap-3">
-                                                        <img
-                                                            src={profile.tempAvatar || profile.avatar || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='%23CCCCCC'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/%3E%3C/svg%3E"}
-                                                            alt="Profile Preview"
-                                                            className="rounded-circle border"
-                                                            style={{ width: '64px', height: '64px', objectFit: 'cover' }}
-                                                            onError={(e) => {
-                                                                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='%23CCCCCC'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/%3E%3C/svg%3E";
-                                                            }}
-                                                        />
-                                                        <Form.Control
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={handleFileChange}
-                                                        />
-                                                    </div>
-                                                </Form.Group>
-                                            </Col>
+
 
                                             <Col xs={12} className="mt-4">
                                                 <Button
@@ -765,7 +774,7 @@ const UserDashboard = () => {
                                                     {isSubmitting ? (
                                                         <>
                                                             <Spinner as="span" animation="border" size="sm" className="me-2" />
-                                                            {uploadingImage ? 'Uploading Image...' : 'Saving...'}
+                                                            {uploadingImage ? 'Updating...' : 'Saving...'}
                                                         </>
                                                     ) : "Save Changes"}
                                                 </Button>
