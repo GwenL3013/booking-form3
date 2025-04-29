@@ -94,7 +94,7 @@ const TravelDiariesList = () => {
   };
 
   return (
-    <Container fluid className="mt-4">
+    <Container fluid className="mt-4 px-0 px-sm-3">
       <h2 className="text-center mb-4">My Travel Diaries</h2>
 
       {/* Blog-like Diary List */}
@@ -109,7 +109,10 @@ const TravelDiariesList = () => {
               borderBottom: '1px solid #ddd',
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px'
+              gap: '10px',
+              width: '100%',
+              maxWidth: '100%',
+              margin: '0 auto'
             }}
             onClick={() => handleDiaryClick(diary.id)}
           >
