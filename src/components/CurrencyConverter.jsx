@@ -58,7 +58,10 @@ const CurrencyConverter = () => {
         <Container className="my-5">
             <Row className="justify-content-center">
                 <Col md={8}>
-                    <div className="currency-converter p-4 border rounded shadow">
+                    <div className="currency-converter p-4 border rounded shadow" style={{
+                        background: 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)',
+                        color: 'white'
+                    }}>
                         <h3 className="text-center mb-4">Currency Converter</h3>
                         <Form>
                             <Form.Group className="mb-3">
@@ -114,8 +117,8 @@ const CurrencyConverter = () => {
                             </div>
 
                             {result && (
-                                <div className="mt-3 p-3 bg-light rounded">
-                                    <h5 className="text-center">{result}</h5>
+                                <div className="mt-3 p-3">
+                                    <h5 className="text-center" style={{ color: 'white' }}>{result}</h5>
                                 </div>
                             )}
                         </Form>

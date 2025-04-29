@@ -48,27 +48,39 @@ export default function TranslatorPage() {
   }
 
   return (
-    <div className="container py-5" style={{ maxWidth: 800 }}>
-      <h1 className="mb-4 text-center">🌍 In-App Translator (Auto-Detect)</h1>
+    <div 
+      className="container py-5" 
+      style={{ 
+        maxWidth: 800,
+        background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
+        borderRadius: '15px',
+        padding: '2rem',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        color: 'white'
+      }}
+    >
+      <h1 className="mb-4 text-center" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>🌍 In-App Translator (Auto-Detect)</h1>
 
       <div className="mb-3">
-        <label className="form-label">Enter text:</label>
+        <label className="form-label" style={{ color: 'white' }}>Enter text:</label>
         <textarea
           className="form-control"
           rows="4"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type something to translate..."
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
         />
       </div>
 
       <div className="row mb-4">
         <div className="col">
-          <label className="form-label">From:</label>
+          <label className="form-label" style={{ color: 'white' }}>From:</label>
           <select
             className="form-select"
             value={sourceLang}
             onChange={(e) => setSourceLang(e.target.value)}
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
           >
             {languages.map((lang) => (
               <option key={lang.code} value={lang.code}>
@@ -79,11 +91,12 @@ export default function TranslatorPage() {
         </div>
 
         <div className="col">
-          <label className="form-label">To:</label>
+          <label className="form-label" style={{ color: 'white' }}>To:</label>
           <select
             className="form-select"
             value={targetLang}
             onChange={(e) => setTargetLang(e.target.value)}
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
           >
             {languages.filter((lang) => lang.code !== "auto").map((lang) => (
               <option key={lang.code} value={lang.code}>
@@ -99,6 +112,11 @@ export default function TranslatorPage() {
           className="btn btn-primary btn-lg"
           onClick={handleTranslate}
           disabled={loading}
+          style={{ 
+            background: 'linear-gradient(45deg, #2196F3, #00BCD4)',
+            border: 'none',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+          }}
         >
           {loading ? "Translating..." : "Translate"}
         </button>
@@ -106,10 +124,14 @@ export default function TranslatorPage() {
 
       {translatedText && (
         <div className="mt-5">
-          <h4>Translated Text:</h4>
-          <div className="alert alert-success d-flex justify-content-between align-items-center">
-            <span>{translatedText}</span>
-            <button className="btn btn-sm btn-outline-secondary ms-2" onClick={handleCopy}>
+          <h4 style={{ color: 'white' }}>Translated Text:</h4>
+          <div className="alert alert-success d-flex justify-content-between align-items-center" style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
+            <span style={{ color: '#333' }}>{translatedText}</span>
+            <button 
+              className="btn btn-sm btn-outline-secondary ms-2" 
+              onClick={handleCopy}
+              style={{ borderColor: '#4a90e2', color: '#4a90e2' }}
+            >
               Copy
             </button>
           </div>
