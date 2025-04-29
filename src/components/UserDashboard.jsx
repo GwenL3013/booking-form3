@@ -560,7 +560,10 @@ const UserDashboard = () => {
                         <Tab.Content>
                             {/* Bookings Tab */}
                             <Tab.Pane active={activeTab === 'bookings'}>
-                                <div className="p-4">
+                                <div className="p-4" style={{
+                                    background: 'linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)',
+                                    borderRadius: '0.5rem'
+                                }}>
                                     <div className="d-flex justify-content-between align-items-center mb-4">
                                         <h4 className="mb-0">My Bookings</h4>
                                         <Button
@@ -678,7 +681,10 @@ const UserDashboard = () => {
                                 <Card.Header className="bg-white p-4 border-0">
                                     <h4 className="mb-0 fw-bold">Profile Information</h4>
                                 </Card.Header>
-                                <Card.Body className="p-4">
+                                <Card.Body className="p-4" style={{
+                                    background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                                    borderRadius: '0.5rem'
+                                }}>
                                     <Form onSubmit={handleProfileSubmit}>
                                         <Row className="g-3">
                                             <Col md={6}>

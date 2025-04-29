@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Container, Card, Form, Button, Alert } from 'react-bootstrap';
+import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import './AdminLogin.css';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -37,11 +38,12 @@ export default function AdminLogin() {
   }
 
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-      <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card>
+    <div className="adminlogin-bg">
+      <div className="adminlogin-card">
+        <div className="adminlogin-slogan">THE JOURNEY GOES ON</div>
+        <Card className="adminlogin-inner-card">
           <Card.Body>
-            <h2 className="text-center mb-4">Admin Login</h2>
+            <h2 className="text-center mb-4 adminlogin-title">Admin Login</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group id="email" className="mb-3">
@@ -52,6 +54,7 @@ export default function AdminLogin() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  className="adminlogin-input"
                 />
               </Form.Group>
               <Form.Group id="password" className="mb-3">
@@ -62,13 +65,13 @@ export default function AdminLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  className="adminlogin-input"
                 />
               </Form.Group>
-              <Button 
-                disabled={loading} 
-                className="w-100" 
+              <Button
+                disabled={loading}
+                className="w-100 adminlogin-gradient-btn"
                 type="submit"
-                variant="danger"
               >
                 Admin Login
               </Button>
@@ -76,6 +79,6 @@ export default function AdminLogin() {
           </Card.Body>
         </Card>
       </div>
-    </Container>
+    </div>
   );
 }
