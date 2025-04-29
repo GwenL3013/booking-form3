@@ -1423,13 +1423,74 @@ const UserDashboard = () => {
                 }
 
                 .tool-card {
-                    transition: all 0.5s ease;
+                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
                     transform: scale(1);
+                    cursor: pointer;
+                    position: relative;
+                    overflow: hidden;
+                    border: none;
+                    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                }
+
+                .tool-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+                    opacity: 0;
+                    transition: opacity 0.5s ease;
                 }
 
                 .tool-card:hover {
-                    transform: scale(1.05);
-                    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+                    transform: scale(1.05) translateY(-5px);
+                    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+                    background: linear-gradient(135deg, #4a90e2 0%, #9b59b6 100%);
+                }
+
+                .tool-card:hover::before {
+                    opacity: 1;
+                }
+
+                .tool-card .card-body {
+                    position: relative;
+                    z-index: 1;
+                    transition: all 0.5s ease;
+                }
+
+                .tool-card:hover .card-body {
+                    background: transparent;
+                }
+
+                .tool-card .text-primary {
+                    transition: all 0.5s ease;
+                }
+
+                .tool-card:hover .text-primary {
+                    color: #ffffff !important;
+                    transform: scale(1.2);
+                }
+
+                .tool-card h5 {
+                    transition: all 0.5s ease;
+                    color: #333;
+                }
+
+                .tool-card:hover h5 {
+                    color: #ffffff;
+                    transform: translateY(-3px);
+                }
+
+                .tool-card p {
+                    transition: all 0.5s ease;
+                    color: #6c757d;
+                }
+
+                .tool-card:hover p {
+                    color: rgba(255, 255, 255, 0.9);
+                    transform: translateY(3px);
                 }
 
                 @keyframes toolsFadeIn {
