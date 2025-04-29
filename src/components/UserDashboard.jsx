@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/bootstrap.css';
-import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen, FaExchangeAlt, FaPlane } from 'react-icons/fa';
+import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen, FaExchangeAlt, FaPlane, FaArrowLeft } from 'react-icons/fa';
 import Weather from './Weather';
 import TodoList from './todo/TodoList';
 import TodoCard from "./todo/TodoCard";
@@ -503,7 +503,7 @@ const UserDashboard = () => {
                             variant="link"
                             className="p-0 me-3 text-white"
                         >
-                            <FaListAlt size={20} />
+                            <FaArrowLeft size={20} />
                         </Button>
                         <h5 className="mb-0 fw-bold text-white">
                             {activeTab ? 'Back' : 'Dashboard'}
