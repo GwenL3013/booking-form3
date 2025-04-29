@@ -11,7 +11,7 @@ export default function GroundTours() {
                 <Super
                     className="super-mid"
                     superImg={GroupToursImg}
-                    title="Ground Tours"
+                    title="Services"
                     btnClass="hide"
                 />
                 <Container className="mt-4">

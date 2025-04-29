@@ -103,8 +103,8 @@ function Layout() {
               ) : (
                 <>
                   <Nav.Link as={Link} to="/group-tours" className="custom-nav-link">Group Tours</Nav.Link>
-                  <Nav.Link as={Link} to="/ground-tours" className="custom-nav-link">Ground Tours</Nav.Link>
-                  <Nav.Link as={Link} to="/flights" className="custom-nav-link">Flights</Nav.Link>
+                  <Nav.Link as={Link} to="/ground-tours" className="custom-nav-link">Services</Nav.Link>
+
                   <Nav.Link as={Link} to="/user-dashboard" className="custom-nav-link">Dashboard</Nav.Link>
                   <Nav.Link as={Link} to="/contact" className="custom-nav-link">Contact Us</Nav.Link>
                   <Nav.Link onClick={handleLogout} className="custom-nav-link">Logout</Nav.Link>
