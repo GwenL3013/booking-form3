@@ -51,11 +51,7 @@ export default function Home() {
                 btnClass="show"
             />
 
-            <AnimatedSection direction="left">
-                <div className="weather-section py-4">
-                    <Weather />
-                </div>
-            </AnimatedSection>
+
 
             <AnimatedSection direction="up" delay={1}>
                 <Destination />

@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/bootstrap.css';
-import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen, FaExchangeAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen, FaExchangeAlt, FaPlane } from 'react-icons/fa';
 import Weather from './Weather';
 import TodoList from './todo/TodoList';
 import TodoCard from "./todo/TodoCard";
@@ -19,6 +19,7 @@ import CommunityFeedImg from '../assets/community-feed.jpg';
 import TravelDiariesList from './TravelDiariesList';
 import TravelDiariesPage from '../pages/TravelDiariesPage';
 import CurrencyConverter from './CurrencyConverter';
+import PlanesPage from './PlanesPage';
 
 const UserDashboard = () => {
     const { user, updateUserProfile } = useAuth();
@@ -516,6 +517,15 @@ const UserDashboard = () => {
                                             <FaBookOpen className="me-3" /> My Diaries
                                         </Nav.Link>
                                     </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
+                                            eventKey="planes"
+                                            className="d-flex align-items-center py-3"
+                                            onClick={() => setActiveTab('planes')}
+                                        >
+                                            <FaPlane className="me-3" /> Live Planes
+                                        </Nav.Link>
+                                    </Nav.Item>
                                 </Nav>
                             </div>
                         </Card.Body>
@@ -814,6 +824,16 @@ const UserDashboard = () => {
                                 </Card.Header>
                                 <Card.Body className="p-4">
                                     <TravelDiariesPage />
+                                </Card.Body>
+                            </Tab.Pane>
+
+                            {/* Planes Tab */}
+                            <Tab.Pane active={activeTab === 'planes'}>
+                                <Card.Header className="bg-white p-4 border-0">
+                                    <h4 className="mb-0 fw-bold">Live Planes Tracker</h4>
+                                </Card.Header>
+                                <Card.Body className="p-4">
+                                    <PlanesPage />
                                 </Card.Body>
                             </Tab.Pane>
                         </Tab.Content>
