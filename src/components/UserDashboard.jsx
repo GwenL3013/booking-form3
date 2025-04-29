@@ -385,15 +385,15 @@ const UserDashboard = () => {
     };
 
     return (
-        <Container fluid className="py-4 px-4 bg-light min-vh-100">
-            <div className="bg-white rounded-3 shadow-sm p-4 mb-4">
+        <Container fluid className="py-4 px-3 px-md-4 bg-light min-vh-100">
+            <div className="bg-white rounded-3 shadow-sm p-3 p-md-4 mb-4">
                 <h2 className="fw-bold mb-0">My Dashboard</h2>
             </div>
 
-            <Row className="g-4">
+            <Row className="g-3 g-md-4">
                 {/* Sidebar */}
-                <Col lg={2}>
-                    <Card className="shadow-sm border-0 mb-4">
+                <Col xs={12} lg={2} className="mb-4 mb-lg-0">
+                    <Card className="shadow-sm border-0 h-100">
                         <Card.Body className="p-0">
                             <div className="text-center p-4 bg-primary bg-opacity-10">
                                 <div className="avatar mb-3 d-flex justify-content-center">
@@ -447,24 +447,6 @@ const UserDashboard = () => {
                                     </Nav.Item>
                                     <Nav.Item>
                                         <Nav.Link
-                                            eventKey="weather"
-                                            className="d-flex align-items-center py-3"
-                                            onClick={() => setActiveTab('weather')}
-                                        >
-                                            <FaCloudSun className="me-3" /> Weather
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="currency"
-                                            className="d-flex align-items-center py-3"
-                                            onClick={() => setActiveTab('currency')}
-                                        >
-                                            <FaExchangeAlt className="me-3" /> Currency Converter
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
                                             eventKey="profile"
                                             className="d-flex align-items-center py-3"
                                             onClick={() => setActiveTab('profile')}
@@ -481,15 +463,7 @@ const UserDashboard = () => {
                                             <FaUser className="me-3" /> Community Feed
                                         </Nav.Link>
                                     </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="settings"
-                                            className="d-flex align-items-center py-3"
-                                            onClick={() => setActiveTab('settings')}
-                                        >
-                                            <FaCog className="me-3" /> Settings
-                                        </Nav.Link>
-                                    </Nav.Item>
+
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="todo"
@@ -497,15 +471,6 @@ const UserDashboard = () => {
                                             onClick={() => setActiveTab('todo')}
                                         >
                                             <FaListAlt className="me-3" /> My Todos
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
-                                            eventKey="translator"
-                                            className="d-flex align-items-center py-3"
-                                            onClick={() => setActiveTab('translator')}
-                                        >
-                                            <FaListAlt className="me-3" /> My Translator
                                         </Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
@@ -519,11 +484,51 @@ const UserDashboard = () => {
                                     </Nav.Item>
                                     <Nav.Item>
                                         <Nav.Link
+                                            eventKey="currency"
+                                            className="d-flex align-items-center py-3"
+                                            onClick={() => setActiveTab('currency')}
+                                        >
+                                            <FaExchangeAlt className="me-3" /> Currency Converter
+                                        </Nav.Link>
+                                    </Nav.Item>
+
+
+
+
+                                    <Nav.Item>
+                                        <Nav.Link
+                                            eventKey="translator"
+                                            className="d-flex align-items-center py-3"
+                                            onClick={() => setActiveTab('translator')}
+                                        >
+                                            <FaListAlt className="me-3" /> My Translator
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
+                                            eventKey="weather"
+                                            className="d-flex align-items-center py-3"
+                                            onClick={() => setActiveTab('weather')}
+                                        >
+                                            <FaCloudSun className="me-3" /> Weather
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
                                             eventKey="planes"
                                             className="d-flex align-items-center py-3"
                                             onClick={() => setActiveTab('planes')}
                                         >
                                             <FaPlane className="me-3" /> Live Planes
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
+                                            eventKey="settings"
+                                            className="d-flex align-items-center py-3"
+                                            onClick={() => setActiveTab('settings')}
+                                        >
+                                            <FaCog className="me-3" /> Settings
                                         </Nav.Link>
                                     </Nav.Item>
                                 </Nav>
@@ -533,7 +538,7 @@ const UserDashboard = () => {
                 </Col>
 
                 {/* Main Content */}
-                <Col lg={10}>
+                <Col xs={12} lg={10}>
                     <div className="bg-white rounded-3 shadow-sm">
                         <Tab.Content>
                             {/* Bookings Tab */}

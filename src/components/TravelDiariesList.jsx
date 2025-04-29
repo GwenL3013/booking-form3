@@ -100,61 +100,92 @@ const TravelDiariesList = () => {
         {diaries.map((diary) => (
           <div
             key={diary.id}
-            className="diary-row mb-2"
+            className="diary-row mb-3"
             style={{
               cursor: 'pointer',
-              padding: '8px',
+              padding: '12px',
               borderBottom: '1px solid #ddd',
               display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between'
+              flexDirection: 'column',
+              gap: '10px'
             }}
             onClick={() => handleDiaryClick(diary.id)}
           >
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <h4 style={{ fontSize: '16px', margin: 0, minWidth: '150px' }}>
-                {diary.title || 'Untitled Diary'}
-              </h4>
-
-              <p style={{ fontSize: '12px', color: '#888', margin: 0, minWidth: '120px' }}>
-                {format(new Date(diary.timestamp.seconds * 1000), 'MMM dd, yyyy')}
-              </p>
-
-              <div className="diary-text" style={{ fontSize: '14px', flex: 1 }}>
-                {diary.text.length > 100 ? `${diary.text.substring(0, 100)}...` : diary.text}
-              </div>
-            </div>
-
-            <div
-              className="diary-actions"
-              style={{
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '8px',
+              width: '100%'
+            }}>
+              <div style={{
                 display: 'flex',
-                gap: '8px',
-                marginLeft: '15px'
-              }}
-            >
-              <Button
-                variant="outline-success"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleShareToCommunity(diary);
-                }}
-              >
-                Share
-              </Button>
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%'
+              }}>
+                <h4 style={{ 
+                  fontSize: '16px', 
+                  margin: 0,
+                  fontWeight: 'bold'
+                }}>
+                  {diary.title || 'Untitled Diary'}
+                </h4>
 
-              <Button
-                variant="outline-danger"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteClick(diary);
-                }}
-              >
-                Delete
-              </Button>
+                <div
+                  className="diary-actions"
+                  style={{
+                    display: 'flex',
+                    gap: '8px'
+                  }}
+                >
+                  <Button
+                    variant="outline-success"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleShareToCommunity(diary);
+                    }}
+                    style={{ 
+                      padding: '4px 8px',
+                      fontSize: '12px'
+                    }}
+                  >
+                    Share
+                  </Button>
+
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(diary);
+                    }}
+                    style={{ 
+                      padding: '4px 8px',
+                      fontSize: '12px'
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
+
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: '10px',
+                fontSize: '12px',
+                color: '#888'
+              }}>
+                <span>
+                  {format(new Date(diary.timestamp.seconds * 1000), 'MMM dd, yyyy')}
+                </span>
+                <span className="d-none d-md-inline" style={{ flex: 1 }}>
+                  {diary.text.length > 100 ? `${diary.text.substring(0, 100)}...` : diary.text}
+                </span>
+              </div>
             </div>
           </div>
         ))}
