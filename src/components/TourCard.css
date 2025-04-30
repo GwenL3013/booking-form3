@@ -3,7 +3,6 @@
     flex-wrap: wrap;
     gap: 16px;
     justify-content: flex-start;
-
 }
 
 /* Card styling */
@@ -39,11 +38,9 @@
     height: 200px;
     /* Set consistent height */
     object-fit: cover;
-
     border-radius: 8px 8px 0 0;
     /* Only top corners rounded */
 }
-
 
 /* Card Body styling */
 .tour-card .card-body {
@@ -68,9 +65,6 @@
 .tour-card .btn {
     width: 100%;
 }
-
-
-
 
 .tour-card:hover {
     transform: translateY(-2px);
