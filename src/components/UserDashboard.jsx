@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/bootstrap.css';
-import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen, FaExchangeAlt, FaPlane, FaArrowLeft } from 'react-icons/fa';
+import { FaCalendarAlt, FaEdit, FaUser, FaListAlt, FaCog, FaEye, FaCloudSun, FaBook, FaBookOpen, FaExchangeAlt, FaPlane, FaArrowLeft, FaTools, FaUsers } from 'react-icons/fa';
 import Weather from './Weather';
 import TodoList from './todo/TodoList';
 import TodoCard from "./todo/TodoCard";
@@ -595,7 +595,7 @@ const UserDashboard = () => {
                                             className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('community-feed')}
                                         >
-                                            <FaUser className="me-3" /> Community Feed
+                                            <FaUsers className="me-3" /> Community Feed
                                         </Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
@@ -604,7 +604,7 @@ const UserDashboard = () => {
                                             className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('tools')}
                                         >
-                                            <FaCog className="me-3" /> Tools
+                                            <FaTools className="me-3" /> Tools
                                         </Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
