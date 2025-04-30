@@ -10,6 +10,7 @@ const languages = [
   { code: "fr", name: "French" },
   { code: "de", name: "German" },
   { code: "ru", name: "Russian" },
+  { code: "ne", name: "Nepali" },
 ];
 
 export default function TranslatorPage() {
@@ -20,10 +21,13 @@ export default function TranslatorPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!text.trim()) {
+      setTranslatedText("");
+      return;
+    }
+
     const timer = setTimeout(() => {
-      if (text.trim()) {
-        handleTranslate();
-      }
+      handleTranslate();
     }, 2000); // Wait 2 seconds after typing stops
 
     return () => clearTimeout(timer);
