@@ -1157,8 +1157,8 @@ const UserDashboard = () => {
                                     <Row className="g-4">
                                         <Col md={6} lg={4}>
                                             <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('todo')}>
-                                                <Card.Body className="text-center p-4">
-                                                    <FaListAlt size={32} className="mb-3 text-primary" />
+                                                <Card.Body className="text-center p-4 d-flex flex-column justify-content-center" style={{ height: '200px' }}>
+                                                    <FaListAlt size={32} className="mb-3 text-primary mx-auto" />
                                                     <h5>My Todos</h5>
                                                     <p className="text-muted mb-0">Manage your tasks and to-do lists</p>
                                                 </Card.Body>
@@ -1166,8 +1166,8 @@ const UserDashboard = () => {
                                         </Col>
                                         <Col md={6} lg={4}>
                                             <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('diaries')}>
-                                                <Card.Body className="text-center p-4">
-                                                    <FaBookOpen size={32} className="mb-3 text-primary" />
+                                                <Card.Body className="text-center p-4 d-flex flex-column justify-content-center" style={{ height: '200px' }}>
+                                                    <FaBookOpen size={32} className="mb-3 text-primary mx-auto" />
                                                     <h5>My Diaries</h5>
                                                     <p className="text-muted mb-0">Write and manage your travel diaries</p>
                                                 </Card.Body>
@@ -1175,8 +1175,8 @@ const UserDashboard = () => {
                                         </Col>
                                         <Col md={6} lg={4}>
                                             <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('currency')}>
-                                                <Card.Body className="text-center p-4">
-                                                    <FaExchangeAlt size={32} className="mb-3 text-primary" />
+                                                <Card.Body className="text-center p-4 d-flex flex-column justify-content-center" style={{ height: '200px' }}>
+                                                    <FaExchangeAlt size={32} className="mb-3 text-primary mx-auto" />
                                                     <h5>Currency Converter</h5>
                                                     <p className="text-muted mb-0">Convert between different currencies</p>
                                                 </Card.Body>
@@ -1184,8 +1184,8 @@ const UserDashboard = () => {
                                         </Col>
                                         <Col md={6} lg={4}>
                                             <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('translator')}>
-                                                <Card.Body className="text-center p-4">
-                                                    <FaListAlt size={32} className="mb-3 text-primary" />
+                                                <Card.Body className="text-center p-4 d-flex flex-column justify-content-center" style={{ height: '200px' }}>
+                                                    <FaListAlt size={32} className="mb-3 text-primary mx-auto" />
                                                     <h5>Translator</h5>
                                                     <p className="text-muted mb-0">Translate text between languages</p>
                                                 </Card.Body>
@@ -1193,8 +1193,8 @@ const UserDashboard = () => {
                                         </Col>
                                         <Col md={6} lg={4}>
                                             <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('weather')}>
-                                                <Card.Body className="text-center p-4">
-                                                    <FaCloudSun size={32} className="mb-3 text-primary" />
+                                                <Card.Body className="text-center p-4 d-flex flex-column justify-content-center" style={{ height: '200px' }}>
+                                                    <FaCloudSun size={32} className="mb-3 text-primary mx-auto" />
                                                     <h5>Weather</h5>
                                                     <p className="text-muted mb-0">Check weather forecasts</p>
                                                 </Card.Body>
@@ -1202,8 +1202,8 @@ const UserDashboard = () => {
                                         </Col>
                                         <Col md={6} lg={4}>
                                             <Card className="h-100 shadow-sm tool-card" onClick={() => setActiveTab('planes')}>
-                                                <Card.Body className="text-center p-4">
-                                                    <FaPlane size={32} className="mb-3 text-primary" />
+                                                <Card.Body className="text-center p-4 d-flex flex-column justify-content-center" style={{ height: '200px' }}>
+                                                    <FaPlane size={32} className="mb-3 text-primary mx-auto" />
                                                     <h5>Live Planes</h5>
                                                     <p className="text-muted mb-0">Track live flight information</p>
                                                 </Card.Body>
