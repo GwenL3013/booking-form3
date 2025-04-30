@@ -25,6 +25,7 @@
     "jspdf-autotable": "^5.0.2",
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
+    "libphonenumber-js": "^1.12.7",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-icons": "^1.11.5",

@@ -42,6 +42,10 @@ const UserDashboard = () => {
         avatar: user?.photoURL || ''
     });
 
+    // Add errors state
+    const [errors, setErrors] = useState({});
+    const [dialCode, setDialCode] = useState('60'); // Default to Malaysia's country code
+
     // Edit booking modal state
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentBooking, setCurrentBooking] = useState(null);
@@ -842,27 +846,56 @@ const UserDashboard = () => {
                                                 <Form.Group>
                                                     <Form.Label>Phone Number</Form.Label>
                                                     <PhoneInput
-                                                        country={'my'} // Default country (e.g. 'my' for Malaysia)
-                                                        enableAreaCodes={true}
-                                                        value={profile.phoneNumber} // Should include country code (e.g. +60...)
-                                                        onChange={(phone, countryData) =>
+                                                        country={'my'}
+                                                        value={profile.phoneNumber}
+                                                        onChange={(phone, countryData) => {
+                                                            const code = `+${countryData.dialCode}`;
+                                                            setDialCode(countryData.dialCode);
+
+                                                            // Re-insert country code if user tries to delete it
+                                                            let formattedPhone = phone;
+                                                            if (!formattedPhone.startsWith(code)) {
+                                                                formattedPhone = `${code}${formattedPhone.replace(/^\+?\d*/, '')}`;
+                                                            }
+
                                                             setProfile(prev => ({
                                                                 ...prev,
-                                                                phoneNumber: phone,
-                                                                countryCode: countryData.dialCode, // Optional: Save country code separately
-                                                            }))
-                                                        }
+                                                                phoneNumber: formattedPhone,
+                                                            }));
+
+                                                            // Optional basic validation
+                                                            if (!formattedPhone || formattedPhone.length < code.length + 6) {
+                                                                setErrors(prev => ({ ...prev, phoneNumber: 'Please enter a valid phone number.' }));
+                                                            } else {
+                                                                setErrors(prev => ({ ...prev, phoneNumber: '' }));
+                                                            }
+                                                        }}
                                                         inputStyle={{
                                                             width: "100%",
                                                             height: "38px",
                                                             padding: "0.375rem 0.75rem",
                                                             paddingLeft: "58px",
-                                                            border: "1px solid #ced4da",
+                                                            border: errors.phoneNumber ? "1px solid #dc3545" : "1px solid #ced4da",
                                                             borderRadius: "0.375rem",
                                                             fontSize: "1rem",
                                                             fontFamily: "inherit",
                                                         }}
+                                                        buttonStyle={{
+                                                            borderTopLeftRadius: "0.375rem",
+                                                            borderBottomLeftRadius: "0.375rem",
+                                                            borderRight: "1px solid #ced4da",
+                                                            backgroundColor: "#fff",
+                                                        }}
+                                                        placeholder={`+${dialCode}`}
+                                                        enableSearch
+                                                        preferredCountries={['my', 'sg', 'us', 'gb']}
+                                                        required
                                                     />
+                                                    {errors.phoneNumber && (
+                                                        <div className="text-danger small mt-1">
+                                                            {errors.phoneNumber}
+                                                        </div>
+                                                    )}
                                                 </Form.Group>
                                             </Col>
 
