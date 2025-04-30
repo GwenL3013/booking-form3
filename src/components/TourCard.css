@@ -94,3 +94,45 @@
     /* a slightly different red */
     cursor: not-allowed;
 }
+
+/* Mobile-specific styles for tour card labels */
+@media (max-width: 768px) {
+    .tour-card {
+        position: relative;
+    }
+
+    .tour-card .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+        z-index: 1;
+    }
+
+    .tour-card .image-overlay .card-title {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .tour-card .image-overlay .card-text {
+        color: white;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .tour-card .image-overlay .card-subtitle {
+        color: #ffd700;
+        font-size: 1rem;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+}
