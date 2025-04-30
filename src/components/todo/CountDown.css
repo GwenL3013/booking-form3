@@ -1,16 +1,52 @@
+/* Common Styles */
 .countdown-timer-container {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+}
+
+.countdown-value {
+  min-width: 70px;
+}
+
+.countdown-value div {
+  font-weight: bold;
+}
+
+.control-buttons {
+  margin-top: 1.5rem;
+}
+
+/* Mobile View (max-width: 576px) */
+@media (max-width: 576px) {
+  .countdown-timer-container {
+    display: flex;
+    flex-direction: column;
+    /* Stack elements vertically */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
     padding: 1.5rem;
+    text-align: center;
   }
-  
+
   .countdown-value {
-    min-width: 70px;
+    text-align: center;
+    /* Center text inside the countdown */
+    font-size: 1.5rem;
+    /* Adjust font size on small screens */
   }
-  
-  .countdown-value div {
-    font-weight: bold;
-  }
-  
+
   .control-buttons {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
   }
-  
+}
