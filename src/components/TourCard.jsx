@@ -66,7 +66,7 @@ const TourCard = ({ tour }) => {
         try {
             // Generate a random confirmation code
             const confirmationCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-            
+
             // Add the booking to Firestore
             await addDoc(collection(db, 'bookings'), {
                 ...bookingData,
@@ -96,7 +96,7 @@ const TourCard = ({ tour }) => {
     const handleTotalPaxChange = (e) => {
         const totalPax = parseInt(e.target.value, 10);
         setBookingData((prevData) => {
-            const newAdditionalPax = Array.from({ length: Math.max(0, totalPax - 1) }, (_, i) => 
+            const newAdditionalPax = Array.from({ length: Math.max(0, totalPax - 1) }, (_, i) =>
                 prevData.additionalPax[i] || { name: '', contact: '' }
             );
             return {
@@ -147,20 +147,18 @@ const TourCard = ({ tour }) => {
                         >
                             {tour.images.map((url, index) => (
                                 <Carousel.Item key={index}>
-                                    <div className="image-container">
-                                        <img
-                                            src={url}
-                                            alt={`Slide ${index}`}
-                                            className="w-100"
-                                            style={{
-                                                height: '200px',
-                                                objectFit: 'cover',
-                                                border: 'none',
-                                                display: 'block',
-                                            }}
-                                            onClick={(e) => e.stopPropagation()}
-                                        />
-                                    </div>
+                                    <img
+                                        src={url}
+                                        alt={`Slide ${index}`}
+                                        className="w-100"
+                                        style={{
+                                            height: '200px',
+                                            objectFit: 'cover',
+                                            border: 'none',
+                                            display: 'block',
+                                        }}
+                                        onClick={(e) => e.stopPropagation()}
+                                    />
                                 </Carousel.Item>
                             ))}
                         </Carousel>
@@ -184,7 +182,7 @@ const TourCard = ({ tour }) => {
                     <Card.Title>{tour.name}</Card.Title>
                     <Card.Text>{tour.description}</Card.Text>
                     <Card.Subtitle className="mb-2 text-muted">
-                        Price from : RM {tour.price}
+                        Price: RM {tour.price}
                     </Card.Subtitle>
                     <div data-role={tour.status === 'sold-out' ? 'fully-booked' : 'book-now'}>
                         <Button

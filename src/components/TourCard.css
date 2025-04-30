@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     gap: 16px;
     justify-content: flex-start;
+
 }
 
 /* Card styling */
@@ -14,18 +15,12 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
+    /* Make all cards the same height */
     display: flex;
     flex-direction: column;
     height: 450px;
+    /* <-- set a fixed total height for each card */
     overflow: hidden;
-    position: relative;
-}
-
-/* Image container */
-.tour-card .image-container {
-    position: relative;
-    width: 100%;
-    height: 200px;
 }
 
 /* Fix carousel height and remove extra padding/margin */
@@ -42,9 +37,13 @@
     display: block;
     width: 100%;
     height: 200px;
+    /* Set consistent height */
     object-fit: cover;
+
     border-radius: 8px 8px 0 0;
+    /* Only top corners rounded */
 }
+
 
 /* Card Body styling */
 .tour-card .card-body {
@@ -65,16 +64,13 @@
     text-overflow: ellipsis;
 }
 
-/* Price styling */
-.tour-card .card-subtitle {
-    color: #ffd700;
-    font-weight: 600;
-}
-
-/* Button full width */
+/* Button full width if you want */
 .tour-card .btn {
     width: 100%;
 }
+
+
+
 
 .tour-card:hover {
     transform: translateY(-2px);
@@ -83,16 +79,18 @@
 /* Change color when hovering over 'Book Now' button */
 .tour-card .btn-primary:hover {
     background-color: #0ac31c;
+    /* darker blue or any custom */
     border-color: #29e355;
 }
 
-/* Optional: Change cursor on hover */
+/* Optional: Change cursor on hover (already default but included for clarity) */
 .tour-card .btn-primary {
     cursor: pointer;
 }
 
-/* Change color when hovering over 'Fully Booked' button */
+/* Change color when hovering over 'Fully Booked' button (optional visual feedback) */
 .tour-card .btn-danger:disabled:hover {
     background-color: #b02a37;
+    /* a slightly different red */
     cursor: not-allowed;
 }
