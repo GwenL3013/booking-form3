@@ -21,6 +21,7 @@
     height: 450px;
     /* <-- set a fixed total height for each card */
     overflow: hidden;
+    position: relative;
 }
 
 /* Fix carousel height and remove extra padding/margin */
@@ -44,6 +45,55 @@
     /* Only top corners rounded */
 }
 
+/* Image container with overlay */
+.tour-card .image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+/* Image labels for mobile/small screens */
+@media (max-width: 768px) {
+    .tour-card .image-container::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+        height: 100px;
+        z-index: 1;
+    }
+
+    .tour-card .image-labels {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        z-index: 2;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .tour-card .image-labels .title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .tour-card .image-labels .price {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .tour-card .image-labels .description {
+        font-size: 0.8rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        max-width: 90%;
+    }
+}
 
 /* Card Body styling */
 .tour-card .card-body {
@@ -93,46 +143,4 @@
     background-color: #b02a37;
     /* a slightly different red */
     cursor: not-allowed;
-}
-
-/* Mobile-specific styles for tour card labels */
-@media (max-width: 768px) {
-    .tour-card {
-        position: relative;
-    }
-
-    .tour-card .image-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 10px;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
-        z-index: 1;
-    }
-
-    .tour-card .image-overlay .card-title {
-        color: white;
-        font-size: 1.1rem;
-        margin-bottom: 5px;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
-
-    .tour-card .image-overlay .card-text {
-        color: white;
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .tour-card .image-overlay .card-subtitle {
-        color: #ffd700;
-        font-size: 1rem;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
 }

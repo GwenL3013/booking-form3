@@ -147,23 +147,24 @@ const TourCard = ({ tour }) => {
                         >
                             {tour.images.map((url, index) => (
                                 <Carousel.Item key={index}>
-                                    <img
-                                        src={url}
-                                        alt={`Slide ${index}`}
-                                        className="w-100"
-                                        style={{
-                                            height: '200px',
-                                            objectFit: 'cover',
-                                            border: 'none',
-                                            display: 'block',
-                                        }}
-                                        onClick={(e) => e.stopPropagation()}
-                                    />
-                                    {/* Mobile Overlay */}
-                                    <div className="d-md-none image-overlay">
-                                        <h5 className="card-title">{tour.name}</h5>
-                                        <p className="card-text">{tour.description}</p>
-                                        <h6 className="card-subtitle">Price: RM {tour.price}</h6>
+                                    <div className="image-container">
+                                        <img
+                                            src={url}
+                                            alt={`Slide ${index}`}
+                                            className="w-100"
+                                            style={{
+                                                height: '200px',
+                                                objectFit: 'cover',
+                                                border: 'none',
+                                                display: 'block',
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                        <div className="image-labels d-md-none">
+                                            <div className="title">{tour.name}</div>
+                                            <div className="price">From RM {tour.price}</div>
+                                            <div className="description">{tour.description}</div>
+                                        </div>
                                     </div>
                                 </Carousel.Item>
                             ))}
