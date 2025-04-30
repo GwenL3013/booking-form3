@@ -3,7 +3,6 @@
     flex-wrap: wrap;
     gap: 16px;
     justify-content: flex-start;
-
 }
 
 /* Card styling */
@@ -15,13 +14,18 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
-    /* Make all cards the same height */
     display: flex;
     flex-direction: column;
     height: 450px;
-    /* <-- set a fixed total height for each card */
     overflow: hidden;
     position: relative;
+}
+
+/* Image container */
+.tour-card .image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
 }
 
 /* Fix carousel height and remove extra padding/margin */
@@ -38,61 +42,8 @@
     display: block;
     width: 100%;
     height: 200px;
-    /* Set consistent height */
     object-fit: cover;
-
     border-radius: 8px 8px 0 0;
-    /* Only top corners rounded */
-}
-
-/* Image container with overlay */
-.tour-card .image-container {
-    position: relative;
-    width: 100%;
-    height: 200px;
-}
-
-/* Image labels for mobile/small screens */
-@media (max-width: 768px) {
-    .tour-card .image-container::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-        height: 100px;
-        z-index: 1;
-    }
-
-    .tour-card .image-labels {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        z-index: 2;
-        color: white;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    }
-
-    .tour-card .image-labels .title {
-        font-size: 1.1rem;
-        font-weight: bold;
-        margin-bottom: 4px;
-    }
-
-    .tour-card .image-labels .price {
-        font-size: 0.9rem;
-        font-weight: 500;
-    }
-
-    .tour-card .image-labels .description {
-        font-size: 0.8rem;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        max-width: 90%;
-    }
 }
 
 /* Card Body styling */
@@ -114,13 +65,16 @@
     text-overflow: ellipsis;
 }
 
-/* Button full width if you want */
+/* Price styling */
+.tour-card .card-subtitle {
+    color: #ffd700;
+    font-weight: 600;
+}
+
+/* Button full width */
 .tour-card .btn {
     width: 100%;
 }
-
-
-
 
 .tour-card:hover {
     transform: translateY(-2px);
@@ -129,18 +83,16 @@
 /* Change color when hovering over 'Book Now' button */
 .tour-card .btn-primary:hover {
     background-color: #0ac31c;
-    /* darker blue or any custom */
     border-color: #29e355;
 }
 
-/* Optional: Change cursor on hover (already default but included for clarity) */
+/* Optional: Change cursor on hover */
 .tour-card .btn-primary {
     cursor: pointer;
 }
 
-/* Change color when hovering over 'Fully Booked' button (optional visual feedback) */
+/* Change color when hovering over 'Fully Booked' button */
 .tour-card .btn-danger:disabled:hover {
     background-color: #b02a37;
-    /* a slightly different red */
     cursor: not-allowed;
 }

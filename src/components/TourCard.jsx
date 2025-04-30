@@ -160,11 +160,6 @@ const TourCard = ({ tour }) => {
                                             }}
                                             onClick={(e) => e.stopPropagation()}
                                         />
-                                        <div className="image-labels d-md-none">
-                                            <div className="title">{tour.name}</div>
-                                            <div className="price">From RM {tour.price}</div>
-                                            <div className="description">{tour.description}</div>
-                                        </div>
                                     </div>
                                 </Carousel.Item>
                             ))}
