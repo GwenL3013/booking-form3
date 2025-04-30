@@ -5,6 +5,7 @@ import { Button, Modal, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns'; // Importing date-fns for formatting date
 import { useAuth } from '../context/AuthContext';
+import './TravelDiariesList.css'; // Importing custom styles
 
 const TravelDiariesList = () => {
   const [diaries, setDiaries] = useState([]);
@@ -116,8 +117,8 @@ const TravelDiariesList = () => {
             }}
             onClick={() => handleDiaryClick(diary.id)}
           >
-            <div style={{ 
-              display: 'flex', 
+            <div style={{
+              display: 'flex',
               flexDirection: 'column',
               gap: '8px',
               width: '100%'
@@ -128,8 +129,8 @@ const TravelDiariesList = () => {
                 gap: '8px',
                 width: '100%'
               }}>
-                <h4 style={{ 
-                  fontSize: '16px', 
+                <h4 style={{
+                  fontSize: '16px',
                   margin: 0,
                   fontWeight: 'bold',
                   wordBreak: 'break-word'
@@ -152,7 +153,7 @@ const TravelDiariesList = () => {
                       e.stopPropagation();
                       handleShareToCommunity(diary);
                     }}
-                    style={{ 
+                    style={{
                       padding: '4px 8px',
                       fontSize: '12px',
                       whiteSpace: 'nowrap'
@@ -170,7 +171,7 @@ const TravelDiariesList = () => {
                           e.stopPropagation();
                           navigate(`/travel-diaries/${diary.id}/edit`);
                         }}
-                        style={{ 
+                        style={{
                           padding: '4px 8px',
                           fontSize: '12px',
                           whiteSpace: 'nowrap'
@@ -186,7 +187,7 @@ const TravelDiariesList = () => {
                           e.stopPropagation();
                           handleDeleteClick(diary);
                         }}
-                        style={{ 
+                        style={{
                           padding: '4px 8px',
                           fontSize: '12px',
                           whiteSpace: 'nowrap'
@@ -209,7 +210,7 @@ const TravelDiariesList = () => {
                 <span>
                   {format(new Date(diary.timestamp.seconds * 1000), 'MMM dd, yyyy')}
                 </span>
-                <span style={{ 
+                <span style={{
                   wordBreak: 'break-word',
                   display: '-webkit-box',
                   WebkitLineClamp: 3,

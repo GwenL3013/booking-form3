@@ -1,0 +1,81 @@
+.diary-actions {
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+    /* Buttons in a row */
+    justify-content: flex-end;
+    /* Align buttons to the right */
+    align-items: center;
+    margin-top: 8px;
+    width: 100%;
+}
+
+/* Button styling */
+.diary-actions .btn {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+    width: auto !important;
+    min-width: 80px;
+}
+
+@media (max-width: 576px) {
+    .diary-row {
+        padding: 10px !important;
+        max-width: 95%;
+        margin: 0 auto 16px auto;
+        border-radius: 8px;
+        background-color: #fff;
+    }
+
+    /* Flexbox container for title and date */
+    .diary-row .diary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .diary-row .diary-header h4 {
+        font-size: 14px !important;
+        margin: 0;
+        word-break: break-word;
+        flex-grow: 1;
+    }
+
+    /* Date and details section */
+    .diary-row .diary-details {
+        font-size: 12px !important;
+        color: #888;
+        margin-top: 8px;
+    }
+
+    /* Move buttons below the date and details */
+    .diary-actions {
+        display: flex;
+        gap: 6px !important;
+        flex-direction: row;
+        /* Align buttons horizontally */
+        justify-content: center;
+        /* Center buttons horizontally */
+        align-items: center;
+        /* Center buttons vertically */
+        margin-top: 8px;
+        width: 100%;
+        /* Ensure buttons take full width */
+    }
+
+    /* Button styling */
+    .diary-actions .btn {
+        font-size: 11px !important;
+        padding: 4px 10px !important;
+        width: auto !important;
+        min-width: 80px;
+    }
+
+    /* When there is only one button, center it */
+    .diary-actions.single-button {
+        justify-content: center;
+        /* Center the button */
+    }
+}
