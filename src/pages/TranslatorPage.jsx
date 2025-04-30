@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const languages = [
   { code: "auto", name: "🌐 Auto Detect" },
@@ -18,6 +18,16 @@ export default function TranslatorPage() {
   const [sourceLang, setSourceLang] = useState("auto");
   const [targetLang, setTargetLang] = useState("en");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (text.trim()) {
+        handleTranslate();
+      }
+    }, 2000); // Wait 2 seconds after typing stops
+
+    return () => clearTimeout(timer);
+  }, [text, sourceLang, targetLang]);
 
   async function handleTranslate() {
     if (!text.trim()) return;
