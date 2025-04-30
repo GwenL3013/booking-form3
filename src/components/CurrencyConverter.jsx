@@ -8,7 +8,7 @@ const CurrencyConverter = () => {
     const [result, setResult] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const currencies = ['USD', 'EUR', 'MYR', 'SGD', 'AUD'];
+    const currencies = ['USD', 'EUR', 'MYR', 'SGD', 'AUD', 'CAD', 'GBP', 'JPY', 'CNY', 'INR', 'THB', 'PHP', 'IDR', 'VND', 'NZD'];
 
     const fetchCurrencyConverter = async (amount) => {
         const response = await fetch(
@@ -111,16 +111,16 @@ const CurrencyConverter = () => {
                             </Row>
 
                             <div className="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-4">
-                                <Button 
-                                    variant="primary" 
-                                    onClick={handleConvert} 
+                                <Button
+                                    variant="primary"
+                                    onClick={handleConvert}
                                     disabled={loading}
                                     className="w-100 w-sm-auto"
                                 >
                                     {loading ? 'Converting...' : 'Convert'}
                                 </Button>
-                                <Button 
-                                    variant="secondary" 
+                                <Button
+                                    variant="secondary"
                                     onClick={handleReset}
                                     className="w-100 w-sm-auto"
                                 >
