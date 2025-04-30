@@ -82,7 +82,7 @@ const CountDown = () => {
     return (
       <div className="countdown-display d-flex justify-content-end gap-4">
         <div className="countdown-value text-end">
-          <div className="fs-3" style={{ 
+          <div className="fs-3" style={{
             background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -91,7 +91,7 @@ const CountDown = () => {
           <span className="small" style={{ color: '#4a148c' }}>days</span>
         </div>
         <div className="countdown-value text-end">
-          <div className="fs-3" style={{ 
+          <div className="fs-3" style={{
             background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -100,7 +100,7 @@ const CountDown = () => {
           <span className="small" style={{ color: '#4a148c' }}>hours</span>
         </div>
         <div className="countdown-value text-end">
-          <div className="fs-3" style={{ 
+          <div className="fs-3" style={{
             background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -109,7 +109,7 @@ const CountDown = () => {
           <span className="small" style={{ color: '#4a148c' }}>minutes</span>
         </div>
         <div className="countdown-value text-end">
-          <div className="fs-3" style={{ 
+          <div className="fs-3" style={{
             background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -123,24 +123,21 @@ const CountDown = () => {
 
   return (
     <div className="countdown-timer-container mx-auto" style={{ maxWidth: '800px' }}>
-      <div className="mb-3 text-end">
-        <h2 className="countdown-name fw-bold" style={{ 
-          background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
-        }}>
-          {countdownStarted ? eventName : "Countdown Timer"}
+      <div className="mb-3 text-end text-center-mobile">
+        <h2
+          className="countdown-name fw-bold"
+          style={{
+            background: 'linear-gradient(135deg, #4a148c, #7b1fa2)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          {countdownStarted ? eventName : 'Countdown Timer'}
         </h2>
         <p className="countdown-date" style={{ color: '#4a148c' }}>
           {countdownStarted && formatDate(eventDate)}
         </p>
       </div>
-
-      {countdownStarted && (
-        <div className="mb-4">
-          {formatTime(timeRemaining)}
-        </div>
-      )}
 
       {!countdownStarted ? (
         <Form onSubmit={handleSetCountdown}>
