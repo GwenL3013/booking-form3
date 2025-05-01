@@ -46,6 +46,27 @@ const CommunityFeed = () => {
     const storage = getStorage();
     const [userProfiles, setUserProfiles] = useState({});
 
+    // Add gradient colors array
+    const gradientColors = [
+        'linear-gradient(45deg, #ff9a9e, #fad0c4)',
+        'linear-gradient(45deg, #a1c4fd, #c2e9fb)',
+        'linear-gradient(45deg, #84fab0, #8fd3f4)',
+        'linear-gradient(45deg, #fccb90, #d57eeb)',
+        'linear-gradient(45deg, #e0c3fc, #8ec5fc)',
+        'linear-gradient(45deg, #f093fb, #f5576c)',
+        'linear-gradient(45deg, #43e97b, #38f9d7)',
+        'linear-gradient(45deg, #fa709a, #fee140)',
+        'linear-gradient(45deg, #667eea, #764ba2)',
+        'linear-gradient(45deg, #f6d365, #fda085)'
+    ];
+
+    // Function to get random gradient
+    const getRandomGradient = (postId) => {
+        // Use postId to generate a consistent gradient for the same post
+        const index = postId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % gradientColors.length;
+        return gradientColors[index];
+    };
+
     useEffect(() => {
         const initializeUser = async () => {
             if (!user) return;
@@ -835,7 +856,10 @@ const CommunityFeed = () => {
                                                     )}
                                                 </div>
                                             ) : (
-                                                <div className="xiaohongshu-placeholder-media">
+                                                <div 
+                                                    className="xiaohongshu-placeholder-media"
+                                                    style={{ background: getRandomGradient(post.id) }}
+                                                >
                                                     <div className="placeholder-text">
                                                         {post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content}
                                                     </div>
