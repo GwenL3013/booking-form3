@@ -146,7 +146,7 @@
 }
 
 .placeholder-text {
-    font-size: 14px;
+    font-size: 18px;
     line-height: 1.4;
     max-height: 100%;
     overflow: hidden;
@@ -159,7 +159,7 @@
 
 /* Modal specific placeholder text */
 .post-detail-modal .placeholder-text {
-    font-size: 18px;
+    font-size: 24px;
     line-height: 1.6;
     padding: 20px;
     -webkit-line-clamp: 12;
@@ -168,7 +168,7 @@
 
 @media (min-width: 992px) {
     .post-detail-modal .placeholder-text {
-        font-size: 24px;
+        font-size: 32px;
         line-height: 1.8;
         padding: 30px;
         -webkit-line-clamp: 20;
