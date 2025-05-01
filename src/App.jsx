@@ -40,10 +40,10 @@ import TravelDiaryDetail from './components/TravelDiaryDetail';
 import RecreateAuthUser from './components/RecreateAuthUser';
 
 
-// inside your routes
 
 
 
+// Modified Layout function with auto-close functionality
 function Layout() {
   const { user, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
@@ -53,6 +53,10 @@ function Layout() {
     setExpanded(!expanded);
   };
 
+  const closeNavbar = () => {
+    setExpanded(false);
+  };
+
   const handleLogout = async () => {
     const isConfirmed = window.confirm('Are you sure you want to log out?');
 
@@ -60,6 +64,7 @@ function Layout() {
       try {
         await logout();
         navigate('/');
+        closeNavbar(); // Close navbar after logout
       } catch (error) {
         console.error("Error signing out:", error);
       }
@@ -85,28 +90,26 @@ function Layout() {
             <Nav className="ms-auto align-items-center gap-3">
               {!user ? (
                 <>
-                  <Nav.Link as={Link} to="/group-tours" className="custom-nav-link">Group Tours</Nav.Link>
-                  <Nav.Link as={Link} to="/ground-tours" className="custom-nav-link">Services</Nav.Link>
-
-                  <Nav.Link as={Link} to="/contact" className="custom-nav-link">Contact Us</Nav.Link>
-                  <Nav.Link as={Link} to="/signup" className="custom2-nav-link">Sign Up</Nav.Link>
-                  <Nav.Link as={Link} to="/login" className="custom2-nav-link">Login</Nav.Link>
+                  <Nav.Link as={Link} to="/group-tours" onClick={closeNavbar} className="custom-nav-link">Group Tours</Nav.Link>
+                  <Nav.Link as={Link} to="/ground-tours" onClick={closeNavbar} className="custom-nav-link">Services</Nav.Link>
+                  <Nav.Link as={Link} to="/contact" onClick={closeNavbar} className="custom-nav-link">Contact Us</Nav.Link>
+                  <Nav.Link as={Link} to="/signup" onClick={closeNavbar} className="custom2-nav-link">Sign Up</Nav.Link>
+                  <Nav.Link as={Link} to="/login" onClick={closeNavbar} className="custom2-nav-link">Login</Nav.Link>
                 </>
               ) : isAdmin() ? (
                 <>
-                  <Nav.Link as={Link} to="/admin-dashboard" className="custom-nav-link">Tour Card List</Nav.Link>
-                  <Nav.Link as={Link} to="/flights" className="custom-nav-link">Flights</Nav.Link>
-                  <Nav.Link as={Link} to="/bookinglist" className="custom-nav-link">Booking List</Nav.Link>
-                  <Nav.Link as={Link} to="/booking-admin" className="custom-nav-link">Handle Booking</Nav.Link>
+                  <Nav.Link as={Link} to="/admin-dashboard" onClick={closeNavbar} className="custom-nav-link">Tour Card List</Nav.Link>
+                  <Nav.Link as={Link} to="/flights" onClick={closeNavbar} className="custom-nav-link">Flights</Nav.Link>
+                  <Nav.Link as={Link} to="/bookinglist" onClick={closeNavbar} className="custom-nav-link">Booking List</Nav.Link>
+                  <Nav.Link as={Link} to="/booking-admin" onClick={closeNavbar} className="custom-nav-link">Handle Booking</Nav.Link>
                   <Nav.Link onClick={handleLogout} className="custom-nav-link">Logout</Nav.Link>
                 </>
               ) : (
                 <>
-                  <Nav.Link as={Link} to="/group-tours" className="custom-nav-link">Group Tours</Nav.Link>
-                  <Nav.Link as={Link} to="/ground-tours" className="custom-nav-link">Services</Nav.Link>
-
-                  <Nav.Link as={Link} to="/user-dashboard" className="custom-nav-link">Dashboard</Nav.Link>
-                  <Nav.Link as={Link} to="/contact" className="custom-nav-link">Contact Us</Nav.Link>
+                  <Nav.Link as={Link} to="/group-tours" onClick={closeNavbar} className="custom-nav-link">Group Tours</Nav.Link>
+                  <Nav.Link as={Link} to="/ground-tours" onClick={closeNavbar} className="custom-nav-link">Services</Nav.Link>
+                  <Nav.Link as={Link} to="/user-dashboard" onClick={closeNavbar} className="custom-nav-link">Dashboard</Nav.Link>
+                  <Nav.Link as={Link} to="/contact" onClick={closeNavbar} className="custom-nav-link">Contact Us</Nav.Link>
                   <Nav.Link onClick={handleLogout} className="custom-nav-link">Logout</Nav.Link>
                 </>
               )}
