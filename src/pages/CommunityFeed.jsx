@@ -836,7 +836,9 @@ const CommunityFeed = () => {
                                                 </div>
                                             ) : (
                                                 <div className="xiaohongshu-placeholder-media">
-                                                    <span>{post.content.substring(0, 1).toUpperCase()}</span>
+                                                    <div className="placeholder-text">
+                                                        {post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content}
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
