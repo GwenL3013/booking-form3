@@ -498,18 +498,23 @@ const UserDashboard = () => {
                     width: '100%',
                     left: 0,
                     right: 0,
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    borderRadius: '0.5rem 0.5rem 0.5rem 0.5rem'
+
                 }}
                 onClick={() => setActiveTab('')}
             >
                 <div className="container-fluid px-3">
                     <div className="d-flex align-items-center p-3">
-                        <Button
-                            variant="link"
-                            className="p-0 me-3 text-white"
-                        >
-                            <FaArrowLeft size={20} />
-                        </Button>
+
+                        {activeTab && (
+                            <Button
+                                variant="link"
+                                className="p-0 me-3 text-white"
+                            >
+                                <FaArrowLeft size={20} />
+                            </Button>
+                        )}
                         <h5 className="mb-0 fw-bold text-white">
                             {activeTab ? 'Back' : 'Dashboard'}
                         </h5>
@@ -573,15 +578,6 @@ const UserDashboard = () => {
                                 <Nav className="flex-column text-start">
                                     <Nav.Item>
                                         <Nav.Link
-                                            eventKey="bookings"
-                                            className="d-flex align-items-center py-3 nav-link-hover"
-                                            onClick={() => setActiveTab('bookings')}
-                                        >
-                                            <FaListAlt className="me-3" /> My Bookings
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link
                                             eventKey="profile"
                                             className="d-flex align-items-center py-3 nav-link-hover"
                                             onClick={() => setActiveTab('profile')}
@@ -589,6 +585,16 @@ const UserDashboard = () => {
                                             <FaUser className="me-3" /> Profile
                                         </Nav.Link>
                                     </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link
+                                            eventKey="bookings"
+                                            className="d-flex align-items-center py-3 nav-link-hover"
+                                            onClick={() => setActiveTab('bookings')}
+                                        >
+                                            <FaListAlt className="me-3" /> My Bookings
+                                        </Nav.Link>
+                                    </Nav.Item>
+
                                     <Nav.Item>
                                         <Nav.Link
                                             eventKey="community-feed"

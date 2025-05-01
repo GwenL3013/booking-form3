@@ -11,6 +11,17 @@ const languages = [
   { code: "de", name: "German" },
   { code: "ru", name: "Russian" },
   { code: "ne", name: "Nepali" },
+  { code: "hi", name: "Hindi" },
+  { code: "bn", name: "Bengali" },
+  { code: "pt", name: "Portuguese" },
+  { code: "ar", name: "Arabic" },
+  { code: "tr", name: "Turkish" },
+  { code: "vi", name: "Vietnamese" },
+  { code: "it", name: "Italian" },
+  { code: "pl", name: "Polish" },
+  { code: "uk", name: "Ukrainian" },
+  { code: "th", name: "Thai" },
+  { code: "ms", name: "Malay" },
 ];
 
 export default function TranslatorPage() {
@@ -28,7 +39,7 @@ export default function TranslatorPage() {
 
     const timer = setTimeout(() => {
       handleTranslate();
-    }, 2000); // Wait 2 seconds after typing stops
+    }, 1500); // Wait 2 seconds after typing stops
 
     return () => clearTimeout(timer);
   }, [text, sourceLang, targetLang]);
@@ -39,7 +50,7 @@ export default function TranslatorPage() {
     try {
       const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang === "auto" ? "auto" : sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
       const data = await response.json();
-      
+
       if (data && data[0]) {
         const translatedText = data[0]
           .map((item) => item[0])
@@ -62,9 +73,9 @@ export default function TranslatorPage() {
   }
 
   return (
-    <div 
-      className="container py-5" 
-      style={{ 
+    <div
+      className="container py-5"
+      style={{
         maxWidth: 800,
         background: 'linear-gradient(135deg, #4a90e2, #9b59b6, #ffa07a)',
         borderRadius: '15px',
@@ -126,7 +137,7 @@ export default function TranslatorPage() {
           className="btn btn-primary btn-lg"
           onClick={handleTranslate}
           disabled={loading}
-          style={{ 
+          style={{
             background: 'linear-gradient(45deg, #2196F3, #00BCD4)',
             border: 'none',
             boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
@@ -141,8 +152,8 @@ export default function TranslatorPage() {
           <h4 style={{ color: 'white' }}>Translated Text:</h4>
           <div className="alert alert-success d-flex justify-content-between align-items-center" style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
             <span style={{ color: '#333' }}>{translatedText}</span>
-            <button 
-              className="btn btn-sm btn-outline-secondary ms-2" 
+            <button
+              className="btn btn-sm btn-outline-secondary ms-2"
               onClick={handleCopy}
               style={{ borderColor: '#4a90e2', color: '#4a90e2' }}
             >
