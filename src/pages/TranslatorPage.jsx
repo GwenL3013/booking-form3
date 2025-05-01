@@ -39,7 +39,7 @@ export default function TranslatorPage() {
 
     const timer = setTimeout(() => {
       handleTranslate();
-    }, 1500); // Wait 2 seconds after typing stops
+    }, 500); // Wait 0.5 seconds after typing stops
 
     return () => clearTimeout(timer);
   }, [text, sourceLang, targetLang]);
