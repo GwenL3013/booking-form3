@@ -45,6 +45,8 @@ const CommunityFeed = () => {
     const [activeCommentPost, setActiveCommentPost] = useState(null);
     const storage = getStorage();
     const [userProfiles, setUserProfiles] = useState({});
+    const [replyToComment, setReplyToComment] = useState(null);
+    const [replyText, setReplyText] = useState('');
 
     // Add gradient colors array
     const gradientColors = [
@@ -491,35 +493,60 @@ const CommunityFeed = () => {
     };
 
     // Add reply handler
-    const handleReply = (postId, commentId) => {
-        const reply = replyInputs[commentId];
-        if (!reply || !reply.trim()) return;
-        setPosts(posts.map(post => {
-            if (post.id === postId) {
-                return {
-                    ...post,
-                    comments: post.comments.map(comment =>
+    const handleReply = async (postId, commentId) => {
+        if (!replyText.trim()) return;
+
+        try {
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            const username = userDoc.data()?.displayName || user?.displayName || 'User';
+
+            const newReply = {
+                id: Date.now(),
+                userId: user?.uid,
+                user: username,
+                avatar: user?.photoURL || defaultAvatar,
+                text: replyText,
+                timestamp: new Date().toISOString()
+            };
+
+            const postRef = doc(db, 'communityFeed', postId);
+            const post = posts.find(p => p.id === postId);
+            
+            if (!post) return;
+
+            const updatedComments = post.comments.map(comment => 
                         comment.id === commentId
                             ? {
                                 ...comment,
-                                replies: [
-                                    ...(comment.replies || []),
-                                    {
-                                        id: Date.now(),
-                                        user: currentUserName,
-                                        avatar: user?.photoURL || defaultAvatar,
-                                        text: reply,
-                                        timestamp: 'Just now'
-                                    }
-                                ]
+                        replies: [...(comment.replies || []), newReply]
                             }
                             : comment
-                    )
-                };
+            );
+
+            await updateDoc(postRef, {
+                comments: updatedComments
+            });
+
+            // Update local state
+            setPosts(posts.map(post => 
+                post.id === postId
+                    ? { ...post, comments: updatedComments }
+                    : post
+            ));
+
+            // Update active post detail if it's the same post
+            if (activePostDetail && activePostDetail.id === postId) {
+                setActivePostDetail(prev => ({
+                    ...prev,
+                    comments: updatedComments
+                }));
             }
-            return post;
-        }));
-        setReplyInputs({ ...replyInputs, [commentId]: '' });
+
+            setReplyText('');
+            setReplyToComment(null);
+        } catch (error) {
+            console.error('Error adding reply:', error);
+        }
     };
 
     const handleMediaNavigation = (postId, direction) => {
@@ -1051,7 +1078,63 @@ const CommunityFeed = () => {
                                                     </div>
                                                 </div>
                                             ) : (
-                                                <div className="wechat-comment-bubble">{comment.text}</div>
+                                                <>
+                                                    <div className="comment-content">
+                                                        <div className="comment-text">{comment.text}</div>
+                                                        {/* Replies section */}
+                                                        {comment.replies && comment.replies.length > 0 && (
+                                                            <div className="reply-section">
+                                                                {comment.replies.map(reply => (
+                                                                    <div key={reply.id} className="reply-item">
+                                                                        <div className="d-flex align-items-center mb-1">
+                                                                            <img 
+                                                                                src={reply.avatar} 
+                                                                                alt="" 
+                                                                                className="rounded-circle me-2" 
+                                                                                style={{ width: '20px', height: '20px' }}
+                                                                            />
+                                                                            <div className="reply-user">{reply.user}</div>
+                                                                        </div>
+                                                                        <div className="reply-text">{reply.text}</div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                        {/* Reply input */}
+                                                        {replyToComment === comment.id && (
+                                                            <div className="reply-input-container">
+                                                                <div className="d-flex gap-2">
+                                                                    <Form.Control
+                                                                        type="text"
+                                                                        placeholder="Write a reply..."
+                                                                        value={replyText}
+                                                                        onChange={(e) => setReplyText(e.target.value)}
+                                                                        size="sm"
+                                                                        className="comment-input"
+                                                                    />
+                                                                    <Button
+                                                                        variant="primary"
+                                                                        size="sm"
+                                                                        onClick={() => handleReply(activePostDetail.id, comment.id)}
+                                                                        disabled={!replyText.trim()}
+                                                                    >
+                                                                        Reply
+                                                                    </Button>
+                                                                    <Button
+                                                                        variant="secondary"
+                                                                        size="sm"
+                                                                        onClick={() => {
+                                                                            setReplyToComment(null);
+                                                                            setReplyText('');
+                                                                        }}
+                                                                    >
+                                                                        Cancel
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </>
                                             )}
                                         </div>
                                     </div>
@@ -1288,8 +1371,13 @@ const CommunityFeed = () => {
                                             )}
                                         </div>
                                     ) : (
-                                        <div className="h-100 d-flex align-items-center justify-content-center text-white">
-                                            <h3>{activePostDetail.content.substring(0, 1).toUpperCase()}</h3>
+                                        <div 
+                                            className="h-100 d-flex align-items-center justify-content-center text-white"
+                                            style={{ background: getRandomGradient(activePostDetail.id) }}
+                                        >
+                                            <div className="placeholder-text" style={{ maxWidth: '80%' }}>
+                                                {activePostDetail.content}
+                                            </div>
                                         </div>
                                     )}
                                 </div>
@@ -1307,15 +1395,33 @@ const CommunityFeed = () => {
                                     <div className="p-3 border-bottom">
                                         <div className="d-flex align-items-center">
                                             <img 
-                                                src={activePostDetail.avatar} 
+                                                src={userProfiles[activePostDetail.userId]?.photoURL || activePostDetail.avatar} 
                                                 alt="" 
                                                 className="rounded-circle me-2" 
                                                 style={{ width: '40px', height: '40px' }}
                                             />
                                             <div>
-                                                <div className="fw-bold">{activePostDetail.user}</div>
-                                                <div className="text-muted small">{activePostDetail.content}</div>
+                                                <div className="fw-bold">{userProfiles[activePostDetail.userId]?.displayName || activePostDetail.user}</div>
+                                                <div className="post-detail-content">{activePostDetail.content}</div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className="p-3 border-bottom d-flex justify-content-between align-items-center">
+                                        <h5 className="mb-0 comments-title">
+                                            <span className="me-2">Comments</span>
+                                            <span className="comments-count">({activePostDetail.comments?.length || 0})</span>
+                                        </h5>
+                                        <div className="d-flex align-items-center">
+                                            <Heart 
+                                                size={20} 
+                                                className={`me-3 ${activePostDetail.likedByUser ? "text-danger" : ""}`}
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleLike(activePostDetail.id);
+                                                }}
+                                            />
+                                            <span className="text-muted">{activePostDetail.likes || 0}</span>
                                         </div>
                                     </div>
                                     <div className="flex-grow-1 overflow-auto p-3 comments-scroll-area">
@@ -1331,10 +1437,17 @@ const CommunityFeed = () => {
                                                         />
                                                         <div className="flex-grow-1">
                                                             <div className="bg-light rounded p-2">
-                                                                <div className="d-flex justify-content-between align-items-center">
+                                                                <div className="d-flex justify-content-between align-items-center mb-2">
                                                                     <div className="fw-bold">{comment.user}</div>
-                                                                    {comment.userId === user?.uid && (
                                                                         <div className="d-flex gap-2">
+                                                                        <button
+                                                                            className="btn btn-sm btn-link p-0 text-muted"
+                                                                            onClick={() => setReplyToComment(comment.id)}
+                                                                        >
+                                                                            Reply
+                                                                        </button>
+                                                                        {comment.userId === user?.uid && (
+                                                                            <>
                                                                             <button
                                                                                 className="btn btn-sm btn-link p-0"
                                                                                 onClick={() => {
@@ -1342,21 +1455,17 @@ const CommunityFeed = () => {
                                                                                     setEditCommentText(comment.text);
                                                                                 }}
                                                                             >
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                                                                </svg>
+                                                                                    Edit
                                                                             </button>
                                                                             <button
                                                                                 className="btn btn-sm btn-link p-0 text-danger"
                                                                                 onClick={() => handleDeleteComment(activePostDetail.id, comment.id)}
                                                                             >
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                                                    <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                                                </svg>
+                                                                                    Delete
                                                                             </button>
-                                                                        </div>
+                                                                            </>
                                                                     )}
+                                                                    </div>
                                                                 </div>
                                                                 {editingComment === comment.id ? (
                                                                     <div className="mt-2">
@@ -1388,7 +1497,61 @@ const CommunityFeed = () => {
                                                                         </div>
                                                                     </div>
                                                                 ) : (
-                                                                    <div>{comment.text}</div>
+                                                                    <div className="comment-content">
+                                                                        <div className="comment-text">{comment.text}</div>
+                                                                        {/* Replies section */}
+                                                                        {comment.replies && comment.replies.length > 0 && (
+                                                                            <div className="reply-section">
+                                                                                {comment.replies.map(reply => (
+                                                                                    <div key={reply.id} className="reply-item">
+                                                                                        <div className="d-flex align-items-center mb-1">
+                                                                                            <img 
+                                                                                                src={reply.avatar} 
+                                                                                                alt="" 
+                                                                                                className="rounded-circle me-2" 
+                                                                                                style={{ width: '20px', height: '20px' }}
+                                                                                            />
+                                                                                            <div className="reply-user">{reply.user}</div>
+                                                                                        </div>
+                                                                                        <div className="reply-text">{reply.text}</div>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        )}
+                                                                        {/* Reply input */}
+                                                                        {replyToComment === comment.id && (
+                                                                            <div className="reply-input-container">
+                                                                                <div className="d-flex gap-2">
+                                                                                    <Form.Control
+                                                                                        type="text"
+                                                                                        placeholder="Write a reply..."
+                                                                                        value={replyText}
+                                                                                        onChange={(e) => setReplyText(e.target.value)}
+                                                                                        size="sm"
+                                                                                        className="comment-input"
+                                                                                    />
+                                                                                    <Button
+                                                                                        variant="primary"
+                                                                                        size="sm"
+                                                                                        onClick={() => handleReply(activePostDetail.id, comment.id)}
+                                                                                        disabled={!replyText.trim()}
+                                                                                    >
+                                                                                        Reply
+                                                                                    </Button>
+                                                                                    <Button
+                                                                                        variant="secondary"
+                                                                                        size="sm"
+                                                                                        onClick={() => {
+                                                                                            setReplyToComment(null);
+                                                                                            setReplyText('');
+                                                                                        }}
+                                                                                    >
+                                                                                        Cancel
+                                                                                    </Button>
+                                                            </div>
+                                                        </div>
+                                                                        )}
+                                                                    </div>
                                                                 )}
                                                             </div>
                                                         </div>
